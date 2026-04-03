@@ -9,10 +9,239 @@
   <style>
     html, body { margin: 0; padding: 0; background: #f2f5fb; }
     #liza-tilda-root { width: 100%; }
+
+    /* Local CX overrides: do not alter hero markup, only visual tuning for target blocks */
+    .liza-how-it-works .liza-tg-phone {
+      position: relative;
+      border-radius: 26px !important;
+      border: 1px solid #b8d8ef !important;
+      background: linear-gradient(180deg, #8ec6f5 0%, #cde7f8 42%, #ebf4fb 100%) !important;
+      box-shadow:
+        0 20px 44px rgba(15, 77, 125, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.75);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .liza-how-it-works .liza-tg-phone::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.3) 0 14%, transparent 15% 100%),
+        radial-gradient(circle at 88% 24%, rgba(255, 255, 255, 0.22) 0 12%, transparent 13% 100%),
+        radial-gradient(circle at 18% 84%, rgba(255, 255, 255, 0.2) 0 11%, transparent 12% 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .liza-how-it-works .liza-tg-phone > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .liza-how-it-works .liza-tg-msg {
+      border-radius: 16px !important;
+      border: 1px solid rgba(16, 67, 106, 0.08) !important;
+      box-shadow: 0 2px 7px rgba(26, 58, 84, 0.12);
+      backdrop-filter: blur(1px);
+    }
+
+    .liza-how-it-works .liza-tg-msg--in {
+      background: rgba(255, 255, 255, 0.92) !important;
+    }
+
+    .liza-how-it-works .liza-tg-msg--out {
+      background: linear-gradient(180deg, #d7f2ff 0%, #c7ebff 100%) !important;
+      border-color: rgba(22, 104, 150, 0.14) !important;
+    }
+
+    .liza-how-it-works .liza-tg-chat-header {
+      background: linear-gradient(180deg, #5ba8e0 0%, #4c9bd6 100%) !important;
+      color: #fff !important;
+      border-bottom: 1px solid rgba(17, 78, 126, 0.35) !important;
+    }
+
+    .liza-how-it-works .liza-tg-action {
+      background: linear-gradient(180deg, #2fa6ff 0%, #1d8fe8 100%) !important;
+      color: #fff !important;
+      border: none !important;
+      box-shadow: 0 8px 20px rgba(29, 143, 232, 0.35);
+    }
+
+    .liza-why-we-section .liza-why-note {
+      margin-top: 10px;
+      font-size: clamp(0.95rem, 0.85rem + 0.35vw, 1.1rem);
+      line-height: 1.45;
+      color: #365166;
+    }
   </style>
 </head>
 <body>
   <div id="liza-tilda-root"></div>
   <script src="./liza-app.js?v=7"></script>
+  <script>
+    (function () {
+      function normalize(value) {
+        return (value || "").replace(/\s+/g, " ").trim();
+      }
+
+      function getTextOnlyElements(root) {
+        const all = root.querySelectorAll("h1,h2,h3,h4,p,span,button,div");
+        return Array.prototype.filter.call(all, function (el) {
+          if (!el || !el.childNodes || el.childNodes.length === 0) return false;
+          let hasText = false;
+          for (let i = 0; i < el.childNodes.length; i += 1) {
+            if (el.childNodes[i].nodeType === Node.TEXT_NODE && normalize(el.childNodes[i].textContent)) {
+              hasText = true;
+              break;
+            }
+          }
+          return hasText;
+        });
+      }
+
+      function findByText(root, targetText) {
+        const normalizedTarget = normalize(targetText);
+        const elements = getTextOnlyElements(root);
+        for (let i = 0; i < elements.length; i += 1) {
+          if (normalize(elements[i].textContent) === normalizedTarget) return elements[i];
+        }
+        return null;
+      }
+
+      function closestSectionLike(el) {
+        if (!el) return null;
+        return el.closest("section, article, main, [data-slot], .container, .max-w-\\[1440px\\], .max-w-\\[1400px\\]") || el.parentElement;
+      }
+
+      function markHowItWorksSections(root) {
+        const headings = getTextOnlyElements(root).filter(function (el) {
+          return normalize(el.textContent) === "Как это работает";
+        });
+
+        headings.forEach(function (heading) {
+          const section = closestSectionLike(heading);
+          if (section) section.classList.add("liza-how-it-works");
+        });
+      }
+
+      function applyTextUpdates(root) {
+        const replacements = [
+          { from: "Лиза Бот помогает", to: "Лиза Бот увеличивает выручку салона" },
+          { from: "Что реально работает в модуле", to: "Что реально дает результат салону" },
+          { from: "Преимущества", to: "Почему мы" },
+          { from: "Почему Лиза", to: "Почему выбирают нас" },
+          { from: "Попробуйте без риска и лишней суеты", to: "Запустим под ключ и покажем результат уже в тестовый период" },
+          { from: "Не абстрактные обещания, а сценарии из раздела «Шаблоны уведомлений»", to: "Конкретные сценарии для роста явки, возврата клиентов и контроля сервиса" },
+          { from: "Не просто рассылка, а управляемый модуль уведомлений в связке с", to: "Не просто рассылка, а система возврата клиентов и подтверждения визитов в связке с" }
+        ];
+
+        const textElements = getTextOnlyElements(root);
+        textElements.forEach(function (el) {
+          const inHowItWorks = !!el.closest(".liza-how-it-works");
+          if (inHowItWorks) return;
+
+          const current = normalize(el.textContent);
+          for (let i = 0; i < replacements.length; i += 1) {
+            if (current === replacements[i].from) {
+              el.textContent = replacements[i].to;
+              break;
+            }
+          }
+        });
+
+        const whyHeading = findByText(root, "Почему выбирают нас") || findByText(root, "Почему мы");
+        if (whyHeading) {
+          const section = closestSectionLike(whyHeading);
+          if (section && !section.classList.contains("liza-why-we-section")) {
+            section.classList.add("liza-why-we-section");
+          }
+
+          if (section && !section.querySelector(".liza-why-note")) {
+            const note = document.createElement("p");
+            note.className = "liza-why-note";
+            note.textContent = "Фокус на бизнес-результате: меньше неявок, больше повторных визитов, выше рейтинг и выручка без ручной рутины.";
+            whyHeading.insertAdjacentElement("afterend", note);
+          }
+        }
+      }
+
+      function classifyTelegramMock(root) {
+        const messageIn = new Set([
+          "Добрый день, Анна!",
+          "Напоминаем: вы записаны на маникюр 12 апреля в 14:00.",
+          "Придете? Подтверждаете запись?",
+          "Есть окна в четверг 17:00 и 19:00. Что удобнее?",
+          "Спасибо за оценку!"
+        ]);
+
+        const messageOut = new Set([
+          "Да, подтверждаю",
+          "Да, давайте на этой неделе",
+          "Спасибо, буду!",
+          "Нет, отменить"
+        ]);
+
+        const actionButtons = new Set([
+          "Выбрать пакет",
+          "Попробовать бесплатно",
+          "Начать тест 3 дня"
+        ]);
+
+        const elements = getTextOnlyElements(root);
+        const allMarkedMessages = [];
+
+        elements.forEach(function (el) {
+          const txt = normalize(el.textContent);
+          if (!txt) return;
+
+          if (messageIn.has(txt) || messageOut.has(txt)) {
+            el.classList.add("liza-tg-msg");
+            el.classList.add(messageOut.has(txt) ? "liza-tg-msg--out" : "liza-tg-msg--in");
+            allMarkedMessages.push(el);
+          }
+
+          if (txt === "Клиент: Анна К.") {
+            el.classList.add("liza-tg-chat-header");
+          }
+
+          if (actionButtons.has(txt)) {
+            el.classList.add("liza-tg-action");
+          }
+        });
+
+        allMarkedMessages.forEach(function (messageEl) {
+          let parent = messageEl.parentElement;
+          while (parent && parent !== document.body) {
+            const count = parent.querySelectorAll(".liza-tg-msg").length;
+            if (count >= 4) {
+              parent.classList.add("liza-tg-phone");
+              break;
+            }
+            parent = parent.parentElement;
+          }
+        });
+      }
+
+      function enhance() {
+        if (!document.body) return;
+        markHowItWorksSections(document.body);
+        applyTextUpdates(document.body);
+        classifyTelegramMock(document.body);
+      }
+
+      let timer = null;
+      const observer = new MutationObserver(function () {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(enhance, 80);
+      });
+
+      window.addEventListener("load", function () {
+        enhance();
+        observer.observe(document.body, { childList: true, subtree: true });
+      });
+    })();
+  </script>
 </body>
 </html>
