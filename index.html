@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- DEPLOY_ID: v7-2026-04-02 -->
+<!-- DEPLOY_ID: v7-2026-04-03-marketing-refresh -->
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
@@ -10,15 +10,16 @@
     html, body { margin: 0; padding: 0; background: #f2f5fb; }
     #liza-tilda-root { width: 100%; }
 
-    /* Local CX overrides: do not alter hero markup, only visual tuning for target blocks */
+    /* Telegram-like visual tune for "Как это работает" (hero untouched) */
     .liza-how-it-works .liza-tg-phone {
       position: relative;
-      border-radius: 26px !important;
-      border: 1px solid #b8d8ef !important;
-      background: linear-gradient(180deg, #8ec6f5 0%, #cde7f8 42%, #ebf4fb 100%) !important;
-      box-shadow:
-        0 20px 44px rgba(15, 77, 125, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.75);
+      border-radius: 44px !important;
+      border: 10px solid #07090d !important;
+      background:
+        radial-gradient(circle at 12% -6%, rgba(133, 84, 255, 0.24) 0 24%, transparent 25% 100%),
+        radial-gradient(circle at 92% 106%, rgba(89, 161, 255, 0.2) 0 28%, transparent 29% 100%),
+        linear-gradient(180deg, #0f1b2a 0%, #081321 100%) !important;
+      box-shadow: 0 28px 60px rgba(7, 18, 36, 0.45);
       overflow: hidden;
       isolation: isolate;
     }
@@ -26,54 +27,243 @@
     .liza-how-it-works .liza-tg-phone::before {
       content: "";
       position: absolute;
+      top: 8px;
+      left: 50%;
+      width: 36%;
+      height: 28px;
+      transform: translateX(-50%);
+      border-radius: 0 0 18px 18px;
+      background: #04070c;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .liza-how-it-works .liza-tg-phone::after {
+      content: "";
+      position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.3) 0 14%, transparent 15% 100%),
-        radial-gradient(circle at 88% 24%, rgba(255, 255, 255, 0.22) 0 12%, transparent 13% 100%),
-        radial-gradient(circle at 18% 84%, rgba(255, 255, 255, 0.2) 0 11%, transparent 12% 100%);
-      pointer-events: none;
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 14% 86%, rgba(0, 0, 0, 0.16) 100%);
       z-index: 0;
+      pointer-events: none;
     }
 
     .liza-how-it-works .liza-tg-phone > * {
       position: relative;
-      z-index: 1;
+      z-index: 2;
+    }
+
+    .liza-how-it-works .liza-tg-chat-header {
+      background: linear-gradient(180deg, #1b2739 0%, #131f30 100%) !important;
+      border-bottom: 1px solid rgba(151, 182, 230, 0.14) !important;
+      color: #f5f8ff !important;
+      box-shadow: 0 10px 16px rgba(4, 10, 20, 0.35);
     }
 
     .liza-how-it-works .liza-tg-msg {
       border-radius: 16px !important;
-      border: 1px solid rgba(16, 67, 106, 0.08) !important;
-      box-shadow: 0 2px 7px rgba(26, 58, 84, 0.12);
-      backdrop-filter: blur(1px);
+      border: 1px solid rgba(173, 202, 255, 0.09) !important;
+      color: #e8eef9 !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
     }
 
     .liza-how-it-works .liza-tg-msg--in {
-      background: rgba(255, 255, 255, 0.92) !important;
+      background: #1a2b3f !important;
     }
 
     .liza-how-it-works .liza-tg-msg--out {
-      background: linear-gradient(180deg, #d7f2ff 0%, #c7ebff 100%) !important;
-      border-color: rgba(22, 104, 150, 0.14) !important;
-    }
-
-    .liza-how-it-works .liza-tg-chat-header {
-      background: linear-gradient(180deg, #5ba8e0 0%, #4c9bd6 100%) !important;
+      background: linear-gradient(180deg, #a56bff 0%, #7a45ea 100%) !important;
+      border-color: rgba(211, 187, 255, 0.28) !important;
       color: #fff !important;
-      border-bottom: 1px solid rgba(17, 78, 126, 0.35) !important;
     }
 
-    .liza-how-it-works .liza-tg-action {
-      background: linear-gradient(180deg, #2fa6ff 0%, #1d8fe8 100%) !important;
-      color: #fff !important;
-      border: none !important;
-      box-shadow: 0 8px 20px rgba(29, 143, 232, 0.35);
+    .liza-how-it-works .liza-tg-quick {
+      background: #cce9fa !important;
+      border: 1px solid #9fd1ee !important;
+      border-radius: 16px !important;
+      color: #395d79 !important;
+      box-shadow: 0 3px 10px rgba(6, 38, 67, 0.18);
     }
 
-    .liza-why-we-section .liza-why-note {
-      margin-top: 10px;
-      font-size: clamp(0.95rem, 0.85rem + 0.35vw, 1.1rem);
+    .liza-how-it-works .liza-tg-input {
+      background: #111f31 !important;
+      border: 1px solid rgba(145, 178, 227, 0.18) !important;
+      color: #89a8cf !important;
+      border-radius: 999px !important;
+    }
+
+    .liza-old-content {
+      display: none !important;
+    }
+
+    .liza-results-rebuild {
+      margin-top: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .liza-results-lead {
+      background: linear-gradient(135deg, #f0f7ff 0%, #eef2ff 100%);
+      border: 1px solid #d2e3ff;
+      border-radius: 22px;
+      padding: 20px 22px;
+      color: #17324e;
+      line-height: 1.5;
+      font-size: clamp(1rem, 0.9rem + 0.28vw, 1.08rem);
+    }
+
+    .liza-results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .liza-results-card {
+      border: 1px solid #d8e6fb;
+      background: #fff;
+      border-radius: 20px;
+      padding: 16px 16px 14px;
+      box-shadow: 0 8px 22px rgba(34, 79, 132, 0.08);
+    }
+
+    .liza-results-title {
+      margin: 0 0 8px;
+      color: #10253a;
+      font-size: 1.06rem;
+      font-weight: 800;
+      line-height: 1.24;
+    }
+
+    .liza-results-copy {
+      margin: 0;
+      color: #3b4e64;
+      font-size: 0.95rem;
       line-height: 1.45;
-      color: #365166;
+    }
+
+    .liza-results-metric {
+      margin-top: 10px;
+      color: #1f63da;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .liza-pricing-widget {
+      margin-top: 18px;
+      background: #fff;
+      border-radius: 24px;
+      border: 1px solid #d8e5fb;
+      box-shadow: 0 16px 36px rgba(35, 77, 126, 0.1);
+      padding: 18px;
+      color: #12263a;
+    }
+
+    .liza-pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .liza-plan {
+      border: 1px solid #d8e5fb;
+      border-radius: 16px;
+      padding: 12px;
+      background: #f9fbff;
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+
+    .liza-plan input {
+      display: none;
+    }
+
+    .liza-plan.active {
+      background: linear-gradient(135deg, #eff5ff 0%, #e9f0ff 100%);
+      border-color: #4a87ff;
+      box-shadow: 0 8px 18px rgba(42, 102, 201, 0.18);
+    }
+
+    .liza-plan-name {
+      margin: 0 0 6px;
+      font-weight: 800;
+      font-size: 1rem;
+      color: #102a45;
+    }
+
+    .liza-plan-price {
+      margin: 0;
+      font-size: 1.24rem;
+      font-weight: 800;
+      color: #1e63dc;
+    }
+
+    .liza-plan-meta {
+      margin-top: 6px;
+      color: #516882;
+      font-size: 0.86rem;
+      line-height: 1.35;
+    }
+
+    .liza-pricing-row-title {
+      margin: 12px 0 8px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #244261;
+    }
+
+    .liza-messenger-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .liza-ms-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid #d2e0f8;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 0.86rem;
+      color: #26445f;
+      background: #f8fbff;
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .liza-ms-item input {
+      accent-color: #2b76ff;
+    }
+
+    .liza-pricing-summary {
+      margin-top: 14px;
+      border-radius: 14px;
+      border: 1px solid #d4e3fa;
+      background: linear-gradient(135deg, #f2f8ff 0%, #f7faff 100%);
+      padding: 12px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .liza-summary-big {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #1d5ed0;
+      line-height: 1.1;
+    }
+
+    .liza-summary-line {
+      font-size: 0.92rem;
+      color: #37526e;
+      line-height: 1.4;
+    }
+
+    @media (max-width: 1024px) {
+      .liza-results-grid,
+      .liza-pricing-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -83,164 +273,230 @@
   <script>
     (function () {
       function normalize(value) {
-        return (value || "").replace(/\s+/g, " ").trim();
+        return (value || "").replace(/\s+/g, " ").trim().toLowerCase();
       }
 
-      function getTextOnlyElements(root) {
-        const all = root.querySelectorAll("h1,h2,h3,h4,p,span,button,div");
-        return Array.prototype.filter.call(all, function (el) {
-          if (!el || !el.childNodes || el.childNodes.length === 0) return false;
-          let hasText = false;
-          for (let i = 0; i < el.childNodes.length; i += 1) {
-            if (el.childNodes[i].nodeType === Node.TEXT_NODE && normalize(el.childNodes[i].textContent)) {
-              hasText = true;
-              break;
-            }
-          }
-          return hasText;
-        });
+      function textElements(root) {
+        return Array.prototype.slice.call(root.querySelectorAll("h1,h2,h3,h4,p,span,button,div,label"));
       }
 
-      function findByText(root, targetText) {
-        const normalizedTarget = normalize(targetText);
-        const elements = getTextOnlyElements(root);
-        for (let i = 0; i < elements.length; i += 1) {
-          if (normalize(elements[i].textContent) === normalizedTarget) return elements[i];
-        }
-        return null;
+      function headingElements(root) {
+        return Array.prototype.slice.call(root.querySelectorAll("h1,h2,h3,h4"));
+      }
+
+      function hasAny(text, variants) {
+        var n = normalize(text);
+        return variants.some(function (v) { return n.indexOf(normalize(v)) !== -1; });
+      }
+
+      function findHeading(root, variants) {
+        return headingElements(root).find(function (el) { return hasAny(el.textContent, variants); }) || null;
       }
 
       function closestSectionLike(el) {
         if (!el) return null;
-        return el.closest("section, article, main, [data-slot], .container, .max-w-\\[1440px\\], .max-w-\\[1400px\\]") || el.parentElement;
+        return el.closest("section, article, [data-slot], .container, .max-w-\\[1440px\\], .max-w-\\[1400px\\], .max-w-\\[1420px\\]") || el.parentElement;
       }
 
-      function markHowItWorksSections(root) {
-        const headings = getTextOnlyElements(root).filter(function (el) {
-          return normalize(el.textContent) === "Как это работает";
-        });
-
-        headings.forEach(function (heading) {
-          const section = closestSectionLike(heading);
-          if (section) section.classList.add("liza-how-it-works");
-        });
-      }
-
-      function applyTextUpdates(root) {
-        const replacements = [
-          { from: "Лиза Бот помогает", to: "Лиза Бот увеличивает выручку салона" },
-          { from: "Что реально работает в модуле", to: "Что реально дает результат салону" },
-          { from: "Преимущества", to: "Почему мы" },
-          { from: "Почему Лиза", to: "Почему выбирают нас" },
-          { from: "Попробуйте без риска и лишней суеты", to: "Запустим под ключ и покажем результат уже в тестовый период" },
-          { from: "Не абстрактные обещания, а сценарии из раздела «Шаблоны уведомлений»", to: "Конкретные сценарии для роста явки, возврата клиентов и контроля сервиса" },
-          { from: "Не просто рассылка, а управляемый модуль уведомлений в связке с", to: "Не просто рассылка, а система возврата клиентов и подтверждения визитов в связке с" }
-        ];
-
-        const textElements = getTextOnlyElements(root);
-        textElements.forEach(function (el) {
-          const inHowItWorks = !!el.closest(".liza-how-it-works");
-          if (inHowItWorks) return;
-
-          const current = normalize(el.textContent);
-          for (let i = 0; i < replacements.length; i += 1) {
-            if (current === replacements[i].from) {
-              el.textContent = replacements[i].to;
-              break;
-            }
-          }
-        });
-
-        const whyHeading = findByText(root, "Почему выбирают нас") || findByText(root, "Почему мы");
-        if (whyHeading) {
-          const section = closestSectionLike(whyHeading);
-          if (section && !section.classList.contains("liza-why-we-section")) {
-            section.classList.add("liza-why-we-section");
-          }
-
-          if (section && !section.querySelector(".liza-why-note")) {
-            const note = document.createElement("p");
-            note.className = "liza-why-note";
-            note.textContent = "Фокус на бизнес-результате: меньше неявок, больше повторных визитов, выше рейтинг и выручка без ручной рутины.";
-            whyHeading.insertAdjacentElement("afterend", note);
-          }
+      function hideSectionBody(section, heading) {
+        var keep = new Set();
+        var node = heading;
+        while (node && node !== section) {
+          keep.add(node);
+          node = node.parentElement;
         }
+
+        Array.prototype.slice.call(section.children).forEach(function (child) {
+          if (!keep.has(child)) child.classList.add("liza-old-content");
+        });
       }
 
-      function classifyTelegramMock(root) {
-        const messageIn = new Set([
-          "Добрый день, Анна!",
-          "Напоминаем: вы записаны на маникюр 12 апреля в 14:00.",
-          "Придете? Подтверждаете запись?",
-          "Есть окна в четверг 17:00 и 19:00. Что удобнее?",
-          "Спасибо за оценку!"
-        ]);
+      function styleHowItWorks(root) {
+        var howHeading = findHeading(root, ["Как это работает", "РљР°Рє СЌС‚Рѕ СЂР°Р±РѕС‚Р°РµС‚"]);
+        if (!howHeading) return;
+        var section = closestSectionLike(howHeading);
+        if (!section) return;
+        section.classList.add("liza-how-it-works");
 
-        const messageOut = new Set([
-          "Да, подтверждаю",
-          "Да, давайте на этой неделе",
-          "Спасибо, буду!",
-          "Нет, отменить"
-        ]);
+        var inMessages = ["Добрый день", "Напоминаем", "Придете", "Ждем вас", "Ваша запись подтверждена", "Спасибо за оценку"];
+        var outMessages = ["Да, подтверждаю", "Да, давайте", "Нет, отменить", "Спасибо, буду"];
 
-        const actionButtons = new Set([
-          "Выбрать пакет",
-          "Попробовать бесплатно",
-          "Начать тест 3 дня"
-        ]);
-
-        const elements = getTextOnlyElements(root);
-        const allMarkedMessages = [];
-
-        elements.forEach(function (el) {
-          const txt = normalize(el.textContent);
+        var all = textElements(section);
+        var marked = [];
+        all.forEach(function (el) {
+          var txt = normalize(el.textContent);
           if (!txt) return;
 
-          if (messageIn.has(txt) || messageOut.has(txt)) {
-            el.classList.add("liza-tg-msg");
-            el.classList.add(messageOut.has(txt) ? "liza-tg-msg--out" : "liza-tg-msg--in");
-            allMarkedMessages.push(el);
+          if (outMessages.some(function (m) { return txt.indexOf(normalize(m)) !== -1; })) {
+            el.classList.add("liza-tg-msg", "liza-tg-msg--out");
+            marked.push(el);
+          } else if (inMessages.some(function (m) { return txt.indexOf(normalize(m)) !== -1; })) {
+            el.classList.add("liza-tg-msg", "liza-tg-msg--in");
+            marked.push(el);
           }
 
-          if (txt === "Клиент: Анна К.") {
-            el.classList.add("liza-tg-chat-header");
+          if (txt === normalize("Лиза Бот") || txt.indexOf(normalize("Лиза Бот")) !== -1 || txt === normalize("онлайн")) {
+            var headWrap = el.closest("div");
+            if (headWrap) headWrap.classList.add("liza-tg-chat-header");
           }
 
-          if (actionButtons.has(txt)) {
-            el.classList.add("liza-tg-action");
+          if (txt.indexOf(normalize("Сообщение")) !== -1) {
+            el.classList.add("liza-tg-input");
+          }
+
+          if (txt === normalize("Да, подтверждаю") || txt === normalize("Нет, отменить")) {
+            el.classList.add("liza-tg-quick");
           }
         });
 
-        allMarkedMessages.forEach(function (messageEl) {
-          let parent = messageEl.parentElement;
-          while (parent && parent !== document.body) {
-            const count = parent.querySelectorAll(".liza-tg-msg").length;
-            if (count >= 4) {
-              parent.classList.add("liza-tg-phone");
+        marked.forEach(function (msg) {
+          var p = msg.parentElement;
+          while (p && p !== section) {
+            if (p.querySelectorAll(".liza-tg-msg").length >= 4) {
+              p.classList.add("liza-tg-phone");
               break;
             }
-            parent = parent.parentElement;
+            p = p.parentElement;
           }
+        });
+      }
+
+      function rebuildResultSection(root) {
+        var heading = findHeading(root, ["Что реально даст результат", "Что реально дает результат", "Что реально работает в модуле", "Р§С‚Рѕ СЂРµР°Р»СЊРЅРѕ"]);
+        if (!heading) return;
+        var section = closestSectionLike(heading);
+        if (!section || section.querySelector(".liza-results-rebuild")) return;
+
+        heading.textContent = "Что приносит салону деньги уже в первый месяц";
+        hideSectionBody(section, heading);
+
+        var block = document.createElement("div");
+        block.className = "liza-results-rebuild";
+        block.innerHTML =
+          '<div class="liza-results-lead">Мы не продаем "бот ради бота". Мы закрываем конкретные точки потерь в записи: неявки, отмены, молчание после визита и негатив без реакции администратора.</div>' +
+          '<div class="liza-results-grid">' +
+            '<article class="liza-results-card"><h3 class="liza-results-title">Снижение неявок</h3><p class="liza-results-copy">Клиент вовремя получает напоминание и подтверждает визит. Админ заранее видит, кого нужно перезаписать.</p><div class="liza-results-metric">Фокус KPI: доходимость в смене</div></article>' +
+            '<article class="liza-results-card"><h3 class="liza-results-title">Возврат потерянных клиентов</h3><p class="liza-results-copy">После отмены или статуса "не пришел" клиент возвращается в диалог с предложением удобного времени.</p><div class="liza-results-metric">Фокус KPI: повторные записи</div></article>' +
+            '<article class="liza-results-card"><h3 class="liza-results-title">Рост рейтинга и отзывов</h3><p class="liza-results-copy">Позитивных клиентов отправляем в отзывы, а негатив сразу уходит админу для быстрого решения.</p><div class="liza-results-metric">Фокус KPI: рейтинг и NPS</div></article>' +
+            '<article class="liza-results-card"><h3 class="liza-results-title">Экономия времени команды</h3><p class="liza-results-copy">Ручные подтверждения, догоняющие сообщения и сервисные алерты уходят в автоматизацию.</p><div class="liza-results-metric">Фокус KPI: нагрузка администратора</div></article>' +
+          '</div>';
+
+        section.appendChild(block);
+      }
+
+      function rebuildPricing(root) {
+        var heading = findHeading(root, ["Тарифы и калькулятор", "Тарифы", "РўР°СЂРёС„С‹"]);
+        if (!heading) return;
+        var section = closestSectionLike(heading);
+        if (!section || section.querySelector(".liza-pricing-widget")) return;
+
+        hideSectionBody(section, heading);
+
+        var widget = document.createElement("div");
+        widget.className = "liza-pricing-widget";
+        widget.innerHTML =
+          '<div class="liza-pricing-grid">' +
+            '<label class="liza-plan active" data-plan="start"><input type="radio" name="liza-plan" value="start" checked><p class="liza-plan-name">Старт</p><p class="liza-plan-price">999 ₽</p><p class="liza-plan-meta">300 сообщений<br>1 мессенджер включен</p></label>' +
+            '<label class="liza-plan" data-plan="standard"><input type="radio" name="liza-plan" value="standard"><p class="liza-plan-name">Стандарт</p><p class="liza-plan-price">1999 ₽</p><p class="liza-plan-meta">1000 сообщений<br>1 мессенджер включен</p></label>' +
+            '<label class="liza-plan" data-plan="max"><input type="radio" name="liza-plan" value="max"><p class="liza-plan-name">Максимум</p><p class="liza-plan-price">3999 ₽</p><p class="liza-plan-meta">до 3000 сообщений<br>все мессенджеры включены</p></label>' +
+          '</div>' +
+          '<p class="liza-pricing-row-title">Выберите мессенджеры:</p>' +
+          '<div class="liza-messenger-row">' +
+            '<label class="liza-ms-item"><input type="checkbox" value="telegram" checked>Telegram</label>' +
+            '<label class="liza-ms-item"><input type="checkbox" value="whatsapp">WhatsApp</label>' +
+            '<label class="liza-ms-item"><input type="checkbox" value="vk">ВКонтакте</label>' +
+          '</div>' +
+          '<div class="liza-pricing-summary">' +
+            '<div class="liza-summary-big" data-summary-price>999 ₽ / мес</div>' +
+            '<div class="liza-summary-line" data-summary-msg>Лимит: 300 сообщений в месяц</div>' +
+            '<div class="liza-summary-line" data-summary-ms>Включено: 1 мессенджер. Каждый дополнительный: +750 ₽</div>' +
+          '</div>';
+
+        section.appendChild(widget);
+
+        var plans = {
+          start: { base: 999, messages: "300 сообщений в месяц", included: 1 },
+          standard: { base: 1999, messages: "1000 сообщений в месяц", included: 1 },
+          max: { base: 3999, messages: "до 3000 сообщений в месяц", included: 3 }
+        };
+
+        function selectedPlan() {
+          var input = widget.querySelector('input[name="liza-plan"]:checked');
+          return input ? input.value : "start";
+        }
+
+        function selectedMessengers() {
+          return Array.prototype.slice.call(widget.querySelectorAll('.liza-messenger-row input[type="checkbox"]:checked')).length;
+        }
+
+        function sync() {
+          var planKey = selectedPlan();
+          var cfg = plans[planKey];
+          var boxes = Array.prototype.slice.call(widget.querySelectorAll('.liza-messenger-row input[type="checkbox"]'));
+
+          widget.querySelectorAll(".liza-plan").forEach(function (card) {
+            card.classList.toggle("active", card.getAttribute("data-plan") === planKey);
+          });
+
+          if (planKey === "max") {
+            boxes.forEach(function (box) { box.checked = true; box.disabled = true; });
+          } else {
+            boxes.forEach(function (box) { box.disabled = false; });
+            if (selectedMessengers() === 0 && boxes[0]) boxes[0].checked = true;
+          }
+
+          var selected = selectedMessengers();
+          var extra = planKey === "max" ? 0 : Math.max(0, selected - cfg.included) * 750;
+          var total = cfg.base + extra;
+
+          widget.querySelector("[data-summary-price]").textContent = total + " ₽ / мес";
+          widget.querySelector("[data-summary-msg]").textContent = "Лимит: " + cfg.messages;
+          if (planKey === "max") {
+            widget.querySelector("[data-summary-ms]").textContent = "Включены все мессенджеры без доплат";
+          } else {
+            widget.querySelector("[data-summary-ms]").textContent = "Включено: 1 мессенджер. Выбрано: " + selected + ". Доплата: " + extra + " ₽";
+          }
+        }
+
+        widget.addEventListener("change", sync);
+        sync();
+      }
+
+      function applyGlobalCopy(root) {
+        var replacements = [
+          { from: "Лиза Бот помогает", to: "Лиза Бот увеличивает выручку салона" },
+          { from: "Почему Лиза", to: "Почему выбирают нас" },
+          { from: "Преимущества", to: "Результат, который видно в записи и выручке" },
+          { from: "Попробуйте без риска и лишней суеты", to: "Запуск под ключ за 1 день: подключаем, настраиваем и ведем первые результаты" }
+        ];
+
+        textElements(root).forEach(function (el) {
+          if (el.closest(".liza-how-it-works")) return;
+          var current = (el.textContent || "").trim();
+          replacements.forEach(function (r) {
+            if (current === r.from) el.textContent = r.to;
+          });
         });
       }
 
       function enhance() {
         if (!document.body) return;
-        markHowItWorksSections(document.body);
-        applyTextUpdates(document.body);
-        classifyTelegramMock(document.body);
+        styleHowItWorks(document.body);
+        applyGlobalCopy(document.body);
+        rebuildResultSection(document.body);
+        rebuildPricing(document.body);
       }
 
-      let timer = null;
-      const observer = new MutationObserver(function () {
+      var timer = null;
+      var observer = new MutationObserver(function () {
         if (timer) clearTimeout(timer);
-        timer = setTimeout(enhance, 80);
+        timer = setTimeout(enhance, 120);
       });
 
       window.addEventListener("load", function () {
         enhance();
         observer.observe(document.body, { childList: true, subtree: true });
-      });
+      }, { once: true });
     })();
   </script>
 </body>
