@@ -1,0 +1,40 @@
+name: Sync main to GitHub Pages branch
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - index.html
+      - connect.html
+      - liza-app.css
+      - liza-app.js
+      - .github/workflows/deploy-github-pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gh-pages-sync
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare publish folder
+        run: |
+          mkdir -p site
+          cp index.html connect.html liza-app.css liza-app.js site/
+
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          publish_branch: gh-pages
+          force_orphan: true

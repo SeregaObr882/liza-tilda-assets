@@ -1,0 +1,40 @@
+name: Deploy static site to RU hosting
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - index.html
+      - connect.html
+      - liza-app.css
+      - liza-app.js
+      - .github/workflows/deploy-ru-hosting.yml
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-ru-hosting
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare deploy package
+        run: |
+          mkdir -p deploy
+          cp index.html connect.html liza-app.css liza-app.js deploy/
+
+      - name: Upload via FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          local-dir: ./deploy/
+          log-level: standard
