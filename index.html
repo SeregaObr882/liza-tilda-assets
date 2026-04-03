@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <!-- DEPLOY_ID: v7-2026-04-03-marketing-refresh -->
 <html lang="ru">
 <head>
@@ -10,16 +10,13 @@
     html, body { margin: 0; padding: 0; background: #f2f5fb; }
     #liza-tilda-root { width: 100%; }
 
-    /* Telegram-like visual tune for "Как это работает" (hero untouched) */
+    /* Telegram-like visual tune for "РљР°Рє СЌС‚Рѕ СЂР°Р±РѕС‚Р°РµС‚" (hero untouched) */
     .liza-how-it-works .liza-tg-phone {
       position: relative;
-      border-radius: 44px !important;
-      border: 10px solid #07090d !important;
-      background:
-        radial-gradient(circle at 12% -6%, rgba(133, 84, 255, 0.24) 0 24%, transparent 25% 100%),
-        radial-gradient(circle at 92% 106%, rgba(89, 161, 255, 0.2) 0 28%, transparent 29% 100%),
-        linear-gradient(180deg, #0f1b2a 0%, #081321 100%) !important;
-      box-shadow: 0 28px 60px rgba(7, 18, 36, 0.45);
+      border-radius: 42px !important;
+      border: 9px solid #070b10 !important;
+      background: #0f1c2b !important;
+      box-shadow: 0 24px 50px rgba(7, 18, 36, 0.36);
       overflow: hidden;
       isolation: isolate;
     }
@@ -38,15 +35,7 @@
       pointer-events: none;
     }
 
-    .liza-how-it-works .liza-tg-phone::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 14% 86%, rgba(0, 0, 0, 0.16) 100%);
-      z-index: 0;
-      pointer-events: none;
-    }
+    .liza-how-it-works .liza-tg-phone::after { content: none; }
 
     .liza-how-it-works .liza-tg-phone > * {
       position: relative;
@@ -54,10 +43,9 @@
     }
 
     .liza-how-it-works .liza-tg-chat-header {
-      background: linear-gradient(180deg, #1b2739 0%, #131f30 100%) !important;
-      border-bottom: 1px solid rgba(151, 182, 230, 0.14) !important;
-      color: #f5f8ff !important;
-      box-shadow: 0 10px 16px rgba(4, 10, 20, 0.35);
+      background: #1a2a3d !important;
+      border-bottom: 1px solid rgba(154, 185, 228, 0.16) !important;
+      color: #eef5ff !important;
     }
 
     .liza-how-it-works .liza-tg-msg {
@@ -67,26 +55,24 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
     }
 
-    .liza-how-it-works .liza-tg-msg--in {
-      background: #1a2b3f !important;
-    }
+    .liza-how-it-works .liza-tg-msg--in { background: #1c2f45 !important; }
 
     .liza-how-it-works .liza-tg-msg--out {
-      background: linear-gradient(180deg, #a56bff 0%, #7a45ea 100%) !important;
-      border-color: rgba(211, 187, 255, 0.28) !important;
-      color: #fff !important;
+      background: #2b5278 !important;
+      border-color: rgba(149, 190, 236, 0.24) !important;
+      color: #e9f4ff !important;
     }
 
     .liza-how-it-works .liza-tg-quick {
-      background: #cce9fa !important;
-      border: 1px solid #9fd1ee !important;
-      border-radius: 16px !important;
-      color: #395d79 !important;
-      box-shadow: 0 3px 10px rgba(6, 38, 67, 0.18);
+      background: #d3ebf9 !important;
+      border: 1px solid #a9cfe7 !important;
+      border-radius: 14px !important;
+      color: #35546e !important;
+      box-shadow: none;
     }
 
     .liza-how-it-works .liza-tg-input {
-      background: #111f31 !important;
+      background: #17283a !important;
       border: 1px solid rgba(145, 178, 227, 0.18) !important;
       color: #89a8cf !important;
       border-radius: 999px !important;
@@ -311,7 +297,7 @@
         });
       }
 
-      function styleHowItWorks(root) {
+            function styleHowItWorks(root) {
         var howHeading = findHeading(root, ["Как это работает", "РљР°Рє СЌС‚Рѕ СЂР°Р±РѕС‚Р°РµС‚"]);
         if (!howHeading) return;
         var section = closestSectionLike(howHeading);
@@ -335,11 +321,6 @@
             marked.push(el);
           }
 
-          if (txt === normalize("Лиза Бот") || txt.indexOf(normalize("Лиза Бот")) !== -1 || txt === normalize("онлайн")) {
-            var headWrap = el.closest("div");
-            if (headWrap) headWrap.classList.add("liza-tg-chat-header");
-          }
-
           if (txt.indexOf(normalize("Сообщение")) !== -1) {
             el.classList.add("liza-tg-input");
           }
@@ -349,43 +330,71 @@
           }
         });
 
+        section.querySelectorAll(".liza-tg-phone").forEach(function (el) {
+          el.classList.remove("liza-tg-phone");
+        });
+
+        var candidates = [];
         marked.forEach(function (msg) {
           var p = msg.parentElement;
-          while (p && p !== section) {
-            if (p.querySelectorAll(".liza-tg-msg").length >= 4) {
-              p.classList.add("liza-tg-phone");
-              break;
+          var depth = 0;
+          while (p && p !== section && depth < 14) {
+            var msgCount = p.querySelectorAll(".liza-tg-msg").length;
+            if (msgCount >= 4) {
+              var r = p.getBoundingClientRect();
+              var ratio = r.width > 0 ? r.height / r.width : 0;
+              if (r.width >= 260 && r.width <= 620 && r.height >= 420 && r.height <= 1200 && ratio > 1.25 && ratio < 3.2) {
+                var score = Math.abs(r.width - 390) + Math.abs(r.height - 800) + depth * 8;
+                if (normalize(p.textContent).indexOf(normalize("Сообщение")) !== -1) score -= 140;
+                candidates.push({ el: p, score: score });
+              }
             }
             p = p.parentElement;
+            depth += 1;
           }
         });
+
+        if (candidates.length > 0) {
+          candidates.sort(function (a, b) { return a.score - b.score; });
+          var phone = candidates[0].el;
+          phone.classList.add("liza-tg-phone");
+
+          var headerCandidates = textElements(phone).filter(function (el) {
+            var t = normalize(el.textContent);
+            return t === normalize("Лиза Бот") || t.indexOf(normalize("Лиза Бот")) !== -1;
+          });
+          if (headerCandidates.length > 0) {
+            var headerWrap = headerCandidates[0].closest("div");
+            if (headerWrap) headerWrap.classList.add("liza-tg-chat-header");
+          }
+        }
       }
 
       function rebuildResultSection(root) {
-        var heading = findHeading(root, ["Что реально даст результат", "Что реально дает результат", "Что реально работает в модуле", "Р§С‚Рѕ СЂРµР°Р»СЊРЅРѕ"]);
+        var heading = findHeading(root, ["Р§С‚Рѕ СЂРµР°Р»СЊРЅРѕ РґР°СЃС‚ СЂРµР·СѓР»СЊС‚Р°С‚", "Р§С‚Рѕ СЂРµР°Р»СЊРЅРѕ РґР°РµС‚ СЂРµР·СѓР»СЊС‚Р°С‚", "Р§С‚Рѕ СЂРµР°Р»СЊРЅРѕ СЂР°Р±РѕС‚Р°РµС‚ РІ РјРѕРґСѓР»Рµ", "Р В§РЎвЂљР С• РЎР‚Р ВµР В°Р В»РЎРЉР Р…Р С•"]);
         if (!heading) return;
         var section = closestSectionLike(heading);
         if (!section || section.querySelector(".liza-results-rebuild")) return;
 
-        heading.textContent = "Что приносит салону деньги уже в первый месяц";
+        heading.textContent = "Р§С‚Рѕ РїСЂРёРЅРѕСЃРёС‚ СЃР°Р»РѕРЅСѓ РґРµРЅСЊРіРё СѓР¶Рµ РІ РїРµСЂРІС‹Р№ РјРµСЃСЏС†";
         hideSectionBody(section, heading);
 
         var block = document.createElement("div");
         block.className = "liza-results-rebuild";
         block.innerHTML =
-          '<div class="liza-results-lead">Мы не продаем "бот ради бота". Мы закрываем конкретные точки потерь в записи: неявки, отмены, молчание после визита и негатив без реакции администратора.</div>' +
+          '<div class="liza-results-lead">РњС‹ РЅРµ РїСЂРѕРґР°РµРј "Р±РѕС‚ СЂР°РґРё Р±РѕС‚Р°". РњС‹ Р·Р°РєСЂС‹РІР°РµРј РєРѕРЅРєСЂРµС‚РЅС‹Рµ С‚РѕС‡РєРё РїРѕС‚РµСЂСЊ РІ Р·Р°РїРёСЃРё: РЅРµСЏРІРєРё, РѕС‚РјРµРЅС‹, РјРѕР»С‡Р°РЅРёРµ РїРѕСЃР»Рµ РІРёР·РёС‚Р° Рё РЅРµРіР°С‚РёРІ Р±РµР· СЂРµР°РєС†РёРё Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°.</div>' +
           '<div class="liza-results-grid">' +
-            '<article class="liza-results-card"><h3 class="liza-results-title">Снижение неявок</h3><p class="liza-results-copy">Клиент вовремя получает напоминание и подтверждает визит. Админ заранее видит, кого нужно перезаписать.</p><div class="liza-results-metric">Фокус KPI: доходимость в смене</div></article>' +
-            '<article class="liza-results-card"><h3 class="liza-results-title">Возврат потерянных клиентов</h3><p class="liza-results-copy">После отмены или статуса "не пришел" клиент возвращается в диалог с предложением удобного времени.</p><div class="liza-results-metric">Фокус KPI: повторные записи</div></article>' +
-            '<article class="liza-results-card"><h3 class="liza-results-title">Рост рейтинга и отзывов</h3><p class="liza-results-copy">Позитивных клиентов отправляем в отзывы, а негатив сразу уходит админу для быстрого решения.</p><div class="liza-results-metric">Фокус KPI: рейтинг и NPS</div></article>' +
-            '<article class="liza-results-card"><h3 class="liza-results-title">Экономия времени команды</h3><p class="liza-results-copy">Ручные подтверждения, догоняющие сообщения и сервисные алерты уходят в автоматизацию.</p><div class="liza-results-metric">Фокус KPI: нагрузка администратора</div></article>' +
+            '<article class="liza-results-card"><h3 class="liza-results-title">РЎРЅРёР¶РµРЅРёРµ РЅРµСЏРІРѕРє</h3><p class="liza-results-copy">РљР»РёРµРЅС‚ РІРѕРІСЂРµРјСЏ РїРѕР»СѓС‡Р°РµС‚ РЅР°РїРѕРјРёРЅР°РЅРёРµ Рё РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ РІРёР·РёС‚. РђРґРјРёРЅ Р·Р°СЂР°РЅРµРµ РІРёРґРёС‚, РєРѕРіРѕ РЅСѓР¶РЅРѕ РїРµСЂРµР·Р°РїРёСЃР°С‚СЊ.</p><div class="liza-results-metric">Р¤РѕРєСѓСЃ KPI: РґРѕС…РѕРґРёРјРѕСЃС‚СЊ РІ СЃРјРµРЅРµ</div></article>' +
+            '<article class="liza-results-card"><h3 class="liza-results-title">Р’РѕР·РІСЂР°С‚ РїРѕС‚РµСЂСЏРЅРЅС‹С… РєР»РёРµРЅС‚РѕРІ</h3><p class="liza-results-copy">РџРѕСЃР»Рµ РѕС‚РјРµРЅС‹ РёР»Рё СЃС‚Р°С‚СѓСЃР° "РЅРµ РїСЂРёС€РµР»" РєР»РёРµРЅС‚ РІРѕР·РІСЂР°С‰Р°РµС‚СЃСЏ РІ РґРёР°Р»РѕРі СЃ РїСЂРµРґР»РѕР¶РµРЅРёРµРј СѓРґРѕР±РЅРѕРіРѕ РІСЂРµРјРµРЅРё.</p><div class="liza-results-metric">Р¤РѕРєСѓСЃ KPI: РїРѕРІС‚РѕСЂРЅС‹Рµ Р·Р°РїРёСЃРё</div></article>' +
+            '<article class="liza-results-card"><h3 class="liza-results-title">Р РѕСЃС‚ СЂРµР№С‚РёРЅРіР° Рё РѕС‚Р·С‹РІРѕРІ</h3><p class="liza-results-copy">РџРѕР·РёС‚РёРІРЅС‹С… РєР»РёРµРЅС‚РѕРІ РѕС‚РїСЂР°РІР»СЏРµРј РІ РѕС‚Р·С‹РІС‹, Р° РЅРµРіР°С‚РёРІ СЃСЂР°Р·Сѓ СѓС…РѕРґРёС‚ Р°РґРјРёРЅСѓ РґР»СЏ Р±С‹СЃС‚СЂРѕРіРѕ СЂРµС€РµРЅРёСЏ.</p><div class="liza-results-metric">Р¤РѕРєСѓСЃ KPI: СЂРµР№С‚РёРЅРі Рё NPS</div></article>' +
+            '<article class="liza-results-card"><h3 class="liza-results-title">Р­РєРѕРЅРѕРјРёСЏ РІСЂРµРјРµРЅРё РєРѕРјР°РЅРґС‹</h3><p class="liza-results-copy">Р СѓС‡РЅС‹Рµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ, РґРѕРіРѕРЅСЏСЋС‰РёРµ СЃРѕРѕР±С‰РµРЅРёСЏ Рё СЃРµСЂРІРёСЃРЅС‹Рµ Р°Р»РµСЂС‚С‹ СѓС…РѕРґСЏС‚ РІ Р°РІС‚РѕРјР°С‚РёР·Р°С†РёСЋ.</p><div class="liza-results-metric">Р¤РѕРєСѓСЃ KPI: РЅР°РіСЂСѓР·РєР° Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°</div></article>' +
           '</div>';
 
         section.appendChild(block);
       }
 
       function rebuildPricing(root) {
-        var heading = findHeading(root, ["Тарифы и калькулятор", "Тарифы", "РўР°СЂРёС„С‹"]);
+        var heading = findHeading(root, ["РўР°СЂРёС„С‹ Рё РєР°Р»СЊРєСѓР»СЏС‚РѕСЂ", "РўР°СЂРёС„С‹", "Р СћР В°РЎР‚Р С‘РЎвЂћРЎвЂ№"]);
         if (!heading) return;
         var section = closestSectionLike(heading);
         if (!section || section.querySelector(".liza-pricing-widget")) return;
@@ -396,28 +405,28 @@
         widget.className = "liza-pricing-widget";
         widget.innerHTML =
           '<div class="liza-pricing-grid">' +
-            '<label class="liza-plan active" data-plan="start"><input type="radio" name="liza-plan" value="start" checked><p class="liza-plan-name">Старт</p><p class="liza-plan-price">999 ₽</p><p class="liza-plan-meta">300 сообщений<br>1 мессенджер включен</p></label>' +
-            '<label class="liza-plan" data-plan="standard"><input type="radio" name="liza-plan" value="standard"><p class="liza-plan-name">Стандарт</p><p class="liza-plan-price">1999 ₽</p><p class="liza-plan-meta">1000 сообщений<br>1 мессенджер включен</p></label>' +
-            '<label class="liza-plan" data-plan="max"><input type="radio" name="liza-plan" value="max"><p class="liza-plan-name">Максимум</p><p class="liza-plan-price">3999 ₽</p><p class="liza-plan-meta">до 3000 сообщений<br>все мессенджеры включены</p></label>' +
+            '<label class="liza-plan active" data-plan="start"><input type="radio" name="liza-plan" value="start" checked><p class="liza-plan-name">РЎС‚Р°СЂС‚</p><p class="liza-plan-price">999 в‚Ѕ</p><p class="liza-plan-meta">300 СЃРѕРѕР±С‰РµРЅРёР№<br>1 РјРµСЃСЃРµРЅРґР¶РµСЂ РІРєР»СЋС‡РµРЅ</p></label>' +
+            '<label class="liza-plan" data-plan="standard"><input type="radio" name="liza-plan" value="standard"><p class="liza-plan-name">РЎС‚Р°РЅРґР°СЂС‚</p><p class="liza-plan-price">1999 в‚Ѕ</p><p class="liza-plan-meta">1000 СЃРѕРѕР±С‰РµРЅРёР№<br>1 РјРµСЃСЃРµРЅРґР¶РµСЂ РІРєР»СЋС‡РµРЅ</p></label>' +
+            '<label class="liza-plan" data-plan="max"><input type="radio" name="liza-plan" value="max"><p class="liza-plan-name">РњР°РєСЃРёРјСѓРј</p><p class="liza-plan-price">3999 в‚Ѕ</p><p class="liza-plan-meta">РґРѕ 3000 СЃРѕРѕР±С‰РµРЅРёР№<br>РІСЃРµ РјРµСЃСЃРµРЅРґР¶РµСЂС‹ РІРєР»СЋС‡РµРЅС‹</p></label>' +
           '</div>' +
-          '<p class="liza-pricing-row-title">Выберите мессенджеры:</p>' +
+          '<p class="liza-pricing-row-title">Р’С‹Р±РµСЂРёС‚Рµ РјРµСЃСЃРµРЅРґР¶РµСЂС‹:</p>' +
           '<div class="liza-messenger-row">' +
             '<label class="liza-ms-item"><input type="checkbox" value="telegram" checked>Telegram</label>' +
             '<label class="liza-ms-item"><input type="checkbox" value="whatsapp">WhatsApp</label>' +
-            '<label class="liza-ms-item"><input type="checkbox" value="vk">ВКонтакте</label>' +
+            '<label class="liza-ms-item"><input type="checkbox" value="vk">Р’РљРѕРЅС‚Р°РєС‚Рµ</label>' +
           '</div>' +
           '<div class="liza-pricing-summary">' +
-            '<div class="liza-summary-big" data-summary-price>999 ₽ / мес</div>' +
-            '<div class="liza-summary-line" data-summary-msg>Лимит: 300 сообщений в месяц</div>' +
-            '<div class="liza-summary-line" data-summary-ms>Включено: 1 мессенджер. Каждый дополнительный: +750 ₽</div>' +
+            '<div class="liza-summary-big" data-summary-price>999 в‚Ѕ / РјРµСЃ</div>' +
+            '<div class="liza-summary-line" data-summary-msg>Р›РёРјРёС‚: 300 СЃРѕРѕР±С‰РµРЅРёР№ РІ РјРµСЃСЏС†</div>' +
+            '<div class="liza-summary-line" data-summary-ms>Р’РєР»СЋС‡РµРЅРѕ: 1 РјРµСЃСЃРµРЅРґР¶РµСЂ. РљР°Р¶РґС‹Р№ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Р№: +750 в‚Ѕ</div>' +
           '</div>';
 
         section.appendChild(widget);
 
         var plans = {
-          start: { base: 999, messages: "300 сообщений в месяц", included: 1 },
-          standard: { base: 1999, messages: "1000 сообщений в месяц", included: 1 },
-          max: { base: 3999, messages: "до 3000 сообщений в месяц", included: 3 }
+          start: { base: 999, messages: "300 СЃРѕРѕР±С‰РµРЅРёР№ РІ РјРµСЃСЏС†", included: 1 },
+          standard: { base: 1999, messages: "1000 СЃРѕРѕР±С‰РµРЅРёР№ РІ РјРµСЃСЏС†", included: 1 },
+          max: { base: 3999, messages: "РґРѕ 3000 СЃРѕРѕР±С‰РµРЅРёР№ РІ РјРµСЃСЏС†", included: 3 }
         };
 
         function selectedPlan() {
@@ -449,12 +458,12 @@
           var extra = planKey === "max" ? 0 : Math.max(0, selected - cfg.included) * 750;
           var total = cfg.base + extra;
 
-          widget.querySelector("[data-summary-price]").textContent = total + " ₽ / мес";
-          widget.querySelector("[data-summary-msg]").textContent = "Лимит: " + cfg.messages;
+          widget.querySelector("[data-summary-price]").textContent = total + " в‚Ѕ / РјРµСЃ";
+          widget.querySelector("[data-summary-msg]").textContent = "Р›РёРјРёС‚: " + cfg.messages;
           if (planKey === "max") {
-            widget.querySelector("[data-summary-ms]").textContent = "Включены все мессенджеры без доплат";
+            widget.querySelector("[data-summary-ms]").textContent = "Р’РєР»СЋС‡РµРЅС‹ РІСЃРµ РјРµСЃСЃРµРЅРґР¶РµСЂС‹ Р±РµР· РґРѕРїР»Р°С‚";
           } else {
-            widget.querySelector("[data-summary-ms]").textContent = "Включено: 1 мессенджер. Выбрано: " + selected + ". Доплата: " + extra + " ₽";
+            widget.querySelector("[data-summary-ms]").textContent = "Р’РєР»СЋС‡РµРЅРѕ: 1 РјРµСЃСЃРµРЅРґР¶РµСЂ. Р’С‹Р±СЂР°РЅРѕ: " + selected + ". Р”РѕРїР»Р°С‚Р°: " + extra + " в‚Ѕ";
           }
         }
 
@@ -464,10 +473,10 @@
 
       function applyGlobalCopy(root) {
         var replacements = [
-          { from: "Лиза Бот помогает", to: "Лиза Бот увеличивает выручку салона" },
-          { from: "Почему Лиза", to: "Почему выбирают нас" },
-          { from: "Преимущества", to: "Результат, который видно в записи и выручке" },
-          { from: "Попробуйте без риска и лишней суеты", to: "Запуск под ключ за 1 день: подключаем, настраиваем и ведем первые результаты" }
+          { from: "Р›РёР·Р° Р‘РѕС‚ РїРѕРјРѕРіР°РµС‚", to: "Р›РёР·Р° Р‘РѕС‚ СѓРІРµР»РёС‡РёРІР°РµС‚ РІС‹СЂСѓС‡РєСѓ СЃР°Р»РѕРЅР°" },
+          { from: "РџРѕС‡РµРјСѓ Р›РёР·Р°", to: "РџРѕС‡РµРјСѓ РІС‹Р±РёСЂР°СЋС‚ РЅР°СЃ" },
+          { from: "РџСЂРµРёРјСѓС‰РµСЃС‚РІР°", to: "Р РµР·СѓР»СЊС‚Р°С‚, РєРѕС‚РѕСЂС‹Р№ РІРёРґРЅРѕ РІ Р·Р°РїРёСЃРё Рё РІС‹СЂСѓС‡РєРµ" },
+          { from: "РџРѕРїСЂРѕР±СѓР№С‚Рµ Р±РµР· СЂРёСЃРєР° Рё Р»РёС€РЅРµР№ СЃСѓРµС‚С‹", to: "Р—Р°РїСѓСЃРє РїРѕРґ РєР»СЋС‡ Р·Р° 1 РґРµРЅСЊ: РїРѕРґРєР»СЋС‡Р°РµРј, РЅР°СЃС‚СЂР°РёРІР°РµРј Рё РІРµРґРµРј РїРµСЂРІС‹Рµ СЂРµР·СѓР»СЊС‚Р°С‚С‹" }
         ];
 
         textElements(root).forEach(function (el) {
@@ -501,3 +510,4 @@
   </script>
 </body>
 </html>
+
