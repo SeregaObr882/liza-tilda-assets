@@ -16,6 +16,11 @@
       border-radius: 42px !important;
       border: 9px solid #070b10 !important;
       background: #0f1c2b !important;
+      width: min(420px, 100%) !important;
+      max-width: 420px !important;
+      min-height: 760px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
       box-shadow: 0 24px 50px rgba(7, 18, 36, 0.36);
       overflow: hidden;
       isolation: isolate;
@@ -297,76 +302,115 @@
         });
       }
 
-            function styleHowItWorks(root) {
-        var howHeading = findHeading(root, ["Как это работает", "РљР°Рє СЌС‚Рѕ СЂР°Р±РѕС‚Р°РµС‚"]);
-        if (!howHeading) return;
-        var section = closestSectionLike(howHeading);
-        if (!section) return;
-        section.classList.add("liza-how-it-works");
+                  function styleHowItWorks(root) {
+        var howHeading = findHeading(root, [
+          "\u041A\u0430\u043A \u044D\u0442\u043E \u0440\u0430\u0431\u043E\u0442\u0430\u0435\u0442",
+          "\u0420\u0459\u0420\u0430\u0420\u00BA \u0421\u040D\u0421\u201A\u0420\u043E \u0421\u20AC\u0420\u00B0\u0420\u00B1\u0420\u043E\u0421\u201A\u0420\u00B0\u0420\u00B5\u0421\u201A"
+        ])
+        if (!howHeading) return
 
-        var inMessages = ["Добрый день", "Напоминаем", "Придете", "Ждем вас", "Ваша запись подтверждена", "Спасибо за оценку"];
-        var outMessages = ["Да, подтверждаю", "Да, давайте", "Нет, отменить", "Спасибо, буду"];
+        var section = closestSectionLike(howHeading)
+        if (!section) return
+        section.classList.add("liza-how-it-works")
 
-        var all = textElements(section);
-        var marked = [];
+        section.querySelectorAll(".liza-tg-phone,.liza-tg-chat-header,.liza-tg-msg,.liza-tg-msg--in,.liza-tg-msg--out,.liza-tg-quick,.liza-tg-input").forEach(function (el) {
+          el.classList.remove("liza-tg-phone", "liza-tg-chat-header", "liza-tg-msg", "liza-tg-msg--in", "liza-tg-msg--out", "liza-tg-quick", "liza-tg-input")
+        })
+
+        var inMessages = [
+          "\u0414\u043E\u0431\u0440\u044B\u0439 \u0434\u0435\u043D\u044C",
+          "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u0435\u043C",
+          "\u041F\u0440\u0438\u0434\u0435\u0442\u0435",
+          "\u0416\u0434\u0435\u043C \u0432\u0430\u0441",
+          "\u0412\u0430\u0448\u0430 \u0437\u0430\u043F\u0438\u0441\u044C \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0430",
+          "\u0421\u043F\u0430\u0441\u0438\u0431\u043E \u0437\u0430 \u043E\u0446\u0435\u043D\u043A\u0443"
+        ]
+        var outMessages = [
+          "\u0414\u0430, \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0430\u044E",
+          "\u0414\u0430, \u0434\u0430\u0432\u0430\u0439\u0442\u0435",
+          "\u041D\u0435\u0442, \u043E\u0442\u043C\u0435\u043D\u0438\u0442\u044C",
+          "\u0421\u043F\u0430\u0441\u0438\u0431\u043E, \u0431\u0443\u0434\u0443"
+        ]
+
+        var all = textElements(section)
+        var marked = []
+        var headerNode = null
+        var inputNode = null
+
         all.forEach(function (el) {
-          var txt = normalize(el.textContent);
-          if (!txt) return;
+          var txt = normalize(el.textContent)
+          if (!txt) return
 
-          if (outMessages.some(function (m) { return txt.indexOf(normalize(m)) !== -1; })) {
-            el.classList.add("liza-tg-msg", "liza-tg-msg--out");
-            marked.push(el);
-          } else if (inMessages.some(function (m) { return txt.indexOf(normalize(m)) !== -1; })) {
-            el.classList.add("liza-tg-msg", "liza-tg-msg--in");
-            marked.push(el);
+          if (outMessages.some(function (m) { return txt.indexOf(normalize(m)) !== -1 })) {
+            el.classList.add("liza-tg-msg", "liza-tg-msg--out")
+            marked.push(el)
+          } else if (inMessages.some(function (m) { return txt.indexOf(normalize(m)) !== -1 })) {
+            el.classList.add("liza-tg-msg", "liza-tg-msg--in")
+            marked.push(el)
           }
 
-          if (txt.indexOf(normalize("Сообщение")) !== -1) {
-            el.classList.add("liza-tg-input");
+          if (!inputNode && txt.indexOf(normalize("\u0421\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435")) !== -1) {
+            inputNode = el
+            el.classList.add("liza-tg-input")
           }
 
-          if (txt === normalize("Да, подтверждаю") || txt === normalize("Нет, отменить")) {
-            el.classList.add("liza-tg-quick");
+          if (!headerNode && (txt === normalize("\u041B\u0438\u0437\u0430 \u0411\u043E\u0442") || txt.indexOf(normalize("\u041B\u0438\u0437\u0430 \u0411\u043E\u0442")) !== -1)) {
+            headerNode = el
           }
-        });
 
-        section.querySelectorAll(".liza-tg-phone").forEach(function (el) {
-          el.classList.remove("liza-tg-phone");
-        });
+          if (txt === normalize("\u0414\u0430, \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0430\u044E") || txt === normalize("\u041D\u0435\u0442, \u043E\u0442\u043C\u0435\u043D\u0438\u0442\u044C")) {
+            el.classList.add("liza-tg-quick")
+          }
+        })
 
-        var candidates = [];
-        marked.forEach(function (msg) {
-          var p = msg.parentElement;
-          var depth = 0;
-          while (p && p !== section && depth < 14) {
-            var msgCount = p.querySelectorAll(".liza-tg-msg").length;
-            if (msgCount >= 4) {
-              var r = p.getBoundingClientRect();
-              var ratio = r.width > 0 ? r.height / r.width : 0;
-              if (r.width >= 260 && r.width <= 620 && r.height >= 420 && r.height <= 1200 && ratio > 1.25 && ratio < 3.2) {
-                var score = Math.abs(r.width - 390) + Math.abs(r.height - 800) + depth * 8;
-                if (normalize(p.textContent).indexOf(normalize("Сообщение")) !== -1) score -= 140;
-                candidates.push({ el: p, score: score });
+        function findPhoneRoot() {
+          if (!headerNode || !inputNode) return null
+          var p = headerNode.parentElement
+          while (p && p !== section) {
+            if (p.contains(inputNode)) {
+              var r = p.getBoundingClientRect()
+              var ratio = r.width > 0 ? r.height / r.width : 0
+              var msgCount = p.querySelectorAll(".liza-tg-msg").length
+              if (msgCount >= 3 && r.width >= 260 && r.width <= 520 && r.height >= 520 && r.height <= 980 && ratio >= 1.4 && ratio <= 3.2) {
+                return p
               }
             }
-            p = p.parentElement;
-            depth += 1;
+            p = p.parentElement
           }
-        });
+          return null
+        }
 
-        if (candidates.length > 0) {
-          candidates.sort(function (a, b) { return a.score - b.score; });
-          var phone = candidates[0].el;
-          phone.classList.add("liza-tg-phone");
+        var phone = findPhoneRoot()
+        if (!phone) {
+          var fallback = marked
+            .map(function (msg) {
+              var p = msg.parentElement
+              while (p && p !== section) {
+                var r = p.getBoundingClientRect()
+                var ratio = r.width > 0 ? r.height / r.width : 0
+                var msgCount = p.querySelectorAll(".liza-tg-msg").length
+                if (msgCount >= 4 && r.width >= 260 && r.width <= 520 && r.height >= 520 && r.height <= 980 && ratio >= 1.4 && ratio <= 3.2) {
+                  return { el: p, score: Math.abs(r.width - 390) + Math.abs(r.height - 790) }
+                }
+                p = p.parentElement
+              }
+              return null
+            })
+            .filter(Boolean)
 
-          var headerCandidates = textElements(phone).filter(function (el) {
-            var t = normalize(el.textContent);
-            return t === normalize("Лиза Бот") || t.indexOf(normalize("Лиза Бот")) !== -1;
-          });
-          if (headerCandidates.length > 0) {
-            var headerWrap = headerCandidates[0].closest("div");
-            if (headerWrap) headerWrap.classList.add("liza-tg-chat-header");
+          if (fallback.length > 0) {
+            fallback.sort(function (a, b) { return a.score - b.score })
+            phone = fallback[0].el
           }
+        }
+
+        if (!phone) return
+
+        phone.classList.add("liza-tg-phone")
+
+        if (headerNode && phone.contains(headerNode)) {
+          var hw = headerNode.closest("div")
+          if (hw && phone.contains(hw)) hw.classList.add("liza-tg-chat-header")
         }
       }
 
@@ -510,4 +554,5 @@
   </script>
 </body>
 </html>
+
 
