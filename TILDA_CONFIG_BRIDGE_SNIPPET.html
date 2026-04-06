@@ -1,125 +1,126 @@
-<!--
-Вставь этот блок в Zero Block / HTML-блок в Tilda на той же странице, где iframe.
-Меняй значения в CONFIG: тексты, цены, лимиты, названия тарифов.
--->
+﻿<div style="width:100%;margin:0;padding:0;">
+  <iframe
+    id="liza-frame"
+    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.5"
+    style="display:block;width:100%;height:100vh;border:0;background:#f2f5fb;"
+    loading="eager"
+    referrerpolicy="no-referrer-when-downgrade"
+  ></iframe>
+</div>
+
 <script>
   (function () {
-    var IFRAME_ORIGIN = "https://seregaobr882.github.io";
-    var IFRAME_SELECTOR = 'iframe[src*="liza-tilda-assets/index.html"]';
+    var FRAME_ID = "liza-frame";
+    var MAX_TRIES = 60;
+    var RETRY_MS = 500;
 
+    // ТЕСТОВЫЙ РЕЖИМ:
+    // 1) НЕ перерисовывает блоки (дизайн/верстка остаются как в GitHub)
+    // 2) Включает глобальную подмену ВСЕГО текста в плейсхолдер,
+    //    чтобы проверить что контент идет только из CONFIG.
     var CONFIG = {
-      copy: {
-        resultHeading: "Что приносит салону деньги уже в первый месяц",
-        resultLead: "Лиза Бот закрывает реальные точки потерь в записи: неявки, отмены, тишину после визита и негатив без реакции администратора.",
-        resultCards: [
-          {
-            title: "Снижение неявок",
-            body: "Клиент получает напоминание и подтверждает визит заранее. Администратор видит риски до начала смены.",
-            metric: "Фокус: доходимость визитов"
-          },
-          {
-            title: "Возврат потерянных клиентов",
-            body: "После отмены или статуса «не пришел» клиент автоматически возвращается в диалог с удобным предложением времени.",
-            metric: "Фокус: повторные записи"
-          },
-          {
-            title: "Рост отзывов и рейтинга",
-            body: "Позитивные клиенты направляются в отзывы, а негатив сразу попадает админу для быстрой отработки.",
-            metric: "Фокус: рейтинг и NPS"
-          },
-          {
-            title: "Экономия времени команды",
-            body: "Рутинные подтверждения, догоняющие сообщения и сервисные алерты уходят в автоматизацию.",
-            metric: "Фокус: нагрузка администратора"
-          }
-        ],
-        pricingHeading: "Тарифы и калькулятор",
-        pricingRowTitle: "Выберите мессенджеры:",
-        summaryIncludedLabel: "Включено",
-        summarySelectedLabel: "Выбрано",
-        summaryExtraLabel: "Доплата",
-        selectorTextMap: {
-          "#lead-form h2": "Попробуйте 3 дня бесплатно и без риска"
-        }
+      behavior: {
+        rebuildManagedSections: false,
+        fullTextControl: true
       },
-      pricing: {
-        currency: "₽",
-        perMonthSuffix: "/ мес",
-        extraMessengerPrice: 750,
-        plans: [
-          {
-            key: "start",
-            name: "Минимальный",
-            basePrice: 999,
-            messagesLabel: "300 сообщений в месяц",
-            includedMessengers: 1,
-            allMessengersIncluded: false
-          },
-          {
-            key: "standard",
-            name: "Средний",
-            basePrice: 1999,
-            messagesLabel: "1000 сообщений в месяц",
-            includedMessengers: 1,
-            allMessengersIncluded: false
-          },
-          {
-            key: "max",
-            name: "Большой",
-            basePrice: 3999,
-            messagesLabel: "до 3000 сообщений в месяц",
-            includedMessengers: 99,
-            allMessengersIncluded: true
-          }
-        ],
-        messengers: [
-          { key: "telegram", label: "Telegram", checkedByDefault: true },
-          { key: "whatsapp", label: "WhatsApp", checkedByDefault: false },
-          { key: "vk", label: "ВКонтакте", checkedByDefault: false }
-        ]
+      copy: {
+        fullTextPlaceholder: "placeholder",
+        fullTextMap: {
+          // Пример для адресной замены после включения fullTextControl:
+          // "t0001": "Лиза Бот",
+          // "t0002": "Тарифы и калькулятор"
+        },
+        selectorTextMap: {
+          // Опционально: точечные правки по селекторам:
+          // "#hero h1": "Лиза Бот для салонов красоты",
+          // "#lead-form h2": "Попробуйте Лиза Бот бесплатно 3 дня"
+        }
       }
     };
 
-    function getFrame() {
-      return document.querySelector(IFRAME_SELECTOR);
-    }
-
+    var tries = 0;
     var applied = false;
     var timer = null;
+
+    function getFrame() {
+      return document.getElementById(FRAME_ID);
+    }
+
+    function parseData(value) {
+      if (typeof value !== "string") return value;
+      try {
+        return JSON.parse(value);
+      } catch (_e) {
+        return null;
+      }
+    }
+
+    function getFrameOrigin() {
+      var frame = getFrame();
+      if (!frame || !frame.src) return "https://seregaobr882.github.io";
+      try {
+        return new URL(frame.src, window.location.href).origin;
+      } catch (_e) {
+        return "https://seregaobr882.github.io";
+      }
+    }
 
     function pushConfig() {
       if (applied) return false;
       var frame = getFrame();
       if (!frame || !frame.contentWindow) return false;
-      frame.contentWindow.postMessage(
-        { type: "LIZA_CONFIG_V1", payload: CONFIG },
-        IFRAME_ORIGIN
-      );
+      frame.contentWindow.postMessage({ type: "LIZA_CONFIG_V1", payload: CONFIG }, getFrameOrigin());
+      return true;
+    }
+
+    function startRetry() {
+      if (timer) clearInterval(timer);
+      timer = setInterval(function () {
+        tries += 1;
+        pushConfig();
+        if (applied || tries >= MAX_TRIES) {
+          clearInterval(timer);
+          timer = null;
+        }
+      }, RETRY_MS);
+    }
+
+    function bindFrameLoad() {
+      var frame = getFrame();
+      if (!frame) return false;
+      frame.addEventListener("load", pushConfig);
       return true;
     }
 
     window.addEventListener("message", function (event) {
-      if (event.origin !== IFRAME_ORIGIN) return;
-      if (!event.data) return;
-      if (event.data.type === "LIZA_CONFIG_IFRAME_READY") {
-        pushConfig();
-      }
-      if (event.data.type === "LIZA_CONFIG_APPLIED") {
+      var expectedOrigin = getFrameOrigin();
+      if (event.origin !== expectedOrigin) return;
+
+      var data = parseData(event.data);
+      if (!data || typeof data !== "object") return;
+
+      if (data.type === "LIZA_CONFIG_IFRAME_READY") pushConfig();
+      if (data.type === "LIZA_CONFIG_APPLIED") {
         applied = true;
-        if (timer) clearInterval(timer);
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
       }
     });
 
-    var tries = 0;
-    timer = setInterval(function () {
-      tries += 1;
-      pushConfig();
-      if (applied || tries >= 20) clearInterval(timer);
-    }, 400);
-
-    var frame = getFrame();
-    if (frame) {
-      frame.addEventListener("load", pushConfig);
+    if (!bindFrameLoad()) {
+      var waitFrame = setInterval(function () {
+        if (bindFrameLoad()) {
+          clearInterval(waitFrame);
+          pushConfig();
+          startRetry();
+        }
+      }, 250);
+      setTimeout(function () { clearInterval(waitFrame); }, 15000);
     }
+
+    pushConfig();
+    startRetry();
   })();
 </script>

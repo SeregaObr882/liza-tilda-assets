@@ -221,6 +221,8 @@
           summaryIncludedLabel: "Включено",
           summarySelectedLabel: "Выбрано",
           summaryExtraLabel: "Доплата",
+          fullTextPlaceholder: "placeholder",
+          fullTextMap: {},
           selectorTextMap: {}
         },
         pricing: {
@@ -258,6 +260,10 @@
             { key: "whatsapp", label: "WhatsApp", checkedByDefault: false },
             { key: "vk", label: "ВКонтакте", checkedByDefault: false }
           ]
+        },
+        behavior: {
+          rebuildManagedSections: false,
+          fullTextControl: false
         }
       };
 
@@ -366,6 +372,7 @@
           clean.copy.summaryIncludedLabel = safeString(srcCopy.summaryIncludedLabel, clean.copy.summaryIncludedLabel, 80);
           clean.copy.summarySelectedLabel = safeString(srcCopy.summarySelectedLabel, clean.copy.summarySelectedLabel, 80);
           clean.copy.summaryExtraLabel = safeString(srcCopy.summaryExtraLabel, clean.copy.summaryExtraLabel, 80);
+          clean.copy.fullTextPlaceholder = safeString(srcCopy.fullTextPlaceholder, clean.copy.fullTextPlaceholder, 300);
 
           if (Array.isArray(srcCopy.resultCards) && srcCopy.resultCards.length > 0) {
             clean.copy.resultCards = srcCopy.resultCards.slice(0, 6).map(function (card, idx) {
@@ -381,6 +388,9 @@
 
           if (asObject(srcCopy.selectorTextMap)) {
             clean.copy.selectorTextMap = srcCopy.selectorTextMap;
+          }
+          if (asObject(srcCopy.fullTextMap)) {
+            clean.copy.fullTextMap = srcCopy.fullTextMap;
           }
         }
 
@@ -416,6 +426,14 @@
               };
             });
           }
+        }
+
+        var srcBehavior = asObject(src.behavior);
+        if (srcBehavior && typeof srcBehavior.rebuildManagedSections === "boolean") {
+          clean.behavior.rebuildManagedSections = srcBehavior.rebuildManagedSections;
+        }
+        if (srcBehavior && typeof srcBehavior.fullTextControl === "boolean") {
+          clean.behavior.fullTextControl = srcBehavior.fullTextControl;
         }
 
         return clean;
@@ -637,21 +655,71 @@
 
       function applySelectorOverrides(cfg) {
         var map = asObject(cfg.copy.selectorTextMap);
-        if (!map) return;
+        if (!map) return 0;
+        var applied = 0;
         Object.keys(map).forEach(function (selector) {
           var text = safeString(map[selector], "", 600);
           if (!text) return;
           var node = document.querySelector(selector);
-          if (node) node.textContent = text;
+          if (node) {
+            node.textContent = text;
+            applied += 1;
+          }
         });
+        return applied;
+      }
+
+      var textKeyCounter = 1;
+
+      function isTextCandidate(el) {
+        if (!el || !el.tagName) return false;
+        var tag = el.tagName.toLowerCase();
+        if (["script", "style", "noscript", "template", "svg", "path", "img"].indexOf(tag) !== -1) return false;
+        if (el.children && el.children.length > 0) return false;
+        var raw = (el.textContent || "").replace(/\s+/g, " ").trim();
+        return !!raw;
+      }
+
+      function nextTextKey() {
+        var key = "t" + String(textKeyCounter).padStart(4, "0");
+        textKeyCounter += 1;
+        return key;
+      }
+
+      function applyFullTextControl(cfg) {
+        if (!cfg.behavior || !cfg.behavior.fullTextControl) return 0;
+        var fullMap = asObject(cfg.copy.fullTextMap) || {};
+        var placeholder = safeString(cfg.copy.fullTextPlaceholder, "placeholder", 300);
+        var elements = Array.prototype.slice.call(document.body.querySelectorAll("*"));
+        var applied = 0;
+
+        elements.forEach(function (el) {
+          if (!isTextCandidate(el)) return;
+          if (!el.hasAttribute("data-liza-text-key")) {
+            el.setAttribute("data-liza-text-key", nextTextKey());
+          }
+          var key = el.getAttribute("data-liza-text-key");
+          var value = safeString(fullMap[key], placeholder, 600);
+          if (el.textContent !== value) {
+            el.textContent = value;
+            applied += 1;
+          }
+        });
+
+        return applied;
       }
 
       function applyConfigToDom() {
         if (!document.body) return false;
-        var resultOk = renderResultSection(runtimeConfig);
-        var pricingOk = renderPricingSection(runtimeConfig);
-        applySelectorOverrides(runtimeConfig);
-        return resultOk || pricingOk;
+        var changed = false;
+        if (runtimeConfig.behavior && runtimeConfig.behavior.rebuildManagedSections) {
+          var resultOk = renderResultSection(runtimeConfig);
+          var pricingOk = renderPricingSection(runtimeConfig);
+          changed = resultOk || pricingOk;
+        }
+        var fullTextAppliedCount = applyFullTextControl(runtimeConfig);
+        var textAppliedCount = applySelectorOverrides(runtimeConfig);
+        return changed || fullTextAppliedCount > 0 || textAppliedCount > 0;
       }
 
       function scheduleApply() {
@@ -660,8 +728,8 @@
         var maxAttempts = 40;
         queuedApply = setInterval(function () {
           attempts += 1;
-          applyConfigToDom();
-          if (pendingConfigAck && document.querySelector('[data-liza-managed="pricing"]')) {
+          var changed = applyConfigToDom();
+          if (pendingConfigAck && (changed || attempts >= 2)) {
             pendingConfigAck = false;
             try {
               window.parent.postMessage({ type: "LIZA_CONFIG_APPLIED", version: 1 }, "*");
@@ -669,7 +737,7 @@
               // no-op
             }
           }
-          if (document.querySelector('[data-liza-managed="pricing"]') && attempts > 2) {
+          if (changed && attempts > 2) {
             clearInterval(queuedApply);
             queuedApply = null;
           } else if (attempts >= maxAttempts) {
