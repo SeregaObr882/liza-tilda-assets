@@ -190,6 +190,104 @@
   <script src="./liza-app.js?v=7"></script>
   <script>
     (function () {
+      var DEFAULT_CONFIG = {
+        copy: {
+          resultHeading: "Что приносит салону деньги уже в первый месяц",
+          resultLead: "Лиза Бот закрывает реальные точки потерь в записи: неявки, отмены, тишину после визита и негатив без реакции администратора.",
+          resultCards: [
+            {
+              title: "Снижение неявок",
+              body: "Клиент получает напоминание и подтверждает визит заранее. Администратор видит риски до начала смены.",
+              metric: "Фокус: доходимость визитов"
+            },
+            {
+              title: "Возврат потерянных клиентов",
+              body: "После отмены или статуса «не пришел» клиент автоматически возвращается в диалог с удобным предложением времени.",
+              metric: "Фокус: повторные записи"
+            },
+            {
+              title: "Рост отзывов и рейтинга",
+              body: "Позитивные клиенты направляются в отзывы, а негатив сразу попадает админу для быстрой отработки.",
+              metric: "Фокус: рейтинг и NPS"
+            },
+            {
+              title: "Экономия времени команды",
+              body: "Рутинные подтверждения, догоняющие сообщения и сервисные алерты уходят в автоматизацию.",
+              metric: "Фокус: нагрузка администратора"
+            }
+          ],
+          pricingHeading: "Тарифы и калькулятор",
+          pricingRowTitle: "Выберите мессенджеры:",
+          summaryIncludedLabel: "Включено",
+          summarySelectedLabel: "Выбрано",
+          summaryExtraLabel: "Доплата",
+          selectorTextMap: {}
+        },
+        pricing: {
+          currency: "₽",
+          perMonthSuffix: "/ мес",
+          extraMessengerPrice: 750,
+          plans: [
+            {
+              key: "start",
+              name: "Минимальный",
+              basePrice: 999,
+              messagesLabel: "300 сообщений в месяц",
+              includedMessengers: 1,
+              allMessengersIncluded: false
+            },
+            {
+              key: "standard",
+              name: "Средний",
+              basePrice: 1999,
+              messagesLabel: "1000 сообщений в месяц",
+              includedMessengers: 1,
+              allMessengersIncluded: false
+            },
+            {
+              key: "max",
+              name: "Большой",
+              basePrice: 3999,
+              messagesLabel: "до 3000 сообщений в месяц",
+              includedMessengers: 99,
+              allMessengersIncluded: true
+            }
+          ],
+          messengers: [
+            { key: "telegram", label: "Telegram", checkedByDefault: true },
+            { key: "whatsapp", label: "WhatsApp", checkedByDefault: false },
+            { key: "vk", label: "ВКонтакте", checkedByDefault: false }
+          ]
+        }
+      };
+
+      var runtimeConfig = clone(DEFAULT_CONFIG);
+      var queuedApply = null;
+
+      function clone(value) {
+        return JSON.parse(JSON.stringify(value));
+      }
+
+      function asObject(value) {
+        return value && typeof value === "object" && !Array.isArray(value) ? value : null;
+      }
+
+      function safeString(value, fallback, maxLen) {
+        if (typeof value !== "string") return fallback;
+        var trimmed = value.trim();
+        if (!trimmed) return fallback;
+        if (trimmed.length > maxLen) return trimmed.slice(0, maxLen);
+        return trimmed;
+      }
+
+      function safeNumber(value, fallback, min, max) {
+        var num = Number(value);
+        if (!isFinite(num)) return fallback;
+        if (num < min) return fallback;
+        if (num > max) return fallback;
+        return Math.round(num);
+      }
+
       function normalize(value) {
         return (value || "").replace(/\s+/g, " ").trim().toLowerCase();
       }
@@ -216,7 +314,15 @@
         return el.closest("section, article, [data-slot], .container, .max-w-\\[1440px\\], .max-w-\\[1400px\\], .max-w-\\[1420px\\]") || el.parentElement;
       }
 
+      function sectionByIdOrHeading(id, fallbackHeadings) {
+        var byId = document.getElementById(id);
+        if (byId) return byId;
+        var heading = findHeading(document.body, fallbackHeadings);
+        return heading ? closestSectionLike(heading) : null;
+      }
+
       function hideSectionBody(section, heading) {
+        if (!section || !heading) return;
         var keep = new Set();
         var node = heading;
         while (node && node !== section) {
@@ -229,143 +335,354 @@
         });
       }
 
-      function rebuildResultSection(root) {
-        var heading = findHeading(root, ["Р§С‚Рѕ СЂРµР°Р»СЊРЅРѕ РґР°СЃС‚ СЂРµР·СѓР»СЊС‚Р°С‚", "Р§С‚Рѕ СЂРµР°Р»СЊРЅРѕ РґР°РµС‚ СЂРµР·СѓР»СЊС‚Р°С‚", "Р§С‚Рѕ СЂРµР°Р»СЊРЅРѕ СЂР°Р±РѕС‚Р°РµС‚ РІ РјРѕРґСѓР»Рµ", "Р В§РЎвЂљР С• РЎР‚Р ВµР В°Р В»РЎРЉР Р…Р С•"]);
-        if (!heading) return;
-        var section = closestSectionLike(heading);
-        if (!section || section.querySelector(".liza-results-rebuild")) return;
-
-        heading.textContent = "Р§С‚Рѕ РїСЂРёРЅРѕСЃРёС‚ СЃР°Р»РѕРЅСѓ РґРµРЅСЊРіРё СѓР¶Рµ РІ РїРµСЂРІС‹Р№ РјРµСЃСЏС†";
-        hideSectionBody(section, heading);
-
-        var block = document.createElement("div");
-        block.className = "liza-results-rebuild";
-        block.innerHTML =
-          '<div class="liza-results-lead">РњС‹ РЅРµ РїСЂРѕРґР°РµРј "Р±РѕС‚ СЂР°РґРё Р±РѕС‚Р°". РњС‹ Р·Р°РєСЂС‹РІР°РµРј РєРѕРЅРєСЂРµС‚РЅС‹Рµ С‚РѕС‡РєРё РїРѕС‚РµСЂСЊ РІ Р·Р°РїРёСЃРё: РЅРµСЏРІРєРё, РѕС‚РјРµРЅС‹, РјРѕР»С‡Р°РЅРёРµ РїРѕСЃР»Рµ РІРёР·РёС‚Р° Рё РЅРµРіР°С‚РёРІ Р±РµР· СЂРµР°РєС†РёРё Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°.</div>' +
-          '<div class="liza-results-grid">' +
-            '<article class="liza-results-card"><h3 class="liza-results-title">РЎРЅРёР¶РµРЅРёРµ РЅРµСЏРІРѕРє</h3><p class="liza-results-copy">РљР»РёРµРЅС‚ РІРѕРІСЂРµРјСЏ РїРѕР»СѓС‡Р°РµС‚ РЅР°РїРѕРјРёРЅР°РЅРёРµ Рё РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ РІРёР·РёС‚. РђРґРјРёРЅ Р·Р°СЂР°РЅРµРµ РІРёРґРёС‚, РєРѕРіРѕ РЅСѓР¶РЅРѕ РїРµСЂРµР·Р°РїРёСЃР°С‚СЊ.</p><div class="liza-results-metric">Р¤РѕРєСѓСЃ KPI: РґРѕС…РѕРґРёРјРѕСЃС‚СЊ РІ СЃРјРµРЅРµ</div></article>' +
-            '<article class="liza-results-card"><h3 class="liza-results-title">Р’РѕР·РІСЂР°С‚ РїРѕС‚РµСЂСЏРЅРЅС‹С… РєР»РёРµРЅС‚РѕРІ</h3><p class="liza-results-copy">РџРѕСЃР»Рµ РѕС‚РјРµРЅС‹ РёР»Рё СЃС‚Р°С‚СѓСЃР° "РЅРµ РїСЂРёС€РµР»" РєР»РёРµРЅС‚ РІРѕР·РІСЂР°С‰Р°РµС‚СЃСЏ РІ РґРёР°Р»РѕРі СЃ РїСЂРµРґР»РѕР¶РµРЅРёРµРј СѓРґРѕР±РЅРѕРіРѕ РІСЂРµРјРµРЅРё.</p><div class="liza-results-metric">Р¤РѕРєСѓСЃ KPI: РїРѕРІС‚РѕСЂРЅС‹Рµ Р·Р°РїРёСЃРё</div></article>' +
-            '<article class="liza-results-card"><h3 class="liza-results-title">Р РѕСЃС‚ СЂРµР№С‚РёРЅРіР° Рё РѕС‚Р·С‹РІРѕРІ</h3><p class="liza-results-copy">РџРѕР·РёС‚РёРІРЅС‹С… РєР»РёРµРЅС‚РѕРІ РѕС‚РїСЂР°РІР»СЏРµРј РІ РѕС‚Р·С‹РІС‹, Р° РЅРµРіР°С‚РёРІ СЃСЂР°Р·Сѓ СѓС…РѕРґРёС‚ Р°РґРјРёРЅСѓ РґР»СЏ Р±С‹СЃС‚СЂРѕРіРѕ СЂРµС€РµРЅРёСЏ.</p><div class="liza-results-metric">Р¤РѕРєСѓСЃ KPI: СЂРµР№С‚РёРЅРі Рё NPS</div></article>' +
-            '<article class="liza-results-card"><h3 class="liza-results-title">Р­РєРѕРЅРѕРјРёСЏ РІСЂРµРјРµРЅРё РєРѕРјР°РЅРґС‹</h3><p class="liza-results-copy">Р СѓС‡РЅС‹Рµ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ, РґРѕРіРѕРЅСЏСЋС‰РёРµ СЃРѕРѕР±С‰РµРЅРёСЏ Рё СЃРµСЂРІРёСЃРЅС‹Рµ Р°Р»РµСЂС‚С‹ СѓС…РѕРґСЏС‚ РІ Р°РІС‚РѕРјР°С‚РёР·Р°С†РёСЋ.</p><div class="liza-results-metric">Р¤РѕРєСѓСЃ KPI: РЅР°РіСЂСѓР·РєР° Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°</div></article>' +
-          '</div>';
-
-        section.appendChild(block);
+      function firstHeading(section) {
+        if (!section) return null;
+        return section.querySelector("h1,h2,h3,h4");
       }
 
-      function rebuildPricing(root) {
-        var heading = findHeading(root, ["РўР°СЂРёС„С‹ Рё РєР°Р»СЊРєСѓР»СЏС‚РѕСЂ", "РўР°СЂРёС„С‹", "Р СћР В°РЎР‚Р С‘РЎвЂћРЎвЂ№"]);
-        if (!heading) return;
-        var section = closestSectionLike(heading);
-        if (!section || section.querySelector(".liza-pricing-widget")) return;
+      function clearManagedBlock(section, key) {
+        if (!section) return;
+        var old = section.querySelector('[data-liza-managed="' + key + '"]');
+        if (old) old.remove();
+      }
 
+      function sanitizeConfig(raw) {
+        var clean = clone(DEFAULT_CONFIG);
+        var src = asObject(raw);
+        if (!src) return clean;
+
+        var srcCopy = asObject(src.copy);
+        if (srcCopy) {
+          clean.copy.resultHeading = safeString(srcCopy.resultHeading, clean.copy.resultHeading, 160);
+          clean.copy.resultLead = safeString(srcCopy.resultLead, clean.copy.resultLead, 480);
+          clean.copy.pricingHeading = safeString(srcCopy.pricingHeading, clean.copy.pricingHeading, 120);
+          clean.copy.pricingRowTitle = safeString(srcCopy.pricingRowTitle, clean.copy.pricingRowTitle, 120);
+          clean.copy.summaryIncludedLabel = safeString(srcCopy.summaryIncludedLabel, clean.copy.summaryIncludedLabel, 80);
+          clean.copy.summarySelectedLabel = safeString(srcCopy.summarySelectedLabel, clean.copy.summarySelectedLabel, 80);
+          clean.copy.summaryExtraLabel = safeString(srcCopy.summaryExtraLabel, clean.copy.summaryExtraLabel, 80);
+
+          if (Array.isArray(srcCopy.resultCards) && srcCopy.resultCards.length > 0) {
+            clean.copy.resultCards = srcCopy.resultCards.slice(0, 6).map(function (card, idx) {
+              var fallback = DEFAULT_CONFIG.copy.resultCards[idx] || DEFAULT_CONFIG.copy.resultCards[0];
+              var srcCard = asObject(card) || {};
+              return {
+                title: safeString(srcCard.title, fallback.title, 120),
+                body: safeString(srcCard.body, fallback.body, 360),
+                metric: safeString(srcCard.metric, fallback.metric, 120)
+              };
+            });
+          }
+
+          if (asObject(srcCopy.selectorTextMap)) {
+            clean.copy.selectorTextMap = srcCopy.selectorTextMap;
+          }
+        }
+
+        var srcPricing = asObject(src.pricing);
+        if (srcPricing) {
+          clean.pricing.currency = safeString(srcPricing.currency, clean.pricing.currency, 6);
+          clean.pricing.perMonthSuffix = safeString(srcPricing.perMonthSuffix, clean.pricing.perMonthSuffix, 24);
+          clean.pricing.extraMessengerPrice = safeNumber(srcPricing.extraMessengerPrice, clean.pricing.extraMessengerPrice, 0, 100000);
+
+          if (Array.isArray(srcPricing.plans) && srcPricing.plans.length >= 3) {
+            clean.pricing.plans = srcPricing.plans.slice(0, 3).map(function (plan, idx) {
+              var fallback = DEFAULT_CONFIG.pricing.plans[idx] || DEFAULT_CONFIG.pricing.plans[0];
+              var srcPlan = asObject(plan) || {};
+              return {
+                key: safeString(srcPlan.key, fallback.key, 32),
+                name: safeString(srcPlan.name, fallback.name, 64),
+                basePrice: safeNumber(srcPlan.basePrice, fallback.basePrice, 0, 1000000),
+                messagesLabel: safeString(srcPlan.messagesLabel, fallback.messagesLabel, 120),
+                includedMessengers: safeNumber(srcPlan.includedMessengers, fallback.includedMessengers, 0, 99),
+                allMessengersIncluded: Boolean(srcPlan.allMessengersIncluded)
+              };
+            });
+          }
+
+          if (Array.isArray(srcPricing.messengers) && srcPricing.messengers.length > 0) {
+            clean.pricing.messengers = srcPricing.messengers.slice(0, 8).map(function (item, idx) {
+              var fallback = DEFAULT_CONFIG.pricing.messengers[idx] || DEFAULT_CONFIG.pricing.messengers[0];
+              var srcItem = asObject(item) || {};
+              return {
+                key: safeString(srcItem.key, fallback.key, 32),
+                label: safeString(srcItem.label, fallback.label, 48),
+                checkedByDefault: typeof srcItem.checkedByDefault === "boolean" ? srcItem.checkedByDefault : fallback.checkedByDefault
+              };
+            });
+          }
+        }
+
+        return clean;
+      }
+
+      function fmtMoney(value, cfg) {
+        return String(value) + " " + cfg.pricing.currency;
+      }
+
+      function renderResultSection(cfg) {
+        var section = sectionByIdOrHeading("proof", ["Что реально работает", "Что реально дает результат", "Кейсы"]);
+        if (!section) return false;
+
+        var heading = firstHeading(section);
+        if (!heading) return false;
+        heading.textContent = cfg.copy.resultHeading;
         hideSectionBody(section, heading);
+        clearManagedBlock(section, "result");
+
+        var wrap = document.createElement("div");
+        wrap.className = "liza-results-rebuild";
+        wrap.setAttribute("data-liza-managed", "result");
+
+        var lead = document.createElement("div");
+        lead.className = "liza-results-lead";
+        lead.textContent = cfg.copy.resultLead;
+        wrap.appendChild(lead);
+
+        var grid = document.createElement("div");
+        grid.className = "liza-results-grid";
+        cfg.copy.resultCards.forEach(function (card) {
+          var article = document.createElement("article");
+          article.className = "liza-results-card";
+
+          var t = document.createElement("h3");
+          t.className = "liza-results-title";
+          t.textContent = card.title;
+
+          var b = document.createElement("p");
+          b.className = "liza-results-copy";
+          b.textContent = card.body;
+
+          var m = document.createElement("div");
+          m.className = "liza-results-metric";
+          m.textContent = card.metric;
+
+          article.appendChild(t);
+          article.appendChild(b);
+          article.appendChild(m);
+          grid.appendChild(article);
+        });
+
+        wrap.appendChild(grid);
+        section.appendChild(wrap);
+        return true;
+      }
+
+      function renderPricingSection(cfg) {
+        var section = sectionByIdOrHeading("pricing", ["Тарифы и калькулятор", "Тарифы"]);
+        if (!section) return false;
+
+        var heading = firstHeading(section);
+        if (!heading) return false;
+        heading.textContent = cfg.copy.pricingHeading;
+        hideSectionBody(section, heading);
+        clearManagedBlock(section, "pricing");
 
         var widget = document.createElement("div");
         widget.className = "liza-pricing-widget";
-        widget.innerHTML =
-          '<div class="liza-pricing-grid">' +
-            '<label class="liza-plan active" data-plan="start"><input type="radio" name="liza-plan" value="start" checked><p class="liza-plan-name">РЎС‚Р°СЂС‚</p><p class="liza-plan-price">999 в‚Ѕ</p><p class="liza-plan-meta">300 СЃРѕРѕР±С‰РµРЅРёР№<br>1 РјРµСЃСЃРµРЅРґР¶РµСЂ РІРєР»СЋС‡РµРЅ</p></label>' +
-            '<label class="liza-plan" data-plan="standard"><input type="radio" name="liza-plan" value="standard"><p class="liza-plan-name">РЎС‚Р°РЅРґР°СЂС‚</p><p class="liza-plan-price">1999 в‚Ѕ</p><p class="liza-plan-meta">1000 СЃРѕРѕР±С‰РµРЅРёР№<br>1 РјРµСЃСЃРµРЅРґР¶РµСЂ РІРєР»СЋС‡РµРЅ</p></label>' +
-            '<label class="liza-plan" data-plan="max"><input type="radio" name="liza-plan" value="max"><p class="liza-plan-name">РњР°РєСЃРёРјСѓРј</p><p class="liza-plan-price">3999 в‚Ѕ</p><p class="liza-plan-meta">РґРѕ 3000 СЃРѕРѕР±С‰РµРЅРёР№<br>РІСЃРµ РјРµСЃСЃРµРЅРґР¶РµСЂС‹ РІРєР»СЋС‡РµРЅС‹</p></label>' +
-          '</div>' +
-          '<p class="liza-pricing-row-title">Р’С‹Р±РµСЂРёС‚Рµ РјРµСЃСЃРµРЅРґР¶РµСЂС‹:</p>' +
-          '<div class="liza-messenger-row">' +
-            '<label class="liza-ms-item"><input type="checkbox" value="telegram" checked>Telegram</label>' +
-            '<label class="liza-ms-item"><input type="checkbox" value="whatsapp">WhatsApp</label>' +
-            '<label class="liza-ms-item"><input type="checkbox" value="vk">Р’РљРѕРЅС‚Р°РєС‚Рµ</label>' +
-          '</div>' +
-          '<div class="liza-pricing-summary">' +
-            '<div class="liza-summary-big" data-summary-price>999 в‚Ѕ / РјРµСЃ</div>' +
-            '<div class="liza-summary-line" data-summary-msg>Р›РёРјРёС‚: 300 СЃРѕРѕР±С‰РµРЅРёР№ РІ РјРµСЃСЏС†</div>' +
-            '<div class="liza-summary-line" data-summary-ms>Р’РєР»СЋС‡РµРЅРѕ: 1 РјРµСЃСЃРµРЅРґР¶РµСЂ. РљР°Р¶РґС‹Р№ РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Р№: +750 в‚Ѕ</div>' +
-          '</div>';
+        widget.setAttribute("data-liza-managed", "pricing");
 
-        section.appendChild(widget);
+        var plansGrid = document.createElement("div");
+        plansGrid.className = "liza-pricing-grid";
 
-        var plans = {
-          start: { base: 999, messages: "300 СЃРѕРѕР±С‰РµРЅРёР№ РІ РјРµСЃСЏС†", included: 1 },
-          standard: { base: 1999, messages: "1000 СЃРѕРѕР±С‰РµРЅРёР№ РІ РјРµСЃСЏС†", included: 1 },
-          max: { base: 3999, messages: "РґРѕ 3000 СЃРѕРѕР±С‰РµРЅРёР№ РІ РјРµСЃСЏС†", included: 3 }
-        };
+        cfg.pricing.plans.forEach(function (plan, idx) {
+          var label = document.createElement("label");
+          label.className = "liza-plan" + (idx === 0 ? " active" : "");
+          label.setAttribute("data-plan", plan.key);
 
-        function selectedPlan() {
-          var input = widget.querySelector('input[name="liza-plan"]:checked');
-          return input ? input.value : "start";
+          var input = document.createElement("input");
+          input.type = "radio";
+          input.name = "liza-plan";
+          input.value = plan.key;
+          if (idx === 0) input.checked = true;
+
+          var name = document.createElement("p");
+          name.className = "liza-plan-name";
+          name.textContent = plan.name;
+
+          var price = document.createElement("p");
+          price.className = "liza-plan-price";
+          price.textContent = fmtMoney(plan.basePrice, cfg);
+
+          var meta = document.createElement("p");
+          meta.className = "liza-plan-meta";
+          meta.appendChild(document.createTextNode(plan.messagesLabel));
+          meta.appendChild(document.createElement("br"));
+          meta.appendChild(document.createTextNode(plan.allMessengersIncluded ? "Все мессенджеры включены" : "1 мессенджер включен"));
+
+          label.appendChild(input);
+          label.appendChild(name);
+          label.appendChild(price);
+          label.appendChild(meta);
+          plansGrid.appendChild(label);
+        });
+        widget.appendChild(plansGrid);
+
+        var rowTitle = document.createElement("p");
+        rowTitle.className = "liza-pricing-row-title";
+        rowTitle.textContent = cfg.copy.pricingRowTitle;
+        widget.appendChild(rowTitle);
+
+        var messengerRow = document.createElement("div");
+        messengerRow.className = "liza-messenger-row";
+        cfg.pricing.messengers.forEach(function (ms) {
+          var msLabel = document.createElement("label");
+          msLabel.className = "liza-ms-item";
+
+          var checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.value = ms.key;
+          checkbox.checked = !!ms.checkedByDefault;
+
+          msLabel.appendChild(checkbox);
+          msLabel.appendChild(document.createTextNode(ms.label));
+          messengerRow.appendChild(msLabel);
+        });
+        widget.appendChild(messengerRow);
+
+        var summary = document.createElement("div");
+        summary.className = "liza-pricing-summary";
+
+        var summaryPrice = document.createElement("div");
+        summaryPrice.className = "liza-summary-big";
+        summaryPrice.setAttribute("data-summary-price", "true");
+
+        var summaryMessages = document.createElement("div");
+        summaryMessages.className = "liza-summary-line";
+        summaryMessages.setAttribute("data-summary-msg", "true");
+
+        var summaryMs = document.createElement("div");
+        summaryMs.className = "liza-summary-line";
+        summaryMs.setAttribute("data-summary-ms", "true");
+
+        summary.appendChild(summaryPrice);
+        summary.appendChild(summaryMessages);
+        summary.appendChild(summaryMs);
+        widget.appendChild(summary);
+
+        function selectedPlanKey() {
+          var selected = widget.querySelector('input[name="liza-plan"]:checked');
+          return selected ? selected.value : cfg.pricing.plans[0].key;
         }
 
-        function selectedMessengers() {
+        function selectedMsCount() {
           return Array.prototype.slice.call(widget.querySelectorAll('.liza-messenger-row input[type="checkbox"]:checked')).length;
         }
 
-        function sync() {
-          var planKey = selectedPlan();
-          var cfg = plans[planKey];
-          var boxes = Array.prototype.slice.call(widget.querySelectorAll('.liza-messenger-row input[type="checkbox"]'));
+        function syncPricing() {
+          var key = selectedPlanKey();
+          var plan = cfg.pricing.plans.find(function (x) { return x.key === key; }) || cfg.pricing.plans[0];
+          var allBoxes = Array.prototype.slice.call(widget.querySelectorAll('.liza-messenger-row input[type="checkbox"]'));
 
           widget.querySelectorAll(".liza-plan").forEach(function (card) {
-            card.classList.toggle("active", card.getAttribute("data-plan") === planKey);
+            card.classList.toggle("active", card.getAttribute("data-plan") === key);
           });
 
-          if (planKey === "max") {
-            boxes.forEach(function (box) { box.checked = true; box.disabled = true; });
+          if (plan.allMessengersIncluded) {
+            allBoxes.forEach(function (box) {
+              box.checked = true;
+              box.disabled = true;
+            });
           } else {
-            boxes.forEach(function (box) { box.disabled = false; });
-            if (selectedMessengers() === 0 && boxes[0]) boxes[0].checked = true;
+            allBoxes.forEach(function (box) {
+              box.disabled = false;
+            });
+            if (selectedMsCount() === 0 && allBoxes[0]) allBoxes[0].checked = true;
           }
 
-          var selected = selectedMessengers();
-          var extra = planKey === "max" ? 0 : Math.max(0, selected - cfg.included) * 750;
-          var total = cfg.base + extra;
+          var selected = selectedMsCount();
+          var extraUnits = plan.allMessengersIncluded ? 0 : Math.max(0, selected - plan.includedMessengers);
+          var extra = extraUnits * cfg.pricing.extraMessengerPrice;
+          var total = plan.basePrice + extra;
 
-          widget.querySelector("[data-summary-price]").textContent = total + " в‚Ѕ / РјРµСЃ";
-          widget.querySelector("[data-summary-msg]").textContent = "Р›РёРјРёС‚: " + cfg.messages;
-          if (planKey === "max") {
-            widget.querySelector("[data-summary-ms]").textContent = "Р’РєР»СЋС‡РµРЅС‹ РІСЃРµ РјРµСЃСЃРµРЅРґР¶РµСЂС‹ Р±РµР· РґРѕРїР»Р°С‚";
+          summaryPrice.textContent = fmtMoney(total, cfg) + " " + cfg.pricing.perMonthSuffix;
+          summaryMessages.textContent = "Лимит: " + plan.messagesLabel;
+          if (plan.allMessengersIncluded) {
+            summaryMs.textContent = "Включены все мессенджеры без доплат";
           } else {
-            widget.querySelector("[data-summary-ms]").textContent = "Р’РєР»СЋС‡РµРЅРѕ: 1 РјРµСЃСЃРµРЅРґР¶РµСЂ. Р’С‹Р±СЂР°РЅРѕ: " + selected + ". Р”РѕРїР»Р°С‚Р°: " + extra + " в‚Ѕ";
+            summaryMs.textContent = cfg.copy.summaryIncludedLabel + ": " + plan.includedMessengers + ". " +
+              cfg.copy.summarySelectedLabel + ": " + selected + ". " +
+              cfg.copy.summaryExtraLabel + ": " + fmtMoney(extra, cfg);
           }
         }
 
-        widget.addEventListener("change", sync);
-        sync();
+        widget.addEventListener("change", syncPricing);
+        syncPricing();
+        section.appendChild(widget);
+        return true;
       }
 
-      function applyGlobalCopy(root) {
-        var replacements = [
-          { from: "Р›РёР·Р° Р‘РѕС‚ РїРѕРјРѕРіР°РµС‚", to: "Р›РёР·Р° Р‘РѕС‚ СѓРІРµР»РёС‡РёРІР°РµС‚ РІС‹СЂСѓС‡РєСѓ СЃР°Р»РѕРЅР°" },
-          { from: "РџРѕС‡РµРјСѓ Р›РёР·Р°", to: "РџРѕС‡РµРјСѓ РІС‹Р±РёСЂР°СЋС‚ РЅР°СЃ" },
-          { from: "РџСЂРµРёРјСѓС‰РµСЃС‚РІР°", to: "Р РµР·СѓР»СЊС‚Р°С‚, РєРѕС‚РѕСЂС‹Р№ РІРёРґРЅРѕ РІ Р·Р°РїРёСЃРё Рё РІС‹СЂСѓС‡РєРµ" },
-          { from: "РџРѕРїСЂРѕР±СѓР№С‚Рµ Р±РµР· СЂРёСЃРєР° Рё Р»РёС€РЅРµР№ СЃСѓРµС‚С‹", to: "Р—Р°РїСѓСЃРє РїРѕРґ РєР»СЋС‡ Р·Р° 1 РґРµРЅСЊ: РїРѕРґРєР»СЋС‡Р°РµРј, РЅР°СЃС‚СЂР°РёРІР°РµРј Рё РІРµРґРµРј РїРµСЂРІС‹Рµ СЂРµР·СѓР»СЊС‚Р°С‚С‹" }
-        ];
-
-        textElements(root).forEach(function (el) {
-          var current = (el.textContent || "").trim();
-          replacements.forEach(function (r) {
-            if (current === r.from) el.textContent = r.to;
-          });
+      function applySelectorOverrides(cfg) {
+        var map = asObject(cfg.copy.selectorTextMap);
+        if (!map) return;
+        Object.keys(map).forEach(function (selector) {
+          var text = safeString(map[selector], "", 600);
+          if (!text) return;
+          var node = document.querySelector(selector);
+          if (node) node.textContent = text;
         });
       }
 
-      function enhance() {
-        if (!document.body) return;
-        applyGlobalCopy(document.body);
-        rebuildResultSection(document.body);
-        rebuildPricing(document.body);
+      function applyConfigToDom() {
+        if (!document.body) return false;
+        var resultOk = renderResultSection(runtimeConfig);
+        var pricingOk = renderPricingSection(runtimeConfig);
+        applySelectorOverrides(runtimeConfig);
+        return resultOk || pricingOk;
       }
 
-      window.addEventListener("load", function () {
+      function scheduleApply() {
+        if (queuedApply) clearInterval(queuedApply);
         var attempts = 0;
-        var maxAttempts = 12;
-        var retry = setInterval(function () {
-          enhance();
+        var maxAttempts = 40;
+        queuedApply = setInterval(function () {
           attempts += 1;
-          if (document.querySelector(".liza-pricing-widget") && attempts >= 2) {
-            clearInterval(retry);
+          applyConfigToDom();
+          if (document.querySelector('[data-liza-managed="pricing"]') && attempts > 2) {
+            clearInterval(queuedApply);
+            queuedApply = null;
           } else if (attempts >= maxAttempts) {
-            clearInterval(retry);
+            clearInterval(queuedApply);
+            queuedApply = null;
           }
         }, 250);
-        enhance();
+      }
+
+      function applyIncomingConfig(rawPayload) {
+        runtimeConfig = sanitizeConfig(rawPayload);
+        scheduleApply();
+      }
+
+      function tryParseJson(value) {
+        if (typeof value !== "string") return value;
+        try {
+          return JSON.parse(value);
+        } catch (_e) {
+          return null;
+        }
+      }
+
+      function hasHttpOrigin(origin) {
+        if (!origin || origin === "null") return false;
+        return /^https?:\/\//i.test(origin);
+      }
+
+      window.addEventListener("message", function (event) {
+        if (event.source !== window.parent) return;
+        if (!hasHttpOrigin(event.origin)) return;
+
+        var data = tryParseJson(event.data);
+        if (!data || typeof data !== "object") return;
+        if (data.type !== "LIZA_CONFIG_V1") return;
+        applyIncomingConfig(data.payload);
+      });
+
+      window.addEventListener("load", function () {
+        scheduleApply();
+        try {
+          window.parent.postMessage({ type: "LIZA_CONFIG_IFRAME_READY", version: 1 }, "*");
+        } catch (_e) {
+          // no-op
+        }
       }, { once: true });
     })();
   </script>
