@@ -10,79 +10,6 @@
     html, body { margin: 0; padding: 0; background: #f2f5fb; }
     #liza-tilda-root { width: 100%; }
 
-    /* Telegram-like visual tune for "РљР°Рє СЌС‚Рѕ СЂР°Р±РѕС‚Р°РµС‚" (hero untouched) */
-    .liza-how-it-works .liza-tg-phone {
-      position: relative;
-      border-radius: 42px !important;
-      border: 9px solid #070b10 !important;
-      background: #0f1c2b !important;
-      width: min(420px, 100%) !important;
-      max-width: 420px !important;
-      min-height: 760px !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-      box-shadow: 0 24px 50px rgba(7, 18, 36, 0.36);
-      overflow: hidden;
-      isolation: isolate;
-    }
-
-    .liza-how-it-works .liza-tg-phone::before {
-      content: "";
-      position: absolute;
-      top: 8px;
-      left: 50%;
-      width: 36%;
-      height: 28px;
-      transform: translateX(-50%);
-      border-radius: 0 0 18px 18px;
-      background: #04070c;
-      z-index: 8;
-      pointer-events: none;
-    }
-
-    .liza-how-it-works .liza-tg-phone::after { content: none; }
-
-    .liza-how-it-works .liza-tg-phone > * {
-      position: relative;
-      z-index: 2;
-    }
-
-    .liza-how-it-works .liza-tg-chat-header {
-      background: #1a2a3d !important;
-      border-bottom: 1px solid rgba(154, 185, 228, 0.16) !important;
-      color: #eef5ff !important;
-    }
-
-    .liza-how-it-works .liza-tg-msg {
-      border-radius: 16px !important;
-      border: 1px solid rgba(173, 202, 255, 0.09) !important;
-      color: #e8eef9 !important;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
-    }
-
-    .liza-how-it-works .liza-tg-msg--in { background: #1c2f45 !important; }
-
-    .liza-how-it-works .liza-tg-msg--out {
-      background: #2b5278 !important;
-      border-color: rgba(149, 190, 236, 0.24) !important;
-      color: #e9f4ff !important;
-    }
-
-    .liza-how-it-works .liza-tg-quick {
-      background: #d3ebf9 !important;
-      border: 1px solid #a9cfe7 !important;
-      border-radius: 14px !important;
-      color: #35546e !important;
-      box-shadow: none;
-    }
-
-    .liza-how-it-works .liza-tg-input {
-      background: #17283a !important;
-      border: 1px solid rgba(145, 178, 227, 0.18) !important;
-      color: #89a8cf !important;
-      border-radius: 999px !important;
-    }
-
     .liza-old-content {
       display: none !important;
     }
@@ -302,118 +229,6 @@
         });
       }
 
-                  function styleHowItWorks(root) {
-        var howHeading = findHeading(root, [
-          "\u041A\u0430\u043A \u044D\u0442\u043E \u0440\u0430\u0431\u043E\u0442\u0430\u0435\u0442",
-          "\u0420\u0459\u0420\u0430\u0420\u00BA \u0421\u040D\u0421\u201A\u0420\u043E \u0421\u20AC\u0420\u00B0\u0420\u00B1\u0420\u043E\u0421\u201A\u0420\u00B0\u0420\u00B5\u0421\u201A"
-        ])
-        if (!howHeading) return
-
-        var section = closestSectionLike(howHeading)
-        if (!section) return
-        section.classList.add("liza-how-it-works")
-
-        section.querySelectorAll(".liza-tg-phone,.liza-tg-chat-header,.liza-tg-msg,.liza-tg-msg--in,.liza-tg-msg--out,.liza-tg-quick,.liza-tg-input").forEach(function (el) {
-          el.classList.remove("liza-tg-phone", "liza-tg-chat-header", "liza-tg-msg", "liza-tg-msg--in", "liza-tg-msg--out", "liza-tg-quick", "liza-tg-input")
-        })
-
-        var inMessages = [
-          "\u0414\u043E\u0431\u0440\u044B\u0439 \u0434\u0435\u043D\u044C",
-          "\u041D\u0430\u043F\u043E\u043C\u0438\u043D\u0430\u0435\u043C",
-          "\u041F\u0440\u0438\u0434\u0435\u0442\u0435",
-          "\u0416\u0434\u0435\u043C \u0432\u0430\u0441",
-          "\u0412\u0430\u0448\u0430 \u0437\u0430\u043F\u0438\u0441\u044C \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0430",
-          "\u0421\u043F\u0430\u0441\u0438\u0431\u043E \u0437\u0430 \u043E\u0446\u0435\u043D\u043A\u0443"
-        ]
-        var outMessages = [
-          "\u0414\u0430, \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0430\u044E",
-          "\u0414\u0430, \u0434\u0430\u0432\u0430\u0439\u0442\u0435",
-          "\u041D\u0435\u0442, \u043E\u0442\u043C\u0435\u043D\u0438\u0442\u044C",
-          "\u0421\u043F\u0430\u0441\u0438\u0431\u043E, \u0431\u0443\u0434\u0443"
-        ]
-
-        var all = textElements(section)
-        var marked = []
-        var headerNode = null
-        var inputNode = null
-
-        all.forEach(function (el) {
-          var txt = normalize(el.textContent)
-          if (!txt) return
-
-          if (outMessages.some(function (m) { return txt.indexOf(normalize(m)) !== -1 })) {
-            el.classList.add("liza-tg-msg", "liza-tg-msg--out")
-            marked.push(el)
-          } else if (inMessages.some(function (m) { return txt.indexOf(normalize(m)) !== -1 })) {
-            el.classList.add("liza-tg-msg", "liza-tg-msg--in")
-            marked.push(el)
-          }
-
-          if (!inputNode && txt.indexOf(normalize("\u0421\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u0435")) !== -1) {
-            inputNode = el
-            el.classList.add("liza-tg-input")
-          }
-
-          if (!headerNode && (txt === normalize("\u041B\u0438\u0437\u0430 \u0411\u043E\u0442") || txt.indexOf(normalize("\u041B\u0438\u0437\u0430 \u0411\u043E\u0442")) !== -1)) {
-            headerNode = el
-          }
-
-          if (txt === normalize("\u0414\u0430, \u043F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0430\u044E") || txt === normalize("\u041D\u0435\u0442, \u043E\u0442\u043C\u0435\u043D\u0438\u0442\u044C")) {
-            el.classList.add("liza-tg-quick")
-          }
-        })
-
-        function findPhoneRoot() {
-          if (!headerNode || !inputNode) return null
-          var p = headerNode.parentElement
-          while (p && p !== section) {
-            if (p.contains(inputNode)) {
-              var r = p.getBoundingClientRect()
-              var ratio = r.width > 0 ? r.height / r.width : 0
-              var msgCount = p.querySelectorAll(".liza-tg-msg").length
-              if (msgCount >= 3 && r.width >= 260 && r.width <= 520 && r.height >= 520 && r.height <= 980 && ratio >= 1.4 && ratio <= 3.2) {
-                return p
-              }
-            }
-            p = p.parentElement
-          }
-          return null
-        }
-
-        var phone = findPhoneRoot()
-        if (!phone) {
-          var fallback = marked
-            .map(function (msg) {
-              var p = msg.parentElement
-              while (p && p !== section) {
-                var r = p.getBoundingClientRect()
-                var ratio = r.width > 0 ? r.height / r.width : 0
-                var msgCount = p.querySelectorAll(".liza-tg-msg").length
-                if (msgCount >= 4 && r.width >= 260 && r.width <= 520 && r.height >= 520 && r.height <= 980 && ratio >= 1.4 && ratio <= 3.2) {
-                  return { el: p, score: Math.abs(r.width - 390) + Math.abs(r.height - 790) }
-                }
-                p = p.parentElement
-              }
-              return null
-            })
-            .filter(Boolean)
-
-          if (fallback.length > 0) {
-            fallback.sort(function (a, b) { return a.score - b.score })
-            phone = fallback[0].el
-          }
-        }
-
-        if (!phone) return
-
-        phone.classList.add("liza-tg-phone")
-
-        if (headerNode && phone.contains(headerNode)) {
-          var hw = headerNode.closest("div")
-          if (hw && phone.contains(hw)) hw.classList.add("liza-tg-chat-header")
-        }
-      }
-
       function rebuildResultSection(root) {
         var heading = findHeading(root, ["Р§С‚Рѕ СЂРµР°Р»СЊРЅРѕ РґР°СЃС‚ СЂРµР·СѓР»СЊС‚Р°С‚", "Р§С‚Рѕ СЂРµР°Р»СЊРЅРѕ РґР°РµС‚ СЂРµР·СѓР»СЊС‚Р°С‚", "Р§С‚Рѕ СЂРµР°Р»СЊРЅРѕ СЂР°Р±РѕС‚Р°РµС‚ РІ РјРѕРґСѓР»Рµ", "Р В§РЎвЂљР С• РЎР‚Р ВµР В°Р В»РЎРЉР Р…Р С•"]);
         if (!heading) return;
@@ -524,7 +339,6 @@
         ];
 
         textElements(root).forEach(function (el) {
-          if (el.closest(".liza-how-it-works")) return;
           var current = (el.textContent || "").trim();
           replacements.forEach(function (r) {
             if (current === r.from) el.textContent = r.to;
@@ -534,25 +348,29 @@
 
       function enhance() {
         if (!document.body) return;
-        styleHowItWorks(document.body);
         applyGlobalCopy(document.body);
         rebuildResultSection(document.body);
         rebuildPricing(document.body);
       }
 
-      var timer = null;
-      var observer = new MutationObserver(function () {
-        if (timer) clearTimeout(timer);
-        timer = setTimeout(enhance, 120);
-      });
-
       window.addEventListener("load", function () {
+        var attempts = 0;
+        var maxAttempts = 12;
+        var retry = setInterval(function () {
+          enhance();
+          attempts += 1;
+          if (document.querySelector(".liza-pricing-widget") && attempts >= 2) {
+            clearInterval(retry);
+          } else if (attempts >= maxAttempts) {
+            clearInterval(retry);
+          }
+        }, 250);
         enhance();
-        observer.observe(document.body, { childList: true, subtree: true });
       }, { once: true });
     })();
   </script>
 </body>
 </html>
+
 
 
