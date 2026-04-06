@@ -263,6 +263,7 @@
 
       var runtimeConfig = clone(DEFAULT_CONFIG);
       var queuedApply = null;
+      var pendingConfigAck = false;
 
       function clone(value) {
         return JSON.parse(JSON.stringify(value));
@@ -660,6 +661,14 @@
         queuedApply = setInterval(function () {
           attempts += 1;
           applyConfigToDom();
+          if (pendingConfigAck && document.querySelector('[data-liza-managed="pricing"]')) {
+            pendingConfigAck = false;
+            try {
+              window.parent.postMessage({ type: "LIZA_CONFIG_APPLIED", version: 1 }, "*");
+            } catch (_e) {
+              // no-op
+            }
+          }
           if (document.querySelector('[data-liza-managed="pricing"]') && attempts > 2) {
             clearInterval(queuedApply);
             queuedApply = null;
@@ -672,6 +681,7 @@
 
       function applyIncomingConfig(rawPayload) {
         runtimeConfig = sanitizeConfig(rawPayload);
+        pendingConfigAck = true;
         scheduleApply();
       }
 

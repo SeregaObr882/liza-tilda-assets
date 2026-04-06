@@ -84,7 +84,11 @@
       return document.querySelector(IFRAME_SELECTOR);
     }
 
+    var applied = false;
+    var timer = null;
+
     function pushConfig() {
+      if (applied) return false;
       var frame = getFrame();
       if (!frame || !frame.contentWindow) return false;
       frame.contentWindow.postMessage(
@@ -96,15 +100,21 @@
 
     window.addEventListener("message", function (event) {
       if (event.origin !== IFRAME_ORIGIN) return;
-      if (!event.data || event.data.type !== "LIZA_CONFIG_IFRAME_READY") return;
-      pushConfig();
+      if (!event.data) return;
+      if (event.data.type === "LIZA_CONFIG_IFRAME_READY") {
+        pushConfig();
+      }
+      if (event.data.type === "LIZA_CONFIG_APPLIED") {
+        applied = true;
+        if (timer) clearInterval(timer);
+      }
     });
 
     var tries = 0;
-    var timer = setInterval(function () {
+    timer = setInterval(function () {
       tries += 1;
       pushConfig();
-      if (tries >= 20) clearInterval(timer);
+      if (applied || tries >= 20) clearInterval(timer);
     }, 400);
 
     var frame = getFrame();
