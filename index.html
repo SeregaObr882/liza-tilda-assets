@@ -346,6 +346,11 @@
         if (old) old.remove();
       }
 
+      function sectionContentRoot(section) {
+        if (!section) return null;
+        return section.firstElementChild || section;
+      }
+
       function sanitizeConfig(raw) {
         var clean = clone(DEFAULT_CONFIG);
         var src = asObject(raw);
@@ -422,12 +427,21 @@
       function renderResultSection(cfg) {
         var section = sectionByIdOrHeading("proof", ["Что реально работает", "Что реально дает результат", "Кейсы"]);
         if (!section) return false;
+        var root = sectionContentRoot(section);
+        if (!root) return false;
+        root.replaceChildren();
 
-        var heading = firstHeading(section);
-        if (!heading) return false;
+        var headingWrap = document.createElement("div");
+        headingWrap.className = "mb-12 text-center";
+        var heading = document.createElement("h2");
+        heading.className = "mb-4 text-5xl font-bold text-gray-900 lg:text-6xl";
         heading.textContent = cfg.copy.resultHeading;
-        hideSectionBody(section, heading);
-        clearManagedBlock(section, "result");
+        var sub = document.createElement("p");
+        sub.className = "text-xl text-gray-700";
+        sub.textContent = "Не абстрактные обещания, а сценарии из раздела «Шаблоны уведомлений».";
+        headingWrap.appendChild(heading);
+        headingWrap.appendChild(sub);
+        root.appendChild(headingWrap);
 
         var wrap = document.createElement("div");
         wrap.className = "liza-results-rebuild";
@@ -463,19 +477,28 @@
         });
 
         wrap.appendChild(grid);
-        section.appendChild(wrap);
+        root.appendChild(wrap);
         return true;
       }
 
       function renderPricingSection(cfg) {
         var section = sectionByIdOrHeading("pricing", ["Тарифы и калькулятор", "Тарифы"]);
         if (!section) return false;
+        var root = sectionContentRoot(section);
+        if (!root) return false;
+        root.replaceChildren();
 
-        var heading = firstHeading(section);
-        if (!heading) return false;
+        var headingWrap = document.createElement("div");
+        headingWrap.className = "text-center mb-12";
+        var heading = document.createElement("h2");
+        heading.className = "text-5xl lg:text-6xl font-bold text-gray-900 mb-4";
         heading.textContent = cfg.copy.pricingHeading;
-        hideSectionBody(section, heading);
-        clearManagedBlock(section, "pricing");
+        var sub = document.createElement("p");
+        sub.className = "text-xl text-gray-700 max-w-3xl mx-auto";
+        sub.textContent = "Выбираете тариф и мессенджеры, цена пересчитывается автоматически.";
+        headingWrap.appendChild(heading);
+        headingWrap.appendChild(sub);
+        root.appendChild(headingWrap);
 
         var widget = document.createElement("div");
         widget.className = "liza-pricing-widget";
@@ -607,7 +630,7 @@
 
         widget.addEventListener("change", syncPricing);
         syncPricing();
-        section.appendChild(widget);
+        root.appendChild(widget);
         return true;
       }
 
