@@ -263,13 +263,21 @@
         },
         behavior: {
           rebuildManagedSections: false,
-          fullTextControl: false
+          fullTextControl: false,
+          fullTextMode: "replace",
+          placeholderWithKey: false
         }
       };
 
       var runtimeConfig = clone(DEFAULT_CONFIG);
       var queuedApply = null;
       var pendingConfigAck = false;
+      var forceFullTextExport = false;
+      try {
+        forceFullTextExport = new URLSearchParams(window.location.search).get("liza_fulltext_export") === "1";
+      } catch (_e) {
+        forceFullTextExport = false;
+      }
 
       function clone(value) {
         return JSON.parse(JSON.stringify(value));
@@ -434,6 +442,12 @@
         }
         if (srcBehavior && typeof srcBehavior.fullTextControl === "boolean") {
           clean.behavior.fullTextControl = srcBehavior.fullTextControl;
+        }
+        if (srcBehavior && (srcBehavior.fullTextMode === "replace" || srcBehavior.fullTextMode === "collect")) {
+          clean.behavior.fullTextMode = srcBehavior.fullTextMode;
+        }
+        if (srcBehavior && typeof srcBehavior.placeholderWithKey === "boolean") {
+          clean.behavior.placeholderWithKey = srcBehavior.placeholderWithKey;
         }
 
         return clean;
@@ -669,14 +683,6 @@
         return applied;
       }
 
-      var textKeyCounter = 1;
-
-      function nextTextKey() {
-        var key = "t" + String(textKeyCounter).padStart(4, "0");
-        textKeyCounter += 1;
-        return key;
-      }
-
       function shouldSkipNodeByParent(parent) {
         if (!parent || !parent.tagName) return true;
         var tag = parent.tagName.toLowerCase();
@@ -685,22 +691,83 @@
         return false;
       }
 
+      function cssPath(el) {
+        var parts = [];
+        var node = el;
+        while (node && node.nodeType === 1 && node !== document.body) {
+          var tag = node.tagName.toLowerCase();
+          var part = tag;
+          if (node.id) {
+            part += "#" + node.id;
+            parts.unshift(part);
+            break;
+          } else {
+            var index = 1;
+            var sib = node;
+            while ((sib = sib.previousElementSibling)) {
+              if (sib.tagName === node.tagName) index += 1;
+            }
+            part += ":nth-of-type(" + index + ")";
+            parts.unshift(part);
+          }
+          node = node.parentElement;
+        }
+        parts.unshift("body");
+        return parts.join(">");
+      }
+
+      function hashPath(str) {
+        var h = 2166136261;
+        for (var i = 0; i < str.length; i += 1) {
+          h ^= str.charCodeAt(i);
+          h += (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24);
+        }
+        return (h >>> 0).toString(16);
+      }
+
       function ensureOwnerKey(el) {
         if (!el.hasAttribute("data-liza-text-owner")) {
-          el.setAttribute("data-liza-text-owner", nextTextKey());
+          var key = "o_" + hashPath(cssPath(el));
+          el.setAttribute("data-liza-text-owner", key);
         }
         return el.getAttribute("data-liza-text-owner");
       }
 
-      function pickMappedValue(map, key, placeholder) {
-        return safeString(map[key], placeholder, 600);
+      function pickMappedValue(map, key, placeholder, withKey) {
+        var candidate = safeString(map[key], "", 600);
+        if (candidate) return candidate;
+        if (withKey) return placeholder + " [" + key + "]";
+        return placeholder;
+      }
+
+      function upsertExportMapNode(mapObj) {
+        var id = "liza-fulltext-map-json";
+        var node = document.getElementById(id);
+        if (!node) {
+          node = document.createElement("script");
+          node.id = id;
+          node.type = "application/json";
+          document.body.appendChild(node);
+        }
+        node.textContent = JSON.stringify(mapObj, null, 2);
+      }
+
+      function enforceRuntimeFlags(cfg) {
+        if (!cfg || !cfg.behavior) return;
+        if (forceFullTextExport) {
+          cfg.behavior.fullTextControl = true;
+          cfg.behavior.fullTextMode = "collect";
+        }
       }
 
       function applyFullTextControl(cfg) {
         if (!cfg.behavior || !cfg.behavior.fullTextControl) return 0;
         var fullMap = asObject(cfg.copy.fullTextMap) || {};
         var placeholder = safeString(cfg.copy.fullTextPlaceholder, "placeholder", 300);
+        var isCollectMode = cfg.behavior.fullTextMode === "collect";
+        var withKey = !!cfg.behavior.placeholderWithKey;
         var ownerNodeIndex = new Map();
+        var exportMap = {};
         var applied = 0;
 
         var walker = document.createTreeWalker(
@@ -725,11 +792,14 @@
           var nodeIdx = (ownerNodeIndex.get(ownerKey) || 0) + 1;
           ownerNodeIndex.set(ownerKey, nodeIdx);
           var textKey = ownerKey + ".n" + nodeIdx;
-          var textValue = pickMappedValue(fullMap, textKey, placeholder);
-
-          if (textNode.nodeValue !== textValue) {
-            textNode.nodeValue = textValue;
-            applied += 1;
+          if (isCollectMode) {
+            exportMap[textKey] = (textNode.nodeValue || "").replace(/\s+/g, " ").trim();
+          } else {
+            var textValue = pickMappedValue(fullMap, textKey, placeholder, withKey);
+            if (textNode.nodeValue !== textValue) {
+              textNode.nodeValue = textValue;
+              applied += 1;
+            }
           }
           textNode = walker.nextNode();
         }
@@ -741,19 +811,27 @@
 
           if (el.hasAttribute("placeholder")) {
             var phKey = ownerKey + ".placeholder";
-            var phValue = pickMappedValue(fullMap, phKey, placeholder);
-            if (el.getAttribute("placeholder") !== phValue) {
-              el.setAttribute("placeholder", phValue);
-              applied += 1;
+            if (isCollectMode) {
+              exportMap[phKey] = el.getAttribute("placeholder") || "";
+            } else {
+              var phValue = pickMappedValue(fullMap, phKey, placeholder, withKey);
+              if (el.getAttribute("placeholder") !== phValue) {
+                el.setAttribute("placeholder", phValue);
+                applied += 1;
+              }
             }
           }
 
           if (el.hasAttribute("aria-label")) {
             var ariaKey = ownerKey + ".aria";
-            var ariaValue = pickMappedValue(fullMap, ariaKey, placeholder);
-            if (el.getAttribute("aria-label") !== ariaValue) {
-              el.setAttribute("aria-label", ariaValue);
-              applied += 1;
+            if (isCollectMode) {
+              exportMap[ariaKey] = el.getAttribute("aria-label") || "";
+            } else {
+              var ariaValue = pickMappedValue(fullMap, ariaKey, placeholder, withKey);
+              if (el.getAttribute("aria-label") !== ariaValue) {
+                el.setAttribute("aria-label", ariaValue);
+                applied += 1;
+              }
             }
           }
 
@@ -761,21 +839,39 @@
             var inputType = (el.getAttribute("type") || "text").toLowerCase();
             if (["hidden", "checkbox", "radio", "range", "file", "color", "date", "datetime-local", "month", "time", "week"].indexOf(inputType) === -1) {
               var valKey = ownerKey + ".value";
-              var valValue = pickMappedValue(fullMap, valKey, placeholder);
-              if (el.value !== valValue) {
-                el.value = valValue;
-                applied += 1;
+              if (isCollectMode) {
+                exportMap[valKey] = el.value || "";
+              } else {
+                var valValue = pickMappedValue(fullMap, valKey, placeholder, withKey);
+                if (el.value !== valValue) {
+                  el.value = valValue;
+                  applied += 1;
+                }
               }
             }
           } else if (el.tagName === "TEXTAREA") {
             var taKey = ownerKey + ".value";
-            var taValue = pickMappedValue(fullMap, taKey, placeholder);
-            if (el.value !== taValue) {
-              el.value = taValue;
-              applied += 1;
+            if (isCollectMode) {
+              exportMap[taKey] = el.value || "";
+            } else {
+              var taValue = pickMappedValue(fullMap, taKey, placeholder, withKey);
+              if (el.value !== taValue) {
+                el.value = taValue;
+                applied += 1;
+              }
             }
           }
         });
+
+        if (isCollectMode) {
+          upsertExportMapNode(exportMap);
+          try {
+            window.parent.postMessage({ type: "LIZA_FULLTEXT_EXPORT_READY", payload: exportMap }, "*");
+          } catch (_e) {
+            // no-op
+          }
+          return Object.keys(exportMap).length;
+        }
 
         return applied;
       }
@@ -820,6 +916,7 @@
 
       function applyIncomingConfig(rawPayload) {
         runtimeConfig = sanitizeConfig(rawPayload);
+        enforceRuntimeFlags(runtimeConfig);
         pendingConfigAck = true;
         scheduleApply();
       }
@@ -849,6 +946,7 @@
       });
 
       window.addEventListener("load", function () {
+        enforceRuntimeFlags(runtimeConfig);
         scheduleApply();
         try {
           window.parent.postMessage({ type: "LIZA_CONFIG_IFRAME_READY", version: 1 }, "*");

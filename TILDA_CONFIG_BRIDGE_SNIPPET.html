@@ -1,7 +1,7 @@
 ﻿<div style="width:100%;margin:0;padding:0;">
   <iframe
     id="liza-frame"
-    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.5"
+    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.7"
     style="display:block;width:100%;height:100vh;border:0;background:#f2f5fb;"
     loading="eager"
     referrerpolicy="no-referrer-when-downgrade"
@@ -11,36 +11,47 @@
 <script>
   (function () {
     var FRAME_ID = "liza-frame";
-    var MAX_TRIES = 60;
+    var MAX_TRIES = 80;
     var RETRY_MS = 500;
 
-    // ТЕСТОВЫЙ РЕЖИМ:
-    // 1) НЕ перерисовывает блоки (дизайн/верстка остаются как в GitHub)
-    // 2) Включает глобальную подмену ВСЕГО текста в плейсхолдер,
-    //    чтобы проверить что контент идет только из CONFIG.
+    // true: если FULL_TEXT_MAP пустой, сначала снимем карту текста из страницы,
+    // потом сразу применим ее как конфиг (текст останется исходным, но уже через map).
+    var AUTO_BOOTSTRAP_FULL_MAP = true;
+
+    // ВСТАВЛЯЙТЕ СЮДА БОЛЬШУЮ КАРТУ ТЕКСТА (ключ -> значение).
+    // Если оставить пустым и AUTO_BOOTSTRAP_FULL_MAP=true, карта соберется автоматически на лету.
+    var FULL_TEXT_MAP = {
+      // "o_abc123.n1": "Ваш текст",
+      // "o_abc123.placeholder": "Ваш placeholder",
+      // "o_abc123.value": "Значение поля"
+    };
+
     var CONFIG = {
       behavior: {
         rebuildManagedSections: false,
-        fullTextControl: true
+        fullTextControl: true,
+        fullTextMode: "replace",
+        placeholderWithKey: false
       },
       copy: {
         fullTextPlaceholder: "placeholder",
-        fullTextMap: {
-          // Пример для адресной замены после включения fullTextControl:
-          // "t0001": "Лиза Бот",
-          // "t0002": "Тарифы и калькулятор"
-        },
+        fullTextMap: FULL_TEXT_MAP,
         selectorTextMap: {
-          // Опционально: точечные правки по селекторам:
-          // "#hero h1": "Лиза Бот для салонов красоты",
-          // "#lead-form h2": "Попробуйте Лиза Бот бесплатно 3 дня"
+          // Точечные правки (опционально):
+          // "#hero h1": "Лиза Бот для салонов"
         }
       }
     };
 
+    if (AUTO_BOOTSTRAP_FULL_MAP && Object.keys(FULL_TEXT_MAP).length === 0) {
+      CONFIG.behavior.fullTextMode = "collect";
+      CONFIG.behavior.placeholderWithKey = false;
+    }
+
     var tries = 0;
     var applied = false;
     var timer = null;
+    var mapBootstrapped = false;
 
     function getFrame() {
       return document.getElementById(FRAME_ID);
@@ -66,7 +77,6 @@
     }
 
     function pushConfig() {
-      if (applied) return false;
       var frame = getFrame();
       if (!frame || !frame.contentWindow) return false;
       frame.contentWindow.postMessage({ type: "LIZA_CONFIG_V1", payload: CONFIG }, getFrameOrigin());
@@ -77,8 +87,13 @@
       if (timer) clearInterval(timer);
       timer = setInterval(function () {
         tries += 1;
+        if (applied && CONFIG.behavior.fullTextMode === "replace") {
+          clearInterval(timer);
+          timer = null;
+          return;
+        }
         pushConfig();
-        if (applied || tries >= MAX_TRIES) {
+        if (tries >= MAX_TRIES) {
           clearInterval(timer);
           timer = null;
         }
@@ -88,7 +103,10 @@
     function bindFrameLoad() {
       var frame = getFrame();
       if (!frame) return false;
-      frame.addEventListener("load", pushConfig);
+      frame.addEventListener("load", function () {
+        applied = false;
+        pushConfig();
+      });
       return true;
     }
 
@@ -99,13 +117,31 @@
       var data = parseData(event.data);
       if (!data || typeof data !== "object") return;
 
-      if (data.type === "LIZA_CONFIG_IFRAME_READY") pushConfig();
+      if (data.type === "LIZA_CONFIG_IFRAME_READY") {
+        pushConfig();
+      }
+
+      if (data.type === "LIZA_FULLTEXT_EXPORT_READY") {
+        if (!AUTO_BOOTSTRAP_FULL_MAP || mapBootstrapped) return;
+        var exported = data.payload && typeof data.payload === "object" ? data.payload : {};
+        CONFIG.copy.fullTextMap = exported;
+        CONFIG.behavior.fullTextMode = "replace";
+        mapBootstrapped = true;
+
+        // Можно открыть консоль и скопировать map для постоянного хранения в Tilda:
+        window.__LIZA_FULL_TEXT_MAP = exported;
+        try {
+          console.log("LIZA fullTextMap generated:", Object.keys(exported).length, "keys");
+        } catch (_e) {
+          // no-op
+        }
+
+        applied = false;
+        pushConfig();
+      }
+
       if (data.type === "LIZA_CONFIG_APPLIED") {
         applied = true;
-        if (timer) {
-          clearInterval(timer);
-          timer = null;
-        }
       }
     });
 
