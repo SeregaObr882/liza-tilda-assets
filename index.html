@@ -671,38 +671,109 @@
 
       var textKeyCounter = 1;
 
-      function isTextCandidate(el) {
-        if (!el || !el.tagName) return false;
-        var tag = el.tagName.toLowerCase();
-        if (["script", "style", "noscript", "template", "svg", "path", "img"].indexOf(tag) !== -1) return false;
-        if (el.children && el.children.length > 0) return false;
-        var raw = (el.textContent || "").replace(/\s+/g, " ").trim();
-        return !!raw;
-      }
-
       function nextTextKey() {
         var key = "t" + String(textKeyCounter).padStart(4, "0");
         textKeyCounter += 1;
         return key;
       }
 
+      function shouldSkipNodeByParent(parent) {
+        if (!parent || !parent.tagName) return true;
+        var tag = parent.tagName.toLowerCase();
+        if (["script", "style", "noscript", "template", "svg", "path"].indexOf(tag) !== -1) return true;
+        if (parent.closest && parent.closest("script,style,noscript,template,svg,path")) return true;
+        return false;
+      }
+
+      function ensureOwnerKey(el) {
+        if (!el.hasAttribute("data-liza-text-owner")) {
+          el.setAttribute("data-liza-text-owner", nextTextKey());
+        }
+        return el.getAttribute("data-liza-text-owner");
+      }
+
+      function pickMappedValue(map, key, placeholder) {
+        return safeString(map[key], placeholder, 600);
+      }
+
       function applyFullTextControl(cfg) {
         if (!cfg.behavior || !cfg.behavior.fullTextControl) return 0;
         var fullMap = asObject(cfg.copy.fullTextMap) || {};
         var placeholder = safeString(cfg.copy.fullTextPlaceholder, "placeholder", 300);
-        var elements = Array.prototype.slice.call(document.body.querySelectorAll("*"));
+        var ownerNodeIndex = new Map();
         var applied = 0;
 
-        elements.forEach(function (el) {
-          if (!isTextCandidate(el)) return;
-          if (!el.hasAttribute("data-liza-text-key")) {
-            el.setAttribute("data-liza-text-key", nextTextKey());
+        var walker = document.createTreeWalker(
+          document.body,
+          NodeFilter.SHOW_TEXT,
+          {
+            acceptNode: function (node) {
+              var parent = node.parentElement;
+              if (!parent) return NodeFilter.FILTER_REJECT;
+              if (shouldSkipNodeByParent(parent)) return NodeFilter.FILTER_REJECT;
+              var raw = (node.nodeValue || "").replace(/\s+/g, " ").trim();
+              if (!raw) return NodeFilter.FILTER_REJECT;
+              return NodeFilter.FILTER_ACCEPT;
+            }
           }
-          var key = el.getAttribute("data-liza-text-key");
-          var value = safeString(fullMap[key], placeholder, 600);
-          if (el.textContent !== value) {
-            el.textContent = value;
+        );
+
+        var textNode = walker.nextNode();
+        while (textNode) {
+          var owner = textNode.parentElement;
+          var ownerKey = ensureOwnerKey(owner);
+          var nodeIdx = (ownerNodeIndex.get(ownerKey) || 0) + 1;
+          ownerNodeIndex.set(ownerKey, nodeIdx);
+          var textKey = ownerKey + ".n" + nodeIdx;
+          var textValue = pickMappedValue(fullMap, textKey, placeholder);
+
+          if (textNode.nodeValue !== textValue) {
+            textNode.nodeValue = textValue;
             applied += 1;
+          }
+          textNode = walker.nextNode();
+        }
+
+        var controls = Array.prototype.slice.call(document.body.querySelectorAll("input,textarea,button,[placeholder],[aria-label]"));
+        controls.forEach(function (el) {
+          if (shouldSkipNodeByParent(el)) return;
+          var ownerKey = ensureOwnerKey(el);
+
+          if (el.hasAttribute("placeholder")) {
+            var phKey = ownerKey + ".placeholder";
+            var phValue = pickMappedValue(fullMap, phKey, placeholder);
+            if (el.getAttribute("placeholder") !== phValue) {
+              el.setAttribute("placeholder", phValue);
+              applied += 1;
+            }
+          }
+
+          if (el.hasAttribute("aria-label")) {
+            var ariaKey = ownerKey + ".aria";
+            var ariaValue = pickMappedValue(fullMap, ariaKey, placeholder);
+            if (el.getAttribute("aria-label") !== ariaValue) {
+              el.setAttribute("aria-label", ariaValue);
+              applied += 1;
+            }
+          }
+
+          if (el.tagName === "INPUT") {
+            var inputType = (el.getAttribute("type") || "text").toLowerCase();
+            if (["hidden", "checkbox", "radio", "range", "file", "color", "date", "datetime-local", "month", "time", "week"].indexOf(inputType) === -1) {
+              var valKey = ownerKey + ".value";
+              var valValue = pickMappedValue(fullMap, valKey, placeholder);
+              if (el.value !== valValue) {
+                el.value = valValue;
+                applied += 1;
+              }
+            }
+          } else if (el.tagName === "TEXTAREA") {
+            var taKey = ownerKey + ".value";
+            var taValue = pickMappedValue(fullMap, taKey, placeholder);
+            if (el.value !== taValue) {
+              el.value = taValue;
+              applied += 1;
+            }
           }
         });
 
