@@ -716,6 +716,24 @@
         return parts.join(">");
       }
 
+      function slugify(value) {
+        return String(value || "")
+          .toLowerCase()
+          .replace(/[^a-z0-9а-яё]+/gi, "_")
+          .replace(/^_+|_+$/g, "")
+          .slice(0, 60) || "common";
+      }
+
+      function inferSectionName(el) {
+        var section = el.closest("section,article,main,header,footer,[id],[data-slot]");
+        if (!section) return "common";
+        if (section.id) return slugify(section.id);
+        var heading = section.querySelector("h1,h2,h3");
+        if (heading) return slugify((heading.textContent || "").trim());
+        var cls = section.className && typeof section.className === "string" ? section.className.split(/\s+/)[0] : "";
+        return slugify(cls || section.tagName.toLowerCase());
+      }
+
       function hashPath(str) {
         var h = 2166136261;
         for (var i = 0; i < str.length; i += 1) {
@@ -768,6 +786,7 @@
         var withKey = !!cfg.behavior.placeholderWithKey;
         var ownerNodeIndex = new Map();
         var exportMap = {};
+        var exportMeta = {};
         var applied = 0;
 
         var walker = document.createTreeWalker(
@@ -793,7 +812,14 @@
           ownerNodeIndex.set(ownerKey, nodeIdx);
           var textKey = ownerKey + ".n" + nodeIdx;
           if (isCollectMode) {
-            exportMap[textKey] = (textNode.nodeValue || "").replace(/\s+/g, " ").trim();
+            var srcText = (textNode.nodeValue || "").replace(/\s+/g, " ").trim();
+            exportMap[textKey] = srcText;
+            exportMeta[textKey] = {
+              kind: "text",
+              section: inferSectionName(owner),
+              selector: cssPath(owner),
+              sample: srcText.slice(0, 120)
+            };
           } else {
             var textValue = pickMappedValue(fullMap, textKey, placeholder, withKey);
             if (textNode.nodeValue !== textValue) {
@@ -812,7 +838,14 @@
           if (el.hasAttribute("placeholder")) {
             var phKey = ownerKey + ".placeholder";
             if (isCollectMode) {
-              exportMap[phKey] = el.getAttribute("placeholder") || "";
+              var phText = el.getAttribute("placeholder") || "";
+              exportMap[phKey] = phText;
+              exportMeta[phKey] = {
+                kind: "placeholder",
+                section: inferSectionName(el),
+                selector: cssPath(el),
+                sample: phText.slice(0, 120)
+              };
             } else {
               var phValue = pickMappedValue(fullMap, phKey, placeholder, withKey);
               if (el.getAttribute("placeholder") !== phValue) {
@@ -825,7 +858,14 @@
           if (el.hasAttribute("aria-label")) {
             var ariaKey = ownerKey + ".aria";
             if (isCollectMode) {
-              exportMap[ariaKey] = el.getAttribute("aria-label") || "";
+              var ariaText = el.getAttribute("aria-label") || "";
+              exportMap[ariaKey] = ariaText;
+              exportMeta[ariaKey] = {
+                kind: "aria",
+                section: inferSectionName(el),
+                selector: cssPath(el),
+                sample: ariaText.slice(0, 120)
+              };
             } else {
               var ariaValue = pickMappedValue(fullMap, ariaKey, placeholder, withKey);
               if (el.getAttribute("aria-label") !== ariaValue) {
@@ -840,7 +880,14 @@
             if (["hidden", "checkbox", "radio", "range", "file", "color", "date", "datetime-local", "month", "time", "week"].indexOf(inputType) === -1) {
               var valKey = ownerKey + ".value";
               if (isCollectMode) {
-                exportMap[valKey] = el.value || "";
+                var inText = el.value || "";
+                exportMap[valKey] = inText;
+                exportMeta[valKey] = {
+                  kind: "value",
+                  section: inferSectionName(el),
+                  selector: cssPath(el),
+                  sample: inText.slice(0, 120)
+                };
               } else {
                 var valValue = pickMappedValue(fullMap, valKey, placeholder, withKey);
                 if (el.value !== valValue) {
@@ -852,7 +899,14 @@
           } else if (el.tagName === "TEXTAREA") {
             var taKey = ownerKey + ".value";
             if (isCollectMode) {
-              exportMap[taKey] = el.value || "";
+              var taText = el.value || "";
+              exportMap[taKey] = taText;
+              exportMeta[taKey] = {
+                kind: "value",
+                section: inferSectionName(el),
+                selector: cssPath(el),
+                sample: taText.slice(0, 120)
+              };
             } else {
               var taValue = pickMappedValue(fullMap, taKey, placeholder, withKey);
               if (el.value !== taValue) {
@@ -866,7 +920,7 @@
         if (isCollectMode) {
           upsertExportMapNode(exportMap);
           try {
-            window.parent.postMessage({ type: "LIZA_FULLTEXT_EXPORT_READY", payload: exportMap }, "*");
+            window.parent.postMessage({ type: "LIZA_FULLTEXT_EXPORT_READY", payload: exportMap, meta: exportMeta }, "*");
           } catch (_e) {
             // no-op
           }

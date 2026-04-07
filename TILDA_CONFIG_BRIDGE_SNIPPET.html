@@ -13,18 +13,178 @@
     var FRAME_ID = "liza-frame";
     var MAX_TRIES = 80;
     var RETRY_MS = 500;
+    var STORAGE_KEY = "liza_fulltext_map_v1";
+    var SHOW_CONFIG_PANEL = true;
 
-    // true: если FULL_TEXT_MAP пустой, сначала снимем карту текста из страницы,
-    // потом сразу применим ее как конфиг (текст останется исходным, но уже через map).
+    // true: если нет готовой карты, сначала снимем ее автоматически.
     var AUTO_BOOTSTRAP_FULL_MAP = true;
 
-    // ВСТАВЛЯЙТЕ СЮДА БОЛЬШУЮ КАРТУ ТЕКСТА (ключ -> значение).
-    // Если оставить пустым и AUTO_BOOTSTRAP_FULL_MAP=true, карта соберется автоматически на лету.
+    // Полная карта (опционально): ключ -> текст.
     var FULL_TEXT_MAP = {
       // "o_abc123.n1": "Ваш текст",
       // "o_abc123.placeholder": "Ваш placeholder",
       // "o_abc123.value": "Значение поля"
     };
+
+    // Редактируй в первую очередь ЭТОТ объект: он накладывается поверх полной карты.
+    var TEXT_OVERRIDES = {
+      // "o_abc123.n1": "Новый текст"
+    };
+
+    function asObject(value) {
+      return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+    }
+
+    function mergeMaps(baseMap, overridesMap) {
+      var merged = {};
+      var base = asObject(baseMap);
+      var over = asObject(overridesMap);
+      Object.keys(base).forEach(function (k) { merged[k] = base[k]; });
+      Object.keys(over).forEach(function (k) { merged[k] = over[k]; });
+      return merged;
+    }
+
+    function readStoredMap() {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return {};
+        var parsed = JSON.parse(raw);
+        return asObject(parsed);
+      } catch (_e) {
+        return {};
+      }
+    }
+
+    function writeStoredMap(map) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(asObject(map)));
+      } catch (_e) {
+        // no-op
+      }
+    }
+
+    function escJs(value) {
+      return String(value || "")
+        .replace(/\\/g, "\\\\")
+        .replace(/"/g, '\\"')
+        .replace(/\n/g, "\\n");
+    }
+
+    function buildConfigTemplate(map, meta) {
+      var m = asObject(map);
+      var info = asObject(meta);
+      var grouped = {};
+
+      Object.keys(m).sort().forEach(function (key) {
+        var item = info[key] && typeof info[key] === "object" ? info[key] : {};
+        var section = (item.section || "common").toString();
+        if (!grouped[section]) grouped[section] = [];
+        grouped[section].push({
+          key: key,
+          value: m[key],
+          kind: item.kind || "text",
+          selector: item.selector || ""
+        });
+      });
+
+      var lines = [];
+      lines.push("// Полный текстовый конфиг (автогенерация)");
+      lines.push("// Пример комментариев по секциям: hero, как_это_работает, формы, и т.д.");
+      lines.push("var FULL_TEXT_MAP = {");
+
+      Object.keys(grouped).sort().forEach(function (section) {
+        lines.push("");
+        lines.push("  // === Секция: " + section + " ===");
+        grouped[section].forEach(function (row) {
+          if (row.selector) lines.push("  // " + row.kind + " | " + row.selector);
+          lines.push('  "' + escJs(row.key) + '": "' + escJs(row.value) + '",');
+        });
+      });
+
+      lines.push("};");
+      return lines.join("\n");
+    }
+
+    function copyText(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text);
+      }
+      return Promise.reject(new Error("clipboard unavailable"));
+    }
+
+    function renderConfigPanel(text) {
+      if (!SHOW_CONFIG_PANEL) return;
+      var id = "liza-config-panel";
+      var existing = document.getElementById(id);
+      if (existing) {
+        var ta0 = existing.querySelector("textarea");
+        if (ta0) ta0.value = text;
+        return;
+      }
+
+      var panel = document.createElement("div");
+      panel.id = id;
+      panel.style.cssText = [
+        "position:fixed",
+        "right:16px",
+        "bottom:16px",
+        "width:min(560px,92vw)",
+        "height:min(420px,70vh)",
+        "background:#ffffff",
+        "border:1px solid #d9e5fb",
+        "border-radius:14px",
+        "box-shadow:0 16px 40px rgba(16,37,58,0.25)",
+        "z-index:2147483647",
+        "display:flex",
+        "flex-direction:column",
+        "overflow:hidden"
+      ].join(";");
+
+      var head = document.createElement("div");
+      head.style.cssText = "padding:10px 12px;border-bottom:1px solid #edf2fb;font:600 14px/1.3 Arial,sans-serif;color:#10253a;display:flex;justify-content:space-between;align-items:center;gap:10px;";
+      head.textContent = "Полный текстовый конфиг";
+
+      var btnWrap = document.createElement("div");
+      btnWrap.style.cssText = "display:flex;gap:8px;";
+      var copyBtn = document.createElement("button");
+      copyBtn.type = "button";
+      copyBtn.textContent = "Скопировать";
+      copyBtn.style.cssText = "border:0;border-radius:8px;padding:6px 10px;background:#2f66ff;color:#fff;font:600 12px Arial;cursor:pointer;";
+      var closeBtn = document.createElement("button");
+      closeBtn.type = "button";
+      closeBtn.textContent = "Закрыть";
+      closeBtn.style.cssText = "border:1px solid #d7e3fb;border-radius:8px;padding:6px 10px;background:#fff;color:#244261;font:600 12px Arial;cursor:pointer;";
+      btnWrap.appendChild(copyBtn);
+      btnWrap.appendChild(closeBtn);
+      head.appendChild(btnWrap);
+
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.cssText = "flex:1;border:0;resize:none;outline:none;padding:12px;font:12px/1.45 Consolas,monospace;color:#11263b;background:#f8fbff;";
+
+      copyBtn.addEventListener("click", function () {
+        copyText(ta.value).then(function () {
+          copyBtn.textContent = "Скопировано";
+          setTimeout(function () { copyBtn.textContent = "Скопировать"; }, 1400);
+        }).catch(function () {
+          ta.focus();
+          ta.select();
+          copyBtn.textContent = "Выделено";
+          setTimeout(function () { copyBtn.textContent = "Скопировать"; }, 1400);
+        });
+      });
+
+      closeBtn.addEventListener("click", function () {
+        panel.remove();
+      });
+
+      panel.appendChild(head);
+      panel.appendChild(ta);
+      document.body.appendChild(panel);
+    }
+
+    var baseMap = Object.keys(FULL_TEXT_MAP).length > 0 ? asObject(FULL_TEXT_MAP) : readStoredMap();
+    var mergedMap = mergeMaps(baseMap, TEXT_OVERRIDES);
 
     var CONFIG = {
       behavior: {
@@ -35,7 +195,7 @@
       },
       copy: {
         fullTextPlaceholder: "placeholder",
-        fullTextMap: FULL_TEXT_MAP,
+        fullTextMap: mergedMap,
         selectorTextMap: {
           // Точечные правки (опционально):
           // "#hero h1": "Лиза Бот для салонов"
@@ -43,7 +203,7 @@
       }
     };
 
-    if (AUTO_BOOTSTRAP_FULL_MAP && Object.keys(FULL_TEXT_MAP).length === 0) {
+    if (AUTO_BOOTSTRAP_FULL_MAP && Object.keys(baseMap).length === 0) {
       CONFIG.behavior.fullTextMode = "collect";
       CONFIG.behavior.placeholderWithKey = false;
     }
@@ -124,17 +284,13 @@
       if (data.type === "LIZA_FULLTEXT_EXPORT_READY") {
         if (!AUTO_BOOTSTRAP_FULL_MAP || mapBootstrapped) return;
         var exported = data.payload && typeof data.payload === "object" ? data.payload : {};
-        CONFIG.copy.fullTextMap = exported;
+        var meta = data.meta && typeof data.meta === "object" ? data.meta : {};
+        writeStoredMap(exported);
+        baseMap = exported;
+        CONFIG.copy.fullTextMap = mergeMaps(baseMap, TEXT_OVERRIDES);
         CONFIG.behavior.fullTextMode = "replace";
         mapBootstrapped = true;
-
-        // Можно открыть консоль и скопировать map для постоянного хранения в Tilda:
-        window.__LIZA_FULL_TEXT_MAP = exported;
-        try {
-          console.log("LIZA fullTextMap generated:", Object.keys(exported).length, "keys");
-        } catch (_e) {
-          // no-op
-        }
+        renderConfigPanel(buildConfigTemplate(baseMap, meta));
 
         applied = false;
         pushConfig();
