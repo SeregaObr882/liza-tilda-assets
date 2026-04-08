@@ -14,30 +14,99 @@
       display: none !important;
     }
 
-    .liza-results-rebuild {
+    .liza-benefits-rebuild,
+    .liza-outcomes-rebuild {
       margin-top: 24px;
       display: grid;
       gap: 18px;
     }
 
-    .liza-results-lead {
-      background: linear-gradient(140deg, #eef5ff 0%, #f4f7ff 55%, #f7f2ff 100%);
-      border: 1px solid #cfe0ff;
-      border-radius: 24px;
-      padding: 22px 24px;
-      color: #1b3a5d;
-      line-height: 1.55;
-      font-size: clamp(1rem, 0.93rem + 0.26vw, 1.08rem);
-      box-shadow: 0 16px 34px rgba(58, 90, 140, 0.12);
+    .liza-benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
     }
 
-    .liza-results-grid {
+    .liza-benefit-card {
+      border: 1px solid #d9e5f8;
+      background: linear-gradient(170deg, #ffffff 0%, #f7faff 100%);
+      border-radius: 28px;
+      padding: 20px;
+      box-shadow: 0 14px 30px rgba(33, 73, 121, 0.1);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .liza-benefit-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 34px rgba(33, 73, 121, 0.14);
+      border-color: #bdd4fb;
+    }
+
+    .liza-benefit-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 14px 34px rgba(52, 91, 179, 0.32);
+      background: linear-gradient(138deg, #2f66ff 0%, #7a33ff 100%);
+      margin-bottom: 14px;
+    }
+
+    .liza-benefit-icon svg {
+      width: 32px;
+      height: 32px;
+      stroke: currentColor;
+    }
+
+    .liza-benefit-kicker {
+      margin: 0 0 8px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      border: 1px solid #d2e2ff;
+      background: #eef4ff;
+      color: #2a64d1;
+      padding: 4px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .liza-benefit-title {
+      margin: 0 0 8px;
+      color: #10253a;
+      font-size: 1.24rem;
+      font-weight: 850;
+      line-height: 1.28;
+    }
+
+    .liza-benefit-copy {
+      margin: 0;
+      color: #3b4e64;
+      font-size: 1rem;
+      line-height: 1.54;
+    }
+
+    .liza-outcomes-lead {
+      background: #eef3ff;
+      border: 1px solid #cfe0ff;
+      border-radius: 18px;
+      padding: 18px 20px;
+      color: #2a4665;
+      line-height: 1.53;
+      font-size: 1rem;
+    }
+
+    .liza-outcomes-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
     }
 
-    .liza-results-card {
+    .liza-outcome-card {
       border: 1px solid #d8e6fb;
       background: #fff;
       border-radius: 24px;
@@ -46,35 +115,39 @@
       transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
     }
 
-    .liza-results-card:hover {
+    .liza-outcome-card:hover {
       transform: translateY(-2px);
       box-shadow: 0 18px 34px rgba(34, 79, 132, 0.14);
       border-color: #bfd5ff;
     }
 
-    .liza-results-head {
+    .liza-outcome-head {
       display: flex;
       align-items: center;
       gap: 12px;
       margin-bottom: 10px;
     }
 
-    .liza-results-icon {
+    .liza-outcome-icon {
       width: 52px;
       height: 52px;
       border-radius: 16px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 26px;
-      font-weight: 700;
       color: #fff;
       box-shadow: 0 10px 24px rgba(56, 92, 187, 0.34);
       background: linear-gradient(135deg, #2f66ff 0%, #7a33ff 100%);
       flex-shrink: 0;
     }
 
-    .liza-results-title {
+    .liza-outcome-icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+    }
+
+    .liza-outcome-title {
       margin: 0;
       color: #10253a;
       font-size: 1.12rem;
@@ -82,14 +155,14 @@
       line-height: 1.28;
     }
 
-    .liza-results-copy {
+    .liza-outcome-copy {
       margin: 0;
       color: #3b4e64;
       font-size: 0.97rem;
       line-height: 1.5;
     }
 
-    .liza-results-metric {
+    .liza-outcome-metric {
       margin-top: 12px;
       display: inline-flex;
       align-items: center;
@@ -100,51 +173,6 @@
       color: #1f5fce;
       background: #edf4ff;
       border: 1px solid #d7e7ff;
-    }
-
-    .liza-launch-card {
-      border-radius: 24px;
-      border: 1px solid #d5e4ff;
-      background: #fff;
-      box-shadow: 0 12px 28px rgba(34, 79, 132, 0.1);
-      padding: 20px;
-    }
-
-    .liza-launch-title {
-      margin: 0 0 12px;
-      font-size: 1.18rem;
-      font-weight: 800;
-      color: #10253a;
-    }
-
-    .liza-launch-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .liza-launch-step {
-      border: 1px solid #e2ecff;
-      border-radius: 16px;
-      background: #f8fbff;
-      padding: 12px;
-      color: #304861;
-      font-size: 0.93rem;
-      line-height: 1.45;
-    }
-
-    .liza-launch-num {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 24px;
-      height: 24px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #2f66ff 0%, #7a33ff 100%);
-      color: #fff;
-      font-weight: 800;
-      font-size: 0.82rem;
-      margin-bottom: 8px;
     }
 
     .liza-pricing-shell {
@@ -214,11 +242,25 @@
       line-height: 1.36;
     }
 
+    .liza-plan-desc {
+      margin: 4px 0 0;
+      color: #5d6f84;
+      font-size: 0.84rem;
+      line-height: 1.35;
+    }
+
     .liza-pricing-row-title {
       margin: 2px 0 2px;
       font-size: 0.94rem;
       font-weight: 800;
       color: #233f5b;
+    }
+
+    .liza-pricing-row-hint {
+      margin: -2px 0 2px;
+      color: #5b6f87;
+      font-size: 0.84rem;
+      line-height: 1.42;
     }
 
     .liza-messenger-row {
@@ -242,6 +284,33 @@
       cursor: pointer;
       transition: .18s ease;
     }
+
+    .liza-ms-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .liza-ms-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.67rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      box-shadow: 0 6px 14px rgba(46, 74, 130, 0.22);
+      flex-shrink: 0;
+    }
+
+    .liza-ms-icon--telegram { background: linear-gradient(135deg, #2aabee 0%, #1b7fd6 100%); }
+    .liza-ms-icon--whatsapp { background: linear-gradient(135deg, #2ec866 0%, #1d9a4c 100%); }
+    .liza-ms-icon--vk { background: linear-gradient(135deg, #3a6fe8 0%, #2855c3 100%); }
+    .liza-ms-icon--max { background: linear-gradient(135deg, #5f7cff 0%, #7c3bff 100%); }
+    .liza-ms-icon--default { background: linear-gradient(135deg, #4f7fff 0%, #5a62d4 100%); }
 
     .liza-ms-item.active {
       border-color: #5692ff;
@@ -358,9 +427,9 @@
     }
 
     @media (max-width: 1024px) {
-      .liza-results-grid,
+      .liza-benefits-grid,
+      .liza-outcomes-grid,
       .liza-pricing-grid,
-      .liza-launch-grid,
       .liza-pricing-note-grid,
       .liza-messenger-row {
         grid-template-columns: 1fr;
@@ -375,32 +444,114 @@
     (function () {
       var DEFAULT_CONFIG = {
         copy: {
-          resultHeading: "Почему нас выбирают",
-          resultLead: "Лиза берёт рутинные сообщения на себя, помогает держать запись в порядке и освобождает время команды.",
+          navHow: "Как это работает",
+          navBenefits: "Почему выбирают",
+          navOutcomes: "Что меняется",
+          navPricing: "Тарифы",
+          navFaq: "FAQ",
+          headerCta: "Запустить бесплатно на 3 дня",
+          heroCta: "Запустить бесплатно на 3 дня",
+          benefitsHeading: "Почему салонам удобно с Лизой",
+          benefitsLead: "Лиза берёт на себя часть ежедневной переписки с клиентами и помогает держать запись в порядке без лишней ручной работы.",
+          benefitsCards: [
+            {
+              kicker: "Ежедневная рутина",
+              title: "Не нужно вручную писать одно и то же",
+              body: "Напоминания, подтверждения и сообщения после визита уходят автоматически. Администратору не приходится весь день повторять одни и те же фразы.",
+              icon: "repeat"
+            },
+            {
+              kicker: "Привычные каналы",
+              title: "Клиент получает сообщение там, где ему удобно",
+              body: "Людям не нужно осваивать новый сервис: сообщение приходит в знакомый мессенджер, и ответ можно дать сразу в чате.",
+              icon: "chat"
+            },
+            {
+              kicker: "Запуск без перегруза",
+              title: "Можно начать спокойно, без тяжёлого внедрения",
+              body: "Подключаем Лизу, настраиваем нужные сценарии и помогаем запуститься быстро, без длинного проекта и лишней путаницы.",
+              icon: "rocket"
+            },
+            {
+              kicker: "Под ваш формат",
+              title: "Сценарии собираются под ваш ритм работы",
+              body: "У салонов разный график, услуги и тон общения. Лиза помогает настроить сообщения именно под вашу команду и ваших клиентов.",
+              icon: "settings"
+            },
+            {
+              kicker: "Прозрачный старт",
+              title: "Не обязательно сразу брать максимум",
+              body: "Можно начать с базового тарифа, выбрать один мессенджер и расшириться позже, когда станет понятен рабочий объём.",
+              icon: "chart"
+            },
+            {
+              kicker: "Контроль команды",
+              title: "Администратор видит, где нужен живой ответ",
+              body: "Если клиенту важно ответить быстро или нужно вмешательство команды, это не теряется в общем потоке сообщений.",
+              icon: "bell"
+            }
+          ],
+          outcomesHeading: "Что меняется после запуска",
+          outcomesLead: "Лиза не заменяет команду. Она снимает часть рутины, помогает не упускать клиентов и делает запись спокойнее и понятнее.",
+          outcomesCards: [
+            {
+              title: "Клиенты реже забывают о записи",
+              body: "Когда о визите напоминают заранее, меньше ситуаций, в которых человек просто пропускает запись из-за занятости.",
+              metric: "Меньше сорванных записей",
+              icon: "calendar"
+            },
+            {
+              title: "Администратор меньше сидит в ручной переписке",
+              body: "Не нужно ежедневно вручную подтверждать визиты, напоминать о записи и отправлять одинаковые сообщения после посещения.",
+              metric: "Больше времени на работу с клиентами",
+              icon: "clock"
+            },
+            {
+              title: "Отзывы собирать проще и вовремя",
+              body: "После визита Лиза сама просит клиента оценить сервис. Так проще не упускать довольных клиентов и быстрее замечать проблемные ситуации.",
+              metric: "Больше живой обратной связи",
+              icon: "star"
+            },
+            {
+              title: "Клиенты не пропадают после отмены или паузы",
+              body: "Если запись отменили или человек давно не возвращался, Лиза помогает аккуратно снова выйти на связь и продолжить разговор.",
+              metric: "Проще вернуть клиента в диалог",
+              icon: "refresh"
+            }
+          ],
+          resultHeading: "Что меняется после запуска",
+          resultLead: "Лиза не заменяет команду. Она снимает часть рутины, помогает не упускать клиентов и делает запись спокойнее и понятнее.",
           resultCards: [
             {
-              title: "Клиенты чаще доходят до визита",
-              body: "Напоминания и подтверждения приходят вовремя, поэтому меньше записей срывается из-за простой забывчивости.",
-              metric: "Фокус: стабильная запись"
+              title: "Клиенты реже забывают о записи",
+              body: "Когда о визите напоминают заранее, меньше ситуаций, в которых человек пропускает запись.",
+              metric: "Меньше сорванных записей",
+              icon: "calendar"
             },
             {
-              title: "Меньше ручной переписки у администратора",
-              body: "Однотипные подтверждения, догоняющие сообщения и сервисные уведомления уходят в автоматизацию.",
-              metric: "Фокус: время команды"
+              title: "Администратор меньше сидит в ручной переписке",
+              body: "Не нужно ежедневно вручную подтверждать визиты и отправлять однотипные сообщения.",
+              metric: "Больше времени на работу с клиентами",
+              icon: "clock"
             },
             {
-              title: "Отзывы собираются быстрее и аккуратнее",
-              body: "После визита клиент получает запрос оценки, а негативные ответы не теряются и доходят до администратора.",
-              metric: "Фокус: рейтинг и лояльность"
+              title: "Отзывы собирать проще",
+              body: "После визита Лиза сама просит клиента оценить сервис и помогает быстрее увидеть обратную связь.",
+              metric: "Больше живой обратной связи",
+              icon: "star"
             },
             {
-              title: "Возврат после отмен и пауз",
-              body: "Если запись отменили или клиент давно не приходил, запускается сценарий возврата в диалог.",
-              metric: "Фокус: повторные визиты"
+              title: "Клиенты не пропадают после отмены",
+              body: "Если запись отменили или человек давно не возвращался, Лиза помогает снова выйти на связь.",
+              metric: "Проще вернуть клиента в диалог",
+              icon: "refresh"
             }
           ],
           pricingHeading: "Тарифы и калькулятор",
+          pricingSubheading: "Выберите тариф и мессенджеры. Цена считается сразу, без скрытых условий и мелкого шрифта.",
           pricingRowTitle: "Выберите тариф и мессенджеры",
+          pricingRowHint: "В тарифы Старт и Оптимальный входит один мессенджер на выбор. Каждый дополнительный — 750 ₽ в месяц. В Полном тарифе все мессенджеры уже включены.",
+          pricingCalcHint: "Итоговая цена зависит от тарифа и количества выбранных мессенджеров.",
           summaryIncludedLabel: "Включено",
           summarySelectedLabel: "Выбрано",
           summaryExtraLabel: "Доплата",
@@ -414,35 +565,38 @@
           extraMessengerPrice: 750,
           plans: [
             {
-              key: "minimal",
-              name: "Минимальный",
+              key: "start",
+              name: "Старт",
               basePrice: 999,
-              messagesLabel: "до 300 сообщений в месяц",
+              description: "Для небольшого салона или спокойного запуска",
+              messagesLabel: "300 сообщений в месяц",
               includedMessengers: 1,
               allMessengersIncluded: false
             },
             {
-              key: "standard",
-              name: "Стандарт",
+              key: "optimal",
+              name: "Оптимальный",
               basePrice: 1999,
-              messagesLabel: "до 1000 сообщений в месяц",
+              description: "Для салона, где запись идёт каждый день",
+              messagesLabel: "1000 сообщений в месяц",
               includedMessengers: 1,
               allMessengersIncluded: false
             },
             {
-              key: "max",
-              name: "Большой",
+              key: "full",
+              name: "Полный",
               basePrice: 3999,
+              description: "Для активной команды и полной связки каналов",
               messagesLabel: "до 3000 сообщений в месяц",
               includedMessengers: 99,
               allMessengersIncluded: true
             }
           ],
           messengers: [
-            { key: "telegram", label: "Telegram", checkedByDefault: true },
-            { key: "whatsapp", label: "WhatsApp", checkedByDefault: false },
-            { key: "vk", label: "ВКонтакте", checkedByDefault: false },
-            { key: "max", label: "MAX", checkedByDefault: false }
+            { key: "telegram", label: "Telegram", icon: "TG", checkedByDefault: true },
+            { key: "whatsapp", label: "WhatsApp", icon: "WA", checkedByDefault: false },
+            { key: "vk", label: "ВКонтакте", icon: "VK", checkedByDefault: false },
+            { key: "max", label: "MAX", icon: "MX", checkedByDefault: false }
           ]
         },
         behavior: {
@@ -547,7 +701,19 @@
 
       function sectionContentRoot(section) {
         if (!section) return null;
-        return section.firstElementChild || section;
+        var directChildren = Array.prototype.slice.call(section.children || []);
+        var maxW = directChildren.find(function (el) {
+          return typeof el.className === "string" && /max-w-\[/.test(el.className) && !!el.querySelector("h1,h2,h3,h4");
+        });
+        if (maxW) return maxW;
+        maxW = directChildren.find(function (el) {
+          return typeof el.className === "string" && /max-w-\[/.test(el.className);
+        });
+        if (maxW) return maxW;
+        var firstContent = directChildren.find(function (el) {
+          return !el.classList.contains("liza-old-content");
+        });
+        return firstContent || section.firstElementChild || section;
       }
 
       function sanitizeConfig(raw) {
@@ -557,14 +723,54 @@
 
         var srcCopy = asObject(src.copy);
         if (srcCopy) {
+          clean.copy.navHow = safeString(srcCopy.navHow, clean.copy.navHow, 64);
+          clean.copy.navBenefits = safeString(srcCopy.navBenefits, clean.copy.navBenefits, 64);
+          clean.copy.navOutcomes = safeString(srcCopy.navOutcomes, clean.copy.navOutcomes, 64);
+          clean.copy.navPricing = safeString(srcCopy.navPricing, clean.copy.navPricing, 64);
+          clean.copy.navFaq = safeString(srcCopy.navFaq, clean.copy.navFaq, 64);
+          clean.copy.headerCta = safeString(srcCopy.headerCta, clean.copy.headerCta, 90);
+          clean.copy.heroCta = safeString(srcCopy.heroCta, clean.copy.heroCta, 90);
+          clean.copy.benefitsHeading = safeString(srcCopy.benefitsHeading, clean.copy.benefitsHeading, 160);
+          clean.copy.benefitsLead = safeString(srcCopy.benefitsLead, clean.copy.benefitsLead, 520);
+          clean.copy.outcomesHeading = safeString(srcCopy.outcomesHeading, clean.copy.outcomesHeading, 160);
+          clean.copy.outcomesLead = safeString(srcCopy.outcomesLead, clean.copy.outcomesLead, 520);
           clean.copy.resultHeading = safeString(srcCopy.resultHeading, clean.copy.resultHeading, 160);
           clean.copy.resultLead = safeString(srcCopy.resultLead, clean.copy.resultLead, 480);
           clean.copy.pricingHeading = safeString(srcCopy.pricingHeading, clean.copy.pricingHeading, 120);
+          clean.copy.pricingSubheading = safeString(srcCopy.pricingSubheading, clean.copy.pricingSubheading, 300);
           clean.copy.pricingRowTitle = safeString(srcCopy.pricingRowTitle, clean.copy.pricingRowTitle, 120);
+          clean.copy.pricingRowHint = safeString(srcCopy.pricingRowHint, clean.copy.pricingRowHint, 420);
+          clean.copy.pricingCalcHint = safeString(srcCopy.pricingCalcHint, clean.copy.pricingCalcHint, 240);
           clean.copy.summaryIncludedLabel = safeString(srcCopy.summaryIncludedLabel, clean.copy.summaryIncludedLabel, 80);
           clean.copy.summarySelectedLabel = safeString(srcCopy.summarySelectedLabel, clean.copy.summarySelectedLabel, 80);
           clean.copy.summaryExtraLabel = safeString(srcCopy.summaryExtraLabel, clean.copy.summaryExtraLabel, 80);
           clean.copy.fullTextPlaceholder = safeString(srcCopy.fullTextPlaceholder, clean.copy.fullTextPlaceholder, 300);
+
+          if (Array.isArray(srcCopy.benefitsCards) && srcCopy.benefitsCards.length > 0) {
+            clean.copy.benefitsCards = srcCopy.benefitsCards.slice(0, 6).map(function (card, idx) {
+              var fallback = DEFAULT_CONFIG.copy.benefitsCards[idx] || DEFAULT_CONFIG.copy.benefitsCards[0];
+              var srcCard = asObject(card) || {};
+              return {
+                kicker: safeString(srcCard.kicker, fallback.kicker, 80),
+                title: safeString(srcCard.title, fallback.title, 140),
+                body: safeString(srcCard.body, fallback.body, 420),
+                icon: safeString(srcCard.icon, fallback.icon, 32)
+              };
+            });
+          }
+
+          if (Array.isArray(srcCopy.outcomesCards) && srcCopy.outcomesCards.length > 0) {
+            clean.copy.outcomesCards = srcCopy.outcomesCards.slice(0, 4).map(function (card, idx) {
+              var fallback = DEFAULT_CONFIG.copy.outcomesCards[idx] || DEFAULT_CONFIG.copy.outcomesCards[0];
+              var srcCard = asObject(card) || {};
+              return {
+                title: safeString(srcCard.title, fallback.title, 140),
+                body: safeString(srcCard.body, fallback.body, 420),
+                metric: safeString(srcCard.metric, fallback.metric, 140),
+                icon: safeString(srcCard.icon, fallback.icon, 32)
+              };
+            });
+          }
 
           if (Array.isArray(srcCopy.resultCards) && srcCopy.resultCards.length > 0) {
             clean.copy.resultCards = srcCopy.resultCards.slice(0, 6).map(function (card, idx) {
@@ -573,7 +779,20 @@
               return {
                 title: safeString(srcCard.title, fallback.title, 120),
                 body: safeString(srcCard.body, fallback.body, 360),
-                metric: safeString(srcCard.metric, fallback.metric, 120)
+                metric: safeString(srcCard.metric, fallback.metric, 120),
+                icon: safeString(srcCard.icon, fallback.icon || "calendar", 32)
+              };
+            });
+          }
+
+          if ((!Array.isArray(srcCopy.outcomesCards) || srcCopy.outcomesCards.length === 0) && Array.isArray(srcCopy.resultCards) && srcCopy.resultCards.length > 0) {
+            clean.copy.outcomesCards = clean.copy.resultCards.slice(0, 4).map(function (card, idx) {
+              var fallback = DEFAULT_CONFIG.copy.outcomesCards[idx] || DEFAULT_CONFIG.copy.outcomesCards[0];
+              return {
+                title: card.title || fallback.title,
+                body: card.body || fallback.body,
+                metric: card.metric || fallback.metric,
+                icon: card.icon || fallback.icon
               };
             });
           }
@@ -600,6 +819,7 @@
                 key: safeString(srcPlan.key, fallback.key, 32),
                 name: safeString(srcPlan.name, fallback.name, 64),
                 basePrice: safeNumber(srcPlan.basePrice, fallback.basePrice, 0, 1000000),
+                description: safeString(srcPlan.description, fallback.description || "", 220),
                 messagesLabel: safeString(srcPlan.messagesLabel, fallback.messagesLabel, 120),
                 includedMessengers: safeNumber(srcPlan.includedMessengers, fallback.includedMessengers, 0, 99),
                 allMessengersIncluded: Boolean(srcPlan.allMessengersIncluded)
@@ -614,6 +834,7 @@
               return {
                 key: safeString(srcItem.key, fallback.key, 32),
                 label: safeString(srcItem.label, fallback.label, 48),
+                icon: safeString(srcItem.icon, fallback.icon || "", 8),
                 checkedByDefault: typeof srcItem.checkedByDefault === "boolean" ? srcItem.checkedByDefault : fallback.checkedByDefault
               };
             });
@@ -641,8 +862,31 @@
         return String(value) + " " + cfg.pricing.currency;
       }
 
-      function renderResultSection(cfg) {
-        var section = sectionByIdOrHeading("proof", ["Почему нас выбирают", "Что меняется после запуска", "Результат", "Кейсы"]);
+      function iconSvgPath(iconName) {
+        var map = {
+          repeat: '<path d="m17 2 4 4-4 4"></path><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v2a4 4 0 0 1-4 4H3"></path>',
+          chat: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path><path d="M8 12h.01"></path><path d="M12 12h.01"></path><path d="M16 12h.01"></path>',
+          rocket: '<path d="M4.5 16.5c-1.5 1.26-2 3.24-2 3.24s1.98-.5 3.24-2c1.02-1.2.88-2.1.88-2.1s-.9-.14-2.12.86Z"></path><path d="m12 15-3-3a25.1 25.1 0 0 1 7-9 25.1 25.1 0 0 1 5 5 25.1 25.1 0 0 1-9 7Z"></path><path d="M9 12H4a2 2 0 0 0-2 2v2"></path><path d="M12 15v5a2 2 0 0 0 2 2h2"></path>',
+          settings: '<circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"></path>',
+          chart: '<path d="M3 3v18h18"></path><path d="M8 14v4"></path><path d="M12 10v8"></path><path d="M16 6v12"></path>',
+          bell: '<path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path>',
+          calendar: '<path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path>',
+          clock: '<circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path>',
+          star: '<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a.53.53 0 0 0 .4.29l5.16.75a.53.53 0 0 1 .294.903l-3.735 3.64a.53.53 0 0 0-.152.47l.882 5.14a.53.53 0 0 1-.77.56l-4.617-2.427a.53.53 0 0 0-.494 0L7.136 18.727a.53.53 0 0 1-.77-.56l.882-5.14a.53.53 0 0 0-.152-.47L3.36 8.917a.53.53 0 0 1 .294-.903l5.16-.75a.53.53 0 0 0 .4-.29z"></path>',
+          refresh: '<path d="M3 2v6h6"></path><path d="M21 12A9 9 0 0 0 6 5.3L3 8"></path><path d="M21 22v-6h-6"></path><path d="M3 12a9 9 0 0 0 15 6.7L21 16"></path>'
+        };
+        return map[iconName] || map.chat;
+      }
+
+      function createIconSpan(className, iconName) {
+        var span = document.createElement("span");
+        span.className = className;
+        span.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + iconSvgPath(iconName) + "</svg>";
+        return span;
+      }
+
+      function renderBenefitsSection(cfg) {
+        var section = sectionByIdOrHeading("benefits", ["Почему салонам удобно с Лизой", "Почему Лиза", "Преимущества"]);
         if (!section) return false;
         var root = sectionContentRoot(section);
         if (!root) return false;
@@ -652,50 +896,102 @@
         headingWrap.className = "mb-12 text-center";
         var heading = document.createElement("h2");
         heading.className = "mb-4 text-5xl font-bold text-gray-900 lg:text-6xl";
-        heading.textContent = cfg.copy.resultHeading;
+        heading.textContent = cfg.copy.benefitsHeading;
         var sub = document.createElement("p");
         sub.className = "text-xl text-gray-700 max-w-4xl mx-auto";
-        sub.textContent = "Практичный блок о том, что бизнес получает на запуске, без абстрактных обещаний.";
+        sub.textContent = cfg.copy.benefitsLead;
         headingWrap.appendChild(heading);
         headingWrap.appendChild(sub);
         root.appendChild(headingWrap);
 
         var wrap = document.createElement("div");
-        wrap.className = "liza-results-rebuild";
-        wrap.setAttribute("data-liza-managed", "result");
+        wrap.className = "liza-benefits-rebuild";
+        wrap.setAttribute("data-liza-managed", "benefits");
 
-        var lead = document.createElement("div");
-        lead.className = "liza-results-lead";
-        lead.textContent = cfg.copy.resultLead;
-        wrap.appendChild(lead);
-
-        var icons = ["✓", "⏱", "★", "↺", "💬", "⚑"];
         var grid = document.createElement("div");
-        grid.className = "liza-results-grid";
-        cfg.copy.resultCards.forEach(function (card, idx) {
+        grid.className = "liza-benefits-grid";
+        var fallbackIcons = ["repeat", "chat", "rocket", "settings", "chart", "bell"];
+        cfg.copy.benefitsCards.forEach(function (card, idx) {
           var article = document.createElement("article");
-          article.className = "liza-results-card";
+          article.className = "liza-benefit-card";
 
-          var head = document.createElement("div");
-          head.className = "liza-results-head";
-
-          var icon = document.createElement("span");
-          icon.className = "liza-results-icon";
-          icon.textContent = icons[idx % icons.length];
+          article.appendChild(createIconSpan("liza-benefit-icon", card.icon || fallbackIcons[idx % fallbackIcons.length]));
+          if (card.kicker) {
+            var kicker = document.createElement("p");
+            kicker.className = "liza-benefit-kicker";
+            kicker.textContent = card.kicker;
+            article.appendChild(kicker);
+          }
 
           var t = document.createElement("h3");
-          t.className = "liza-results-title";
+          t.className = "liza-benefit-title";
+          t.textContent = card.title;
+          article.appendChild(t);
+
+          var b = document.createElement("p");
+          b.className = "liza-benefit-copy";
+          b.textContent = card.body;
+          article.appendChild(b);
+
+          grid.appendChild(article);
+        });
+        wrap.appendChild(grid);
+        root.appendChild(wrap);
+        return true;
+      }
+
+      function renderOutcomeSection(cfg) {
+        var section = sectionByIdOrHeading("proof", ["Что меняется после запуска", "Почему нас выбирают", "Результат", "Кейсы"]);
+        if (!section) return false;
+        var root = sectionContentRoot(section);
+        if (!root) return false;
+        root.replaceChildren();
+
+        var headingWrap = document.createElement("div");
+        headingWrap.className = "mb-12 text-center";
+        var heading = document.createElement("h2");
+        heading.className = "mb-4 text-5xl font-bold text-gray-900 lg:text-6xl";
+        heading.textContent = cfg.copy.outcomesHeading || cfg.copy.resultHeading;
+        var sub = document.createElement("p");
+        sub.className = "text-xl text-gray-700 max-w-4xl mx-auto";
+        sub.textContent = cfg.copy.outcomesLead || cfg.copy.resultLead;
+        headingWrap.appendChild(heading);
+        headingWrap.appendChild(sub);
+        root.appendChild(headingWrap);
+
+        var wrap = document.createElement("div");
+        wrap.className = "liza-outcomes-rebuild";
+        wrap.setAttribute("data-liza-managed", "outcomes");
+
+        var lead = document.createElement("div");
+        lead.className = "liza-outcomes-lead";
+        lead.textContent = cfg.copy.outcomesLead || cfg.copy.resultLead;
+        wrap.appendChild(lead);
+
+        var grid = document.createElement("div");
+        grid.className = "liza-outcomes-grid";
+        var cards = Array.isArray(cfg.copy.outcomesCards) && cfg.copy.outcomesCards.length ? cfg.copy.outcomesCards : cfg.copy.resultCards;
+        var fallbackIcons = ["calendar", "clock", "star", "refresh"];
+        cards.forEach(function (card, idx) {
+          var article = document.createElement("article");
+          article.className = "liza-outcome-card";
+
+          var head = document.createElement("div");
+          head.className = "liza-outcome-head";
+
+          var t = document.createElement("h3");
+          t.className = "liza-outcome-title";
           t.textContent = card.title;
 
-          head.appendChild(icon);
+          head.appendChild(createIconSpan("liza-outcome-icon", card.icon || fallbackIcons[idx % fallbackIcons.length]));
           head.appendChild(t);
 
           var b = document.createElement("p");
-          b.className = "liza-results-copy";
+          b.className = "liza-outcome-copy";
           b.textContent = card.body;
 
           var m = document.createElement("div");
-          m.className = "liza-results-metric";
+          m.className = "liza-outcome-metric";
           m.textContent = card.metric;
 
           article.appendChild(head);
@@ -704,36 +1000,32 @@
           grid.appendChild(article);
         });
         wrap.appendChild(grid);
-
-        var launch = document.createElement("div");
-        launch.className = "liza-launch-card";
-        var launchTitle = document.createElement("h3");
-        launchTitle.className = "liza-launch-title";
-        launchTitle.textContent = "Как запускаем за 1 день";
-        launch.appendChild(launchTitle);
-
-        var steps = [
-          "Синхронизируем с YClients и проверяем каналы отправки.",
-          "Настраиваем шаблоны и таймеры под ваши услуги.",
-          "Включаем сценарии и смотрим первые ответы клиентов."
-        ];
-        var launchGrid = document.createElement("div");
-        launchGrid.className = "liza-launch-grid";
-        steps.forEach(function (text, idx) {
-          var step = document.createElement("div");
-          step.className = "liza-launch-step";
-          var num = document.createElement("span");
-          num.className = "liza-launch-num";
-          num.textContent = String(idx + 1);
-          step.appendChild(num);
-          step.appendChild(document.createTextNode(text));
-          launchGrid.appendChild(step);
-        });
-        launch.appendChild(launchGrid);
-        wrap.appendChild(launch);
-
         root.appendChild(wrap);
         return true;
+      }
+
+      function applyNavigationAndCtaCopy(cfg) {
+        function setAll(selector, text) {
+          if (!text) return 0;
+          var count = 0;
+          document.querySelectorAll(selector).forEach(function (node) {
+            if (node && node.textContent !== text) {
+              node.textContent = text;
+              count += 1;
+            }
+          });
+          return count;
+        }
+
+        var changed = 0;
+        changed += setAll('a[href="#how-it-works"]', cfg.copy.navHow);
+        changed += setAll('a[href="#benefits"]', cfg.copy.navBenefits);
+        changed += setAll('a[href="#proof"]', cfg.copy.navOutcomes);
+        changed += setAll('a[href="#pricing"]', cfg.copy.navPricing);
+        changed += setAll('a[href="#faq"]', cfg.copy.navFaq);
+        changed += setAll("header a[href=\"#lead-form\"]", cfg.copy.headerCta);
+        changed += setAll("#hero a[href=\"#lead-form\"]", cfg.copy.heroCta || cfg.copy.headerCta);
+        return changed;
       }
 
       function renderPricingSection(cfg) {
@@ -750,7 +1042,7 @@
         heading.textContent = cfg.copy.pricingHeading;
         var sub = document.createElement("p");
         sub.className = "text-xl text-gray-700 max-w-3xl mx-auto";
-        sub.textContent = "Выбираете тариф и каналы. Цена зависит только от тарифа и количества подключенных мессенджеров.";
+        sub.textContent = cfg.copy.pricingSubheading;
         headingWrap.appendChild(heading);
         headingWrap.appendChild(sub);
         root.appendChild(headingWrap);
@@ -784,15 +1076,20 @@
           price.className = "liza-plan-price";
           price.textContent = fmtMoney(plan.basePrice, cfg);
 
+          var desc = document.createElement("p");
+          desc.className = "liza-plan-desc";
+          desc.textContent = plan.description || "";
+
           var meta = document.createElement("p");
           meta.className = "liza-plan-meta";
           meta.appendChild(document.createTextNode(plan.messagesLabel));
           meta.appendChild(document.createElement("br"));
-          meta.appendChild(document.createTextNode(plan.allMessengersIncluded ? "Все мессенджеры включены" : "1 мессенджер включен"));
+          meta.appendChild(document.createTextNode(plan.allMessengersIncluded ? "Все мессенджеры включены" : "1 мессенджер на выбор"));
 
           label.appendChild(input);
           label.appendChild(name);
           label.appendChild(price);
+          label.appendChild(desc);
           label.appendChild(meta);
           plansGrid.appendChild(label);
         });
@@ -814,23 +1111,39 @@
           checkbox.value = ms.key;
           checkbox.checked = !!ms.checkedByDefault;
 
+          var icon = document.createElement("span");
+          var iconClass = "liza-ms-icon liza-ms-icon--" + (ms.key || "default");
+          if (!/liza-ms-icon--(telegram|whatsapp|vk|max)/.test(iconClass)) iconClass = "liza-ms-icon liza-ms-icon--default";
+          icon.className = iconClass;
+          icon.textContent = ms.icon || (ms.key || "?").slice(0, 2).toUpperCase();
+
+          var labelText = document.createElement("span");
+          labelText.className = "liza-ms-label";
+          labelText.appendChild(icon);
+          labelText.appendChild(document.createTextNode(ms.label));
+
           msLabel.appendChild(checkbox);
-          msLabel.appendChild(document.createTextNode(ms.label));
+          msLabel.appendChild(labelText);
           messengerRow.appendChild(msLabel);
         });
         widget.appendChild(messengerRow);
+
+        var rowHint = document.createElement("p");
+        rowHint.className = "liza-pricing-row-hint";
+        rowHint.textContent = cfg.copy.pricingRowHint;
+        widget.appendChild(rowHint);
 
         var noteGrid = document.createElement("div");
         noteGrid.className = "liza-pricing-note-grid";
 
         var note1 = document.createElement("div");
         note1.className = "liza-pricing-note";
-        note1.innerHTML = "<strong>Логика расчета</strong>Стоимость = тариф + доплата за дополнительные мессенджеры.";
+        note1.innerHTML = "<strong>Как считается</strong>" + cfg.copy.pricingCalcHint;
         noteGrid.appendChild(note1);
 
         var note2 = document.createElement("div");
         note2.className = "liza-pricing-note";
-        note2.innerHTML = "<strong>Без скрытых условий</strong>Цена обновляется сразу по выбранным параметрам.";
+        note2.innerHTML = "<strong>Без скрытых условий</strong>Цена пересчитывается сразу по выбранному тарифу и каналам.";
         noteGrid.appendChild(note2);
         widget.appendChild(noteGrid);
 
@@ -1220,14 +1533,16 @@
       function applyConfigToDom() {
         if (!document.body) return false;
         var changed = false;
+        var navChanged = applyNavigationAndCtaCopy(runtimeConfig);
         if (runtimeConfig.behavior && runtimeConfig.behavior.rebuildManagedSections) {
-          var resultOk = renderResultSection(runtimeConfig);
+          var benefitsOk = renderBenefitsSection(runtimeConfig);
+          var resultOk = renderOutcomeSection(runtimeConfig);
           var pricingOk = renderPricingSection(runtimeConfig);
-          changed = resultOk || pricingOk;
+          changed = benefitsOk || resultOk || pricingOk;
         }
         var fullTextAppliedCount = applyFullTextControl(runtimeConfig);
         var textAppliedCount = applySelectorOverrides(runtimeConfig);
-        return changed || fullTextAppliedCount > 0 || textAppliedCount > 0;
+        return changed || navChanged > 0 || fullTextAppliedCount > 0 || textAppliedCount > 0;
       }
 
       function scheduleApply() {
