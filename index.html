@@ -15,81 +15,171 @@
     }
 
     .liza-results-rebuild {
-      margin-top: 18px;
+      margin-top: 24px;
       display: grid;
-      gap: 14px;
+      gap: 18px;
     }
 
     .liza-results-lead {
-      background: linear-gradient(135deg, #f0f7ff 0%, #eef2ff 100%);
-      border: 1px solid #d2e3ff;
-      border-radius: 22px;
-      padding: 20px 22px;
-      color: #17324e;
-      line-height: 1.5;
-      font-size: clamp(1rem, 0.9rem + 0.28vw, 1.08rem);
+      background: linear-gradient(140deg, #eef5ff 0%, #f4f7ff 55%, #f7f2ff 100%);
+      border: 1px solid #cfe0ff;
+      border-radius: 24px;
+      padding: 22px 24px;
+      color: #1b3a5d;
+      line-height: 1.55;
+      font-size: clamp(1rem, 0.93rem + 0.26vw, 1.08rem);
+      box-shadow: 0 16px 34px rgba(58, 90, 140, 0.12);
     }
 
     .liza-results-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+      gap: 14px;
     }
 
     .liza-results-card {
       border: 1px solid #d8e6fb;
       background: #fff;
-      border-radius: 20px;
-      padding: 16px 16px 14px;
-      box-shadow: 0 8px 22px rgba(34, 79, 132, 0.08);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 12px 28px rgba(34, 79, 132, 0.1);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .liza-results-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 34px rgba(34, 79, 132, 0.14);
+      border-color: #bfd5ff;
+    }
+
+    .liza-results-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .liza-results-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(56, 92, 187, 0.34);
+      background: linear-gradient(135deg, #2f66ff 0%, #7a33ff 100%);
+      flex-shrink: 0;
     }
 
     .liza-results-title {
-      margin: 0 0 8px;
+      margin: 0;
       color: #10253a;
-      font-size: 1.06rem;
+      font-size: 1.12rem;
       font-weight: 800;
-      line-height: 1.24;
+      line-height: 1.28;
     }
 
     .liza-results-copy {
       margin: 0;
       color: #3b4e64;
-      font-size: 0.95rem;
-      line-height: 1.45;
+      font-size: 0.97rem;
+      line-height: 1.5;
     }
 
     .liza-results-metric {
-      margin-top: 10px;
-      color: #1f63da;
-      font-size: 0.9rem;
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.86rem;
       font-weight: 700;
+      color: #1f5fce;
+      background: #edf4ff;
+      border: 1px solid #d7e7ff;
+    }
+
+    .liza-launch-card {
+      border-radius: 24px;
+      border: 1px solid #d5e4ff;
+      background: #fff;
+      box-shadow: 0 12px 28px rgba(34, 79, 132, 0.1);
+      padding: 20px;
+    }
+
+    .liza-launch-title {
+      margin: 0 0 12px;
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: #10253a;
+    }
+
+    .liza-launch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .liza-launch-step {
+      border: 1px solid #e2ecff;
+      border-radius: 16px;
+      background: #f8fbff;
+      padding: 12px;
+      color: #304861;
+      font-size: 0.93rem;
+      line-height: 1.45;
+    }
+
+    .liza-launch-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #2f66ff 0%, #7a33ff 100%);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.82rem;
+      margin-bottom: 8px;
+    }
+
+    .liza-pricing-shell {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.75fr) minmax(280px, 1fr);
+      gap: 16px;
+      align-items: stretch;
     }
 
     .liza-pricing-widget {
-      margin-top: 18px;
       background: #fff;
-      border-radius: 24px;
+      border-radius: 26px;
       border: 1px solid #d8e5fb;
-      box-shadow: 0 16px 36px rgba(35, 77, 126, 0.1);
-      padding: 18px;
+      box-shadow: 0 16px 36px rgba(35, 77, 126, 0.12);
+      padding: 20px;
       color: #12263a;
+      display: grid;
+      gap: 12px;
     }
 
     .liza-pricing-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
-      margin-bottom: 14px;
     }
 
     .liza-plan {
       border: 1px solid #d8e5fb;
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 12px;
       background: #f9fbff;
       cursor: pointer;
       transition: 0.18s ease;
+      min-height: 140px;
     }
 
     .liza-plan input {
@@ -97,89 +187,182 @@
     }
 
     .liza-plan.active {
-      background: linear-gradient(135deg, #eff5ff 0%, #e9f0ff 100%);
+      background: linear-gradient(135deg, #eef5ff 0%, #ebeefe 100%);
       border-color: #4a87ff;
-      box-shadow: 0 8px 18px rgba(42, 102, 201, 0.18);
+      box-shadow: 0 10px 22px rgba(42, 102, 201, 0.2);
     }
 
     .liza-plan-name {
-      margin: 0 0 6px;
+      margin: 0 0 7px;
       font-weight: 800;
-      font-size: 1rem;
+      font-size: 1.04rem;
       color: #102a45;
     }
 
     .liza-plan-price {
       margin: 0;
-      font-size: 1.24rem;
-      font-weight: 800;
-      color: #1e63dc;
+      font-size: 1.38rem;
+      font-weight: 900;
+      color: #1d5ed0;
+      letter-spacing: -0.01em;
     }
 
     .liza-plan-meta {
-      margin-top: 6px;
+      margin-top: 8px;
       color: #516882;
       font-size: 0.86rem;
-      line-height: 1.35;
+      line-height: 1.36;
     }
 
     .liza-pricing-row-title {
-      margin: 12px 0 8px;
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: #244261;
+      margin: 2px 0 2px;
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: #233f5b;
     }
 
     .liza-messenger-row {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 8px;
-      flex-wrap: wrap;
     }
 
     .liza-ms-item {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       border: 1px solid #d2e0f8;
-      border-radius: 999px;
-      padding: 7px 10px;
-      font-size: 0.86rem;
+      border-radius: 14px;
+      padding: 9px 11px;
+      font-size: 0.9rem;
+      font-weight: 600;
       color: #26445f;
       background: #f8fbff;
       user-select: none;
       cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .liza-ms-item.active {
+      border-color: #5692ff;
+      background: #eaf2ff;
+      box-shadow: inset 0 0 0 1px rgba(73, 131, 255, 0.18);
     }
 
     .liza-ms-item input {
       accent-color: #2b76ff;
+      width: 15px;
+      height: 15px;
+    }
+
+    .liza-pricing-note-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .liza-pricing-note {
+      border: 1px solid #d9e7ff;
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: #f8fbff;
+      color: #3d5670;
+      font-size: 0.86rem;
+      line-height: 1.35;
+    }
+
+    .liza-pricing-note strong {
+      color: #1c3653;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .liza-pricing-aside {
+      border-radius: 26px;
+      border: 1px solid rgba(102, 128, 255, 0.28);
+      background: linear-gradient(155deg, #2f66ff 0%, #4d4bf5 52%, #6f2dff 100%);
+      box-shadow: 0 24px 44px rgba(60, 65, 166, 0.32);
+      color: #fff;
+      padding: 20px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+
+    .liza-aside-kicker {
+      margin: 0;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: rgba(236, 243, 255, 0.9);
+    }
+
+    .liza-aside-title {
+      margin: 0;
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #fff;
     }
 
     .liza-pricing-summary {
-      margin-top: 14px;
-      border-radius: 14px;
-      border: 1px solid #d4e3fa;
-      background: linear-gradient(135deg, #f2f8ff 0%, #f7faff 100%);
-      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.14);
+      padding: 14px;
       display: grid;
       gap: 4px;
     }
 
     .liza-summary-big {
-      font-size: 1.35rem;
-      font-weight: 800;
-      color: #1d5ed0;
-      line-height: 1.1;
+      font-size: 2.05rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.06;
+      letter-spacing: -0.015em;
     }
 
     .liza-summary-line {
       font-size: 0.92rem;
-      color: #37526e;
-      line-height: 1.4;
+      color: rgba(239, 245, 255, 0.96);
+      line-height: 1.45;
+    }
+
+    .liza-pricing-cta {
+      margin-top: 2px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 48px;
+      border-radius: 14px;
+      border: none;
+      text-decoration: none;
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #1744c2;
+      background: #fff;
+      transition: transform .14s ease, box-shadow .14s ease;
+      box-shadow: 0 10px 22px rgba(15, 22, 62, 0.22);
+    }
+
+    .liza-pricing-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 26px rgba(15, 22, 62, 0.28);
+    }
+
+    @media (max-width: 1160px) {
+      .liza-pricing-shell {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 1024px) {
       .liza-results-grid,
-      .liza-pricing-grid {
+      .liza-pricing-grid,
+      .liza-launch-grid,
+      .liza-pricing-note-grid,
+      .liza-messenger-row {
         grid-template-columns: 1fr;
       }
     }
@@ -192,32 +375,32 @@
     (function () {
       var DEFAULT_CONFIG = {
         copy: {
-          resultHeading: "Что приносит салону деньги уже в первый месяц",
-          resultLead: "Лиза Бот закрывает реальные точки потерь в записи: неявки, отмены, тишину после визита и негатив без реакции администратора.",
+          resultHeading: "Почему нас выбирают",
+          resultLead: "Лиза берёт рутинные сообщения на себя, помогает держать запись в порядке и освобождает время команды.",
           resultCards: [
             {
-              title: "Снижение неявок",
-              body: "Клиент получает напоминание и подтверждает визит заранее. Администратор видит риски до начала смены.",
-              metric: "Фокус: доходимость визитов"
+              title: "Клиенты чаще доходят до визита",
+              body: "Напоминания и подтверждения приходят вовремя, поэтому меньше записей срывается из-за простой забывчивости.",
+              metric: "Фокус: стабильная запись"
             },
             {
-              title: "Возврат потерянных клиентов",
-              body: "После отмены или статуса «не пришел» клиент автоматически возвращается в диалог с удобным предложением времени.",
-              metric: "Фокус: повторные записи"
+              title: "Меньше ручной переписки у администратора",
+              body: "Однотипные подтверждения, догоняющие сообщения и сервисные уведомления уходят в автоматизацию.",
+              metric: "Фокус: время команды"
             },
             {
-              title: "Рост отзывов и рейтинга",
-              body: "Позитивные клиенты направляются в отзывы, а негатив сразу попадает админу для быстрой отработки.",
-              metric: "Фокус: рейтинг и NPS"
+              title: "Отзывы собираются быстрее и аккуратнее",
+              body: "После визита клиент получает запрос оценки, а негативные ответы не теряются и доходят до администратора.",
+              metric: "Фокус: рейтинг и лояльность"
             },
             {
-              title: "Экономия времени команды",
-              body: "Рутинные подтверждения, догоняющие сообщения и сервисные алерты уходят в автоматизацию.",
-              metric: "Фокус: нагрузка администратора"
+              title: "Возврат после отмен и пауз",
+              body: "Если запись отменили или клиент давно не приходил, запускается сценарий возврата в диалог.",
+              metric: "Фокус: повторные визиты"
             }
           ],
           pricingHeading: "Тарифы и калькулятор",
-          pricingRowTitle: "Выберите мессенджеры:",
+          pricingRowTitle: "Выберите тариф и мессенджеры",
           summaryIncludedLabel: "Включено",
           summarySelectedLabel: "Выбрано",
           summaryExtraLabel: "Доплата",
@@ -231,18 +414,18 @@
           extraMessengerPrice: 750,
           plans: [
             {
-              key: "start",
+              key: "minimal",
               name: "Минимальный",
               basePrice: 999,
-              messagesLabel: "300 сообщений в месяц",
+              messagesLabel: "до 300 сообщений в месяц",
               includedMessengers: 1,
               allMessengersIncluded: false
             },
             {
               key: "standard",
-              name: "Средний",
+              name: "Стандарт",
               basePrice: 1999,
-              messagesLabel: "1000 сообщений в месяц",
+              messagesLabel: "до 1000 сообщений в месяц",
               includedMessengers: 1,
               allMessengersIncluded: false
             },
@@ -258,7 +441,8 @@
           messengers: [
             { key: "telegram", label: "Telegram", checkedByDefault: true },
             { key: "whatsapp", label: "WhatsApp", checkedByDefault: false },
-            { key: "vk", label: "ВКонтакте", checkedByDefault: false }
+            { key: "vk", label: "ВКонтакте", checkedByDefault: false },
+            { key: "max", label: "MAX", checkedByDefault: false }
           ]
         },
         behavior: {
@@ -458,7 +642,7 @@
       }
 
       function renderResultSection(cfg) {
-        var section = sectionByIdOrHeading("proof", ["Что реально работает", "Что реально дает результат", "Кейсы"]);
+        var section = sectionByIdOrHeading("proof", ["Почему нас выбирают", "Что меняется после запуска", "Результат", "Кейсы"]);
         if (!section) return false;
         var root = sectionContentRoot(section);
         if (!root) return false;
@@ -470,8 +654,8 @@
         heading.className = "mb-4 text-5xl font-bold text-gray-900 lg:text-6xl";
         heading.textContent = cfg.copy.resultHeading;
         var sub = document.createElement("p");
-        sub.className = "text-xl text-gray-700";
-        sub.textContent = "Не абстрактные обещания, а сценарии из раздела «Шаблоны уведомлений».";
+        sub.className = "text-xl text-gray-700 max-w-4xl mx-auto";
+        sub.textContent = "Практичный блок о том, что бизнес получает на запуске, без абстрактных обещаний.";
         headingWrap.appendChild(heading);
         headingWrap.appendChild(sub);
         root.appendChild(headingWrap);
@@ -485,15 +669,26 @@
         lead.textContent = cfg.copy.resultLead;
         wrap.appendChild(lead);
 
+        var icons = ["✓", "⏱", "★", "↺", "💬", "⚑"];
         var grid = document.createElement("div");
         grid.className = "liza-results-grid";
-        cfg.copy.resultCards.forEach(function (card) {
+        cfg.copy.resultCards.forEach(function (card, idx) {
           var article = document.createElement("article");
           article.className = "liza-results-card";
+
+          var head = document.createElement("div");
+          head.className = "liza-results-head";
+
+          var icon = document.createElement("span");
+          icon.className = "liza-results-icon";
+          icon.textContent = icons[idx % icons.length];
 
           var t = document.createElement("h3");
           t.className = "liza-results-title";
           t.textContent = card.title;
+
+          head.appendChild(icon);
+          head.appendChild(t);
 
           var b = document.createElement("p");
           b.className = "liza-results-copy";
@@ -503,13 +698,40 @@
           m.className = "liza-results-metric";
           m.textContent = card.metric;
 
-          article.appendChild(t);
+          article.appendChild(head);
           article.appendChild(b);
           article.appendChild(m);
           grid.appendChild(article);
         });
-
         wrap.appendChild(grid);
+
+        var launch = document.createElement("div");
+        launch.className = "liza-launch-card";
+        var launchTitle = document.createElement("h3");
+        launchTitle.className = "liza-launch-title";
+        launchTitle.textContent = "Как запускаем за 1 день";
+        launch.appendChild(launchTitle);
+
+        var steps = [
+          "Синхронизируем с YClients и проверяем каналы отправки.",
+          "Настраиваем шаблоны и таймеры под ваши услуги.",
+          "Включаем сценарии и смотрим первые ответы клиентов."
+        ];
+        var launchGrid = document.createElement("div");
+        launchGrid.className = "liza-launch-grid";
+        steps.forEach(function (text, idx) {
+          var step = document.createElement("div");
+          step.className = "liza-launch-step";
+          var num = document.createElement("span");
+          num.className = "liza-launch-num";
+          num.textContent = String(idx + 1);
+          step.appendChild(num);
+          step.appendChild(document.createTextNode(text));
+          launchGrid.appendChild(step);
+        });
+        launch.appendChild(launchGrid);
+        wrap.appendChild(launch);
+
         root.appendChild(wrap);
         return true;
       }
@@ -528,10 +750,13 @@
         heading.textContent = cfg.copy.pricingHeading;
         var sub = document.createElement("p");
         sub.className = "text-xl text-gray-700 max-w-3xl mx-auto";
-        sub.textContent = "Выбираете тариф и мессенджеры, цена пересчитывается автоматически.";
+        sub.textContent = "Выбираете тариф и каналы. Цена зависит только от тарифа и количества подключенных мессенджеров.";
         headingWrap.appendChild(heading);
         headingWrap.appendChild(sub);
         root.appendChild(headingWrap);
+
+        var shell = document.createElement("div");
+        shell.className = "liza-pricing-shell";
 
         var widget = document.createElement("div");
         widget.className = "liza-pricing-widget";
@@ -595,6 +820,33 @@
         });
         widget.appendChild(messengerRow);
 
+        var noteGrid = document.createElement("div");
+        noteGrid.className = "liza-pricing-note-grid";
+
+        var note1 = document.createElement("div");
+        note1.className = "liza-pricing-note";
+        note1.innerHTML = "<strong>Логика расчета</strong>Стоимость = тариф + доплата за дополнительные мессенджеры.";
+        noteGrid.appendChild(note1);
+
+        var note2 = document.createElement("div");
+        note2.className = "liza-pricing-note";
+        note2.innerHTML = "<strong>Без скрытых условий</strong>Цена обновляется сразу по выбранным параметрам.";
+        noteGrid.appendChild(note2);
+        widget.appendChild(noteGrid);
+
+        var aside = document.createElement("aside");
+        aside.className = "liza-pricing-aside";
+
+        var kicker = document.createElement("p");
+        kicker.className = "liza-aside-kicker";
+        kicker.textContent = "Рекомендованный тариф по параметрам";
+        aside.appendChild(kicker);
+
+        var summaryPlan = document.createElement("h3");
+        summaryPlan.className = "liza-aside-title";
+        summaryPlan.setAttribute("data-summary-plan", "true");
+        aside.appendChild(summaryPlan);
+
         var summary = document.createElement("div");
         summary.className = "liza-pricing-summary";
 
@@ -610,10 +862,25 @@
         summaryMs.className = "liza-summary-line";
         summaryMs.setAttribute("data-summary-ms", "true");
 
+        var summaryExtra = document.createElement("div");
+        summaryExtra.className = "liza-summary-line";
+        summaryExtra.setAttribute("data-summary-extra", "true");
+
         summary.appendChild(summaryPrice);
         summary.appendChild(summaryMessages);
         summary.appendChild(summaryMs);
-        widget.appendChild(summary);
+        summary.appendChild(summaryExtra);
+        aside.appendChild(summary);
+
+        var cta = document.createElement("a");
+        cta.className = "liza-pricing-cta";
+        cta.href = "#lead-form";
+        cta.textContent = "Получить расчет и запуск";
+        aside.appendChild(cta);
+
+        shell.appendChild(widget);
+        shell.appendChild(aside);
+        root.appendChild(shell);
 
         function selectedPlanKey() {
           var selected = widget.querySelector('input[name="liza-plan"]:checked');
@@ -622,6 +889,13 @@
 
         function selectedMsCount() {
           return Array.prototype.slice.call(widget.querySelectorAll('.liza-messenger-row input[type="checkbox"]:checked')).length;
+        }
+
+        function syncMessengerLabelState() {
+          widget.querySelectorAll(".liza-ms-item").forEach(function (label) {
+            var box = label.querySelector('input[type="checkbox"]');
+            label.classList.toggle("active", !!box && box.checked);
+          });
         }
 
         function syncPricing() {
@@ -650,20 +924,20 @@
           var extra = extraUnits * cfg.pricing.extraMessengerPrice;
           var total = plan.basePrice + extra;
 
+          summaryPlan.textContent = plan.name;
           summaryPrice.textContent = fmtMoney(total, cfg) + " " + cfg.pricing.perMonthSuffix;
           summaryMessages.textContent = "Лимит: " + plan.messagesLabel;
           if (plan.allMessengersIncluded) {
-            summaryMs.textContent = "Включены все мессенджеры без доплат";
+            summaryMs.textContent = "Каналы: все включены";
           } else {
-            summaryMs.textContent = cfg.copy.summaryIncludedLabel + ": " + plan.includedMessengers + ". " +
-              cfg.copy.summarySelectedLabel + ": " + selected + ". " +
-              cfg.copy.summaryExtraLabel + ": " + fmtMoney(extra, cfg);
+            summaryMs.textContent = cfg.copy.summaryIncludedLabel + ": " + plan.includedMessengers + ". " + cfg.copy.summarySelectedLabel + ": " + selected + ".";
           }
+          summaryExtra.textContent = cfg.copy.summaryExtraLabel + ": " + fmtMoney(extra, cfg);
+          syncMessengerLabelState();
         }
 
         widget.addEventListener("change", syncPricing);
         syncPricing();
-        root.appendChild(widget);
         return true;
       }
 
@@ -768,6 +1042,18 @@
           document.body.appendChild(node);
         }
         node.textContent = JSON.stringify(mapObj, null, 2);
+      }
+
+      function upsertExportMetaNode(metaObj) {
+        var id = "liza-fulltext-meta-json";
+        var node = document.getElementById(id);
+        if (!node) {
+          node = document.createElement("script");
+          node.id = id;
+          node.type = "application/json";
+          document.body.appendChild(node);
+        }
+        node.textContent = JSON.stringify(metaObj, null, 2);
       }
 
       function enforceRuntimeFlags(cfg) {
@@ -919,6 +1205,7 @@
 
         if (isCollectMode) {
           upsertExportMapNode(exportMap);
+          upsertExportMetaNode(exportMeta);
           try {
             window.parent.postMessage({ type: "LIZA_FULLTEXT_EXPORT_READY", payload: exportMap, meta: exportMeta }, "*");
           } catch (_e) {
