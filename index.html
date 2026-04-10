@@ -31,12 +31,13 @@
       border: 1px solid #d9e5f8;
       background: linear-gradient(170deg, #ffffff 0%, #f7faff 100%);
       border-radius: 30px;
-      padding: 24px 26px;
-      box-shadow: 0 16px 34px rgba(33, 73, 121, 0.1);
+      padding: 28px 30px;
+      min-height: 220px;
+      box-shadow: 0 18px 38px rgba(33, 73, 121, 0.1);
       transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
       display: grid;
-      grid-template-columns: 96px minmax(0, 1fr);
-      gap: 0 20px;
+      grid-template-columns: 108px minmax(0, 1fr);
+      gap: 0 24px;
       align-items: start;
     }
 
@@ -47,21 +48,21 @@
     }
 
     .liza-benefit-icon {
-      width: 88px;
-      height: 88px;
-      border-radius: 26px;
+      width: 96px;
+      height: 96px;
+      border-radius: 28px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       color: #fff;
-      box-shadow: 0 16px 36px rgba(52, 91, 179, 0.28);
+      box-shadow: 0 20px 40px rgba(52, 91, 179, 0.28);
       background: linear-gradient(138deg, #2f66ff 0%, #7a33ff 100%);
       grid-row: 1 / span 2;
     }
 
     .liza-benefit-icon svg {
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
       stroke: currentColor;
     }
 
@@ -81,8 +82,8 @@
       border: 1px solid #d2e2ff;
       background: #eef4ff;
       color: #2a64d1;
-      padding: 6px 12px;
-      font-size: 0.79rem;
+      padding: 7px 14px;
+      font-size: 0.82rem;
       font-weight: 700;
       letter-spacing: 0.01em;
     }
@@ -90,16 +91,16 @@
     .liza-benefit-title {
       margin: 0 0 8px;
       color: #10253a;
-      font-size: 1.24rem;
+      font-size: 1.35rem;
       font-weight: 850;
-      line-height: 1.28;
+      line-height: 1.25;
     }
 
     .liza-benefit-copy {
       margin: 0;
       color: #3b4e64;
-      font-size: 1rem;
-      line-height: 1.54;
+      font-size: 1.04rem;
+      line-height: 1.58;
     }
 
     .liza-outcomes-lead {
@@ -525,20 +526,41 @@
       stroke: none;
     }
 
+    .liza-hero-chip {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid #d8e4f7;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 10px 22px rgba(34, 72, 120, 0.08);
+      color: #36506b;
+      font-size: 0.98rem;
+      font-weight: 700;
+      line-height: 1.25;
+      text-align: center;
+    }
+
     @keyframes lizaHeroFloat {
-      0% { transform: translate3d(0, 0, 0); }
-      50% { transform: translate3d(0, -10px, 0); }
-      100% { transform: translate3d(0, 0, 0); }
+      0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+      25% { transform: translate3d(-3px, -8px, 0) rotate(-1.4deg) scale(1.01); }
+      50% { transform: translate3d(4px, -18px, 0) rotate(1.6deg) scale(1.02); }
+      75% { transform: translate3d(-2px, -9px, 0) rotate(-0.8deg) scale(1.01); }
+      100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
     }
 
     .liza-hero-float {
-      animation: lizaHeroFloat 5.8s ease-in-out infinite;
+      animation: lizaHeroFloat 7.4s cubic-bezier(0.45, 0.05, 0.2, 0.96) infinite;
       will-change: transform;
+      transform-origin: 50% 50%;
     }
 
-    .liza-hero-float--1 { animation-delay: 0.7s; }
-    .liza-hero-float--2 { animation-delay: 1.4s; }
-    .liza-hero-float--3 { animation-delay: 2.1s; }
+    .liza-hero-float--0 { animation-duration: 8.2s; animation-delay: 0.15s; }
+    .liza-hero-float--1 { animation-duration: 7.6s; animation-delay: 0.75s; }
+    .liza-hero-float--2 { animation-duration: 8.8s; animation-delay: 1.35s; }
+    .liza-hero-float--3 { animation-duration: 7.1s; animation-delay: 2.15s; }
 
     .liza-support-link-card {
       cursor: pointer;
@@ -549,6 +571,13 @@
       transform: translateY(-1px);
       box-shadow: 0 16px 28px rgba(39, 76, 129, 0.12);
       border-color: #cdddf9;
+    }
+
+    .liza-support-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      border-radius: inherit;
     }
 
     @media (max-width: 1160px) {
@@ -587,18 +616,19 @@
         grid-template-columns: 1fr;
         gap: 14px;
         padding: 20px;
+        min-height: 0;
       }
 
       .liza-benefit-icon {
-        width: 74px;
-        height: 74px;
-        border-radius: 22px;
+        width: 76px;
+        height: 76px;
+        border-radius: 24px;
         grid-row: auto;
       }
 
       .liza-benefit-icon svg {
-        width: 34px;
-        height: 34px;
+        width: 36px;
+        height: 36px;
       }
     }
   </style>
@@ -626,13 +656,16 @@
             "собирать отзывы": "Повышает рейтинг на картах",
             "возвращать потеряшек": "Возвращает потеряшек",
             "уведомлять администратора": "Повышает рейтинг на картах",
-            "Мы берём шаблоны уведомлений из модуля, настраиваем таймеры и запускаем рабочие цепочки без ручной рутины.": "Готовые шаблоны помогают быстро запуститься: Лиза напоминает о записи, подтверждает визит, возвращает клиентов после паузы и помогает поднимать рейтинг на картах.",
-            "11 типов уведомлений в модуле": "Готовые шаблоны под запись, отзывы и возврат",
+            "Мы берём шаблоны уведомлений из модуля, настраиваем таймеры и запускаем рабочие цепочки без ручной рутины.": "Лиза сама отправляет клиентам нужные сообщения: напоминает о записи, помогает подтвердить визит, возвращает тех, кто пропал после отмены или паузы, и переводит довольных гостей в отзывы на картах.",
+            "11 типов уведомлений в модуле": "Шаблоны под запись, отзывы и возврат",
             "Каскад каналов: Telegram -> WhatsApp -> MAX": "Telegram, WhatsApp, VK и MAX",
             "Каскад каналов: Telegram → WhatsApp → MAX": "Telegram, WhatsApp, VK и MAX",
-            "11 готовых сценариев под запись": "Готовые шаблоны под запись, отзывы и возврат",
-            "До 3 сообщений и до 5 медиа в одном сценарии": "Отзывы на Яндекс Картах и 2ГИС без ручной переписки",
-            "Многошаговые сценарии с фото и видео": "Отзывы на Яндекс Картах и 2ГИС без ручной переписки",
+            "11 готовых сценариев под запись": "Шаблоны под запись, отзывы и возврат",
+            "11 готовых сценариев для салона": "Шаблоны под запись, отзывы и возврат",
+            "11 готовых сценариев": "Шаблоны под запись, отзывы и возврат",
+            "До 3 сообщений и до 5 медиа в одном сценарии": "Сценарии с фото и видео",
+            "Многошаговые сценарии с фото и видео": "Сценарии с фото и видео",
+            "Отзывы на Яндекс Картах и 2ГИС без ручной переписки": "Сценарии с фото и видео",
             "Сценарии и тексты строятся по шаблонам модуля уведомлений: от напоминаний до ветвления оценки": "Лиза сама отправляет сообщения в нужный момент: до визита, после посещения и когда клиента важно вовремя вернуть в разговор.",
             "Напоминание перед визитом по таймеру": "Напоминает о записи заранее",
             "Срабатывает от создания записи и отправляется в заданное время до визита": "Клиент получает сообщение до визита и реже забывает о записи.",
@@ -663,27 +696,27 @@
             "Для сетевого формата выбирают старшие тарифы и настраивают сценарии по филиалам: отдельные тексты, услуги и правила отправки.": "Второй филиал можно подключить быстро: скопировать готовые шаблоны и настройки уведомлений или собрать их отдельно под этот филиал."
           },
           benefitsHeading: "Почему салонам удобно с Лизой",
-          benefitsLead: "Три сильные стороны, за которые Лизу выбирают салоны: готовые шаблоны без долгой раскачки, рост отзывов на картах и работа с клиентами, которые выпали из записи.",
-          benefitsCards: [
-            {
-              kicker: "Готовые шаблоны",
-              title: "Быстрый запуск на готовых сценариях",
-              body: "Подключаем YClients, берём готовые шаблоны под напоминания, подтверждения, отзывы и возврат клиентов, а потом подстраиваем их под ваш салон. Не нужно собирать всё с нуля и долго раскачивать запуск.",
-              icon: "sparkles"
-            },
-            {
-              kicker: "Рейтинг и контроль",
-              title: "Отзывы идут на карты, а спорные ситуации команда видит сразу",
-              body: "После визита Лиза сначала просит оценку в чате. Довольных клиентов можно переводить в отзыв на Яндекс Картах и 2ГИС, а если оценка низкая, администратору приходит уведомление в Telegram через бота, и команда быстро включается в ситуацию.",
-              icon: "map-star"
-            },
-            {
-              kicker: "Возврат и филиалы",
-              title: "Проще вернуть клиента и быстро подключить второй филиал",
-              body: "Если запись отменили или человек давно не возвращался, Лиза помогает снова выйти на связь. А когда появляется второй филиал, можно скопировать в него шаблоны и настройки уведомлений или настроить всё отдельно под его услуги и график.",
-              icon: "branch"
-            }
-          ],
+        benefitsLead: "Три причины, по которым с Лизой проще запускаться, собирать отзывы на картах и не терять клиентов после отмены или паузы.",
+        benefitsCards: [
+          {
+            kicker: "Готовые шаблоны",
+            title: "Запуск без долгой подготовки",
+            body: "Подключаем YClients, берём готовые шаблоны под запись, подтверждения, отзывы и возврат клиентов, а потом подстраиваем их под ваш салон. Не нужно собирать сценарии с нуля и тратить недели на старт.",
+            icon: "sparkles"
+          },
+          {
+            kicker: "Рейтинг и контроль",
+            title: "Отзывы идут на карты, а спорные ситуации не теряются",
+            body: "После визита Лиза сначала просит оценку в чате. Если клиенту всё понравилось, можно перевести его в отзыв на Яндекс Картах и 2ГИС. Если оценка низкая, администратору приходит уведомление в Telegram, и команда быстро включается в ситуацию.",
+            icon: "map-star"
+          },
+          {
+            kicker: "Возврат и филиалы",
+            title: "Клиента проще вернуть, филиал проще подключить",
+            body: "Если запись отменили или человек давно не возвращался, Лиза помогает снова выйти на связь. Когда появляется второй филиал, можно быстро скопировать туда шаблоны и настройки уведомлений или собрать отдельный сценарий под его услуги и график.",
+            icon: "branch"
+          }
+        ],
           outcomesHeading: "Что меняется после запуска",
           outcomesLead: "Лиза снимает повторяющиеся сообщения и помогает спокойнее держать под контролем и запись, и обратную связь после визита.",
           outcomesCards: [
@@ -809,7 +842,8 @@
           rebuildManagedSections: true,
           fullTextControl: false,
           fullTextMode: "replace",
-          placeholderWithKey: false
+          placeholderWithKey: false,
+          leadWebhookUrl: ""
         }
       };
 
@@ -847,6 +881,15 @@
         if (num < min) return fallback;
         if (num > max) return fallback;
         return Math.round(num);
+      }
+
+      function safeHttpsUrl(value, fallback, maxLen) {
+        if (typeof value !== "string") return fallback;
+        var trimmed = value.trim();
+        if (!trimmed) return fallback;
+        if (!/^https:\/\/\S+$/i.test(trimmed)) return fallback;
+        if (trimmed.length > maxLen) return trimmed.slice(0, maxLen);
+        return trimmed;
       }
 
       function normalize(value) {
@@ -1086,6 +1129,9 @@
         }
         if (srcBehavior && typeof srcBehavior.placeholderWithKey === "boolean") {
           clean.behavior.placeholderWithKey = srcBehavior.placeholderWithKey;
+        }
+        if (srcBehavior && typeof srcBehavior.leadWebhookUrl === "string") {
+          clean.behavior.leadWebhookUrl = safeHttpsUrl(srcBehavior.leadWebhookUrl, clean.behavior.leadWebhookUrl || "", 260);
         }
 
         return clean;
@@ -1639,7 +1685,7 @@
           heading.textContent = "ЛизаБот";
           changed += 1;
         }
-        var desiredHeadingClass = "mb-4 text-[clamp(1.12rem,1.7vw,1.6rem)] font-bold tracking-tight text-slate-900";
+        var desiredHeadingClass = "mb-5 text-[clamp(2.4rem,4.9vw,4.6rem)] font-black leading-[1.03] tracking-tight text-slate-900";
         if (heading && heading.className !== desiredHeadingClass) {
           heading.className = desiredHeadingClass;
           changed += 1;
@@ -1655,16 +1701,7 @@
         var linesWrap = findHeroLineWrap(hero);
         if (linesWrap) {
           var currentNodes = Array.prototype.slice.call(linesWrap.querySelectorAll("p"));
-          var baseClass = currentNodes[0] ? (currentNodes[0].className || "")
-            .replace(/\bhero-value-active\b/g, "")
-            .replace(/\btext-gray-900\b/g, "")
-            .replace(/\btext-slate-300\b/g, "")
-            .replace(/\btext-\[#c9d7ec\]\b/g, "")
-            .replace(/\s+/g, " ")
-            .trim() : "";
-          if (!baseClass || baseClass.indexOf("text-[clamp(") === -1) {
-            baseClass = "text-[clamp(2.4rem,5.5vw,5.3rem)] font-extrabold leading-[0.98] tracking-tight transition-all duration-500";
-          }
+          var baseClass = "text-[clamp(2.05rem,4.15vw,4.05rem)] font-extrabold leading-[1.02] tracking-tight transition-all duration-500";
           if (baseClass) {
             linesWrap.setAttribute("data-liza-hero-base-class", baseClass);
           }
@@ -1691,7 +1728,7 @@
         var heroCopy = Array.prototype.slice.call(hero.querySelectorAll("p")).find(function (node) {
           return normalize(node.textContent).indexOf(normalize("Лиза сама отправляет сообщения")) !== -1 || normalize(node.textContent).indexOf(normalize("Мы берём шаблоны уведомлений")) !== -1;
         });
-        var desiredCopy = "Готовые шаблоны помогают быстро запуститься: Лиза напоминает о визите, подтверждает запись, возвращает клиентов после паузы и помогает поднимать рейтинг на картах.";
+        var desiredCopy = "Лиза сама отправляет клиентам нужные сообщения: напоминает о записи, помогает подтвердить визит, возвращает тех, кто пропал после отмены или паузы, и переводит довольных гостей в отзывы на картах.";
         if (heroCopy && heroCopy.textContent !== desiredCopy) {
           heroCopy.textContent = desiredCopy;
           changed += 1;
@@ -1709,6 +1746,45 @@
             syncHeroRotationState(currentWrap, desiredLines);
           }, 2400);
         }
+
+        return changed;
+      }
+
+      function patchHeroMetaChips() {
+        var hero = document.getElementById("hero");
+        if (!hero) return 0;
+        var changed = 0;
+        var chipMap = {
+          "11 типов уведомлений в модуле": "Шаблоны под запись, отзывы и возврат",
+          "11 готовых сценариев под запись": "Шаблоны под запись, отзывы и возврат",
+          "11 готовых сценариев для салона": "Шаблоны под запись, отзывы и возврат",
+          "11 готовых сценариев": "Шаблоны под запись, отзывы и возврат",
+          "Готовые шаблоны под запись, отзывы и возврат": "Шаблоны под запись, отзывы и возврат",
+          "Каскад каналов: Telegram -> WhatsApp -> MAX": "Telegram, WhatsApp, VK и MAX",
+          "Каскад каналов: Telegram → WhatsApp → MAX": "Telegram, WhatsApp, VK и MAX",
+          "До 3 сообщений и до 5 медиа в одном сценарии": "Сценарии с фото и видео",
+          "Многошаговые сообщения с фото и видео": "Сценарии с фото и видео",
+          "Многошаговые сценарии с фото и видео": "Сценарии с фото и видео",
+          "Отзывы на Яндекс Картах и 2ГИС без ручной переписки": "Сценарии с фото и видео",
+          "Сценарии с фото и видео": "Сценарии с фото и видео",
+          "Telegram, WhatsApp, VK и MAX": "Telegram, WhatsApp, VK и MAX",
+          "Шаблоны под запись, отзывы и возврат": "Шаблоны под запись, отзывы и возврат"
+        };
+
+        textElements(hero).forEach(function (node) {
+          if (!node || !node.firstChild || node.childElementCount > 0) return;
+          var current = (node.textContent || "").trim();
+          if (!current || !Object.prototype.hasOwnProperty.call(chipMap, current)) return;
+          var next = chipMap[current];
+          if (current !== next) {
+            node.textContent = next;
+            changed += 1;
+          }
+          if (!node.classList.contains("liza-hero-chip")) {
+            node.classList.add("liza-hero-chip");
+            changed += 1;
+          }
+        });
 
         return changed;
       }
@@ -1740,18 +1816,36 @@
               card.classList.add("liza-support-link-card");
               changed += 1;
             }
+            if (!/absolute|relative|sticky|fixed/.test(window.getComputedStyle(card).position || "")) {
+              card.style.position = "relative";
+              changed += 1;
+            }
+            var overlay = card.querySelector(".liza-support-overlay");
+            if (!overlay) {
+              overlay = document.createElement("a");
+              overlay.className = "liza-support-overlay";
+              overlay.setAttribute("aria-label", "Открыть поддержку в Telegram");
+              card.appendChild(overlay);
+              changed += 1;
+            }
+            if (overlay.href !== supportHref) {
+              overlay.href = supportHref;
+              overlay.target = "_blank";
+              overlay.rel = "noopener noreferrer";
+              changed += 1;
+            }
             if (card.getAttribute("data-liza-support-bound") !== "1") {
               card.setAttribute("data-liza-support-bound", "1");
               card.setAttribute("role", "link");
               card.setAttribute("tabindex", "0");
               card.style.cursor = "pointer";
               card.addEventListener("click", function () {
-                window.open(supportHref, "_blank", "noopener");
+                window.location.href = supportHref;
               });
               card.addEventListener("keydown", function (event) {
                 if (event.key === "Enter" || event.key === " ") {
                   event.preventDefault();
-                  window.open(supportHref, "_blank", "noopener");
+                  window.location.href = supportHref;
                 }
               });
               changed += 1;
@@ -1770,12 +1864,111 @@
             node.addEventListener("click", function (event) {
               event.preventDefault();
               event.stopPropagation();
-              window.open(supportHref, "_blank", "noopener");
+              window.location.href = supportHref;
             });
           });
         }
 
         return changed;
+      }
+
+      function ensureLeadStatusNode(form) {
+        var status = form.querySelector("[data-liza-lead-status]");
+        if (status) return status;
+        status = document.createElement("p");
+        status.setAttribute("data-liza-lead-status", "true");
+        status.style.margin = "6px 0 0";
+        status.style.fontSize = "0.92rem";
+        status.style.lineHeight = "1.45";
+        status.style.color = "#44607c";
+        form.appendChild(status);
+        return status;
+      }
+
+      function collectLeadPayload(form) {
+        var textInputs = Array.prototype.slice.call(form.querySelectorAll('input[type="text"], input[type="tel"]'));
+        var quoteSummary = form.querySelector('input[name="quote_summary"]');
+        var toggleButtons = Array.prototype.slice.call(form.querySelectorAll('button[type="button"]'));
+        var selectedYClients = toggleButtons.find(function (btn) {
+          var cls = btn.className || "";
+          return cls.indexOf("border-blue-500") !== -1 || cls.indexOf("bg-blue-50") !== -1 || cls.indexOf("text-blue-700") !== -1;
+        });
+
+        return {
+          name: textInputs[0] ? (textInputs[0].value || "").trim() : "",
+          phone: textInputs[1] ? (textInputs[1].value || "").trim() : "",
+          salonName: textInputs[2] ? (textInputs[2].value || "").trim() : "",
+          usesYClients: selectedYClients ? (selectedYClients.textContent || "").trim() : "",
+          quoteSummary: quoteSummary ? (quoteSummary.value || "").trim() : "",
+          sourcePage: window.location.href,
+          submittedAt: new Date().toISOString()
+        };
+      }
+
+      function wireLeadFormSubmit(cfg) {
+        var form = document.querySelector("#lead-form form");
+        if (!form) return 0;
+        var changed = 0;
+        var webhookUrl = cfg && cfg.behavior ? (cfg.behavior.leadWebhookUrl || "") : "";
+        if (form.getAttribute("data-liza-lead-webhook-url") !== webhookUrl) {
+          form.setAttribute("data-liza-lead-webhook-url", webhookUrl);
+          changed += 1;
+        }
+        if (form.getAttribute("data-liza-lead-bound") === "1") return changed;
+
+        form.setAttribute("data-liza-lead-bound", "1");
+        var submitButton = form.querySelector('button[type="submit"]');
+        var initialButtonText = submitButton ? submitButton.textContent : "";
+
+        form.addEventListener("submit", function (event) {
+          var activeWebhookUrl = form.getAttribute("data-liza-lead-webhook-url") || "";
+          if (!/^https:\/\/\S+$/i.test(activeWebhookUrl)) {
+            return;
+          }
+
+          event.preventDefault();
+          var payload = collectLeadPayload(form);
+          var status = ensureLeadStatusNode(form);
+
+          if (!payload.phone) {
+            status.textContent = "Укажите телефон, чтобы мы могли связаться с вами.";
+            status.style.color = "#c03d3d";
+            return;
+          }
+
+          if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = "Отправляем заявку...";
+          }
+          status.textContent = "Отправляем заявку в защищённый канал...";
+          status.style.color = "#44607c";
+
+          fetch(activeWebhookUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Cache-Control": "no-store"
+            },
+            credentials: "omit",
+            body: JSON.stringify(payload)
+          }).then(function (response) {
+            if (!response.ok) throw new Error("lead_submit_failed");
+            status.textContent = "Заявка отправлена. Скоро свяжемся с вами.";
+            status.style.color = "#1f7a45";
+            if (submitButton) {
+              submitButton.textContent = "Заявка отправлена";
+            }
+          }).catch(function () {
+            status.textContent = "Не удалось отправить заявку. Попробуйте ещё раз или напишите нам в Telegram.";
+            status.style.color = "#c03d3d";
+            if (submitButton) {
+              submitButton.disabled = false;
+              submitButton.textContent = initialButtonText || "Начать тест 3 дня";
+            }
+          });
+        });
+
+        return changed + 1;
       }
 
       function enhanceHeroMotion() {
@@ -2103,7 +2296,9 @@
         var navChanged = applyNavigationAndCtaCopy(runtimeConfig);
         var footerChanged = renderFooterSection(runtimeConfig);
         var heroCopyChanged = patchHeroCopy(runtimeConfig);
+        var heroMetaChanged = patchHeroMetaChips(runtimeConfig);
         var leadSupportChanged = patchLeadAndSupport(runtimeConfig);
+        var leadFormChanged = wireLeadFormSubmit(runtimeConfig);
         var heroMotionChanged = enhanceHeroMotion();
         if (runtimeConfig.behavior && runtimeConfig.behavior.rebuildManagedSections) {
           var benefitsOk = renderBenefitsSection(runtimeConfig);
@@ -2114,7 +2309,7 @@
         var fullTextAppliedCount = applyFullTextControl(runtimeConfig);
         var exactTextAppliedCount = applyExactTextMap(runtimeConfig);
         var textAppliedCount = applySelectorOverrides(runtimeConfig);
-        return changed || footerChanged || navChanged > 0 || heroCopyChanged > 0 || leadSupportChanged > 0 || heroMotionChanged > 0 || fullTextAppliedCount > 0 || exactTextAppliedCount > 0 || textAppliedCount > 0;
+        return changed || footerChanged || navChanged > 0 || heroCopyChanged > 0 || heroMetaChanged > 0 || leadSupportChanged > 0 || leadFormChanged > 0 || heroMotionChanged > 0 || fullTextAppliedCount > 0 || exactTextAppliedCount > 0 || textAppliedCount > 0;
       }
 
       function needsManagedRefresh() {
