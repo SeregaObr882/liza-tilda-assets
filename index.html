@@ -96,8 +96,9 @@
       border-radius: 18px;
       padding: 18px 20px;
       color: #2a4665;
-      line-height: 1.53;
-      font-size: 1rem;
+      line-height: 1.5;
+      font-size: clamp(1.06rem, 1.02rem + 0.38vw, 1.24rem);
+      font-weight: 520;
     }
 
     .liza-outcomes-grid {
@@ -451,6 +452,32 @@
           navFaq: "FAQ",
           headerCta: "Запустить бесплатно на 3 дня",
           heroCta: "Запустить бесплатно на 3 дня",
+          outcomesSubheading: "",
+          exactTextMap: {
+            "снижать неявки": "напоминает о визите",
+            "подтверждать визиты": "помогает подтвердить запись",
+            "собирать отзывы": "собирает отзывы после посещения",
+            "возвращать потеряшек": "возвращает клиентов после паузы",
+            "уведомлять администратора": "помогает повышать рейтинг на картах",
+            "Мы берём шаблоны уведомлений из модуля, настраиваем таймеры и запускаем рабочие цепочки без ручной рутины.": "Лиза сама отправляет сообщения до и после визита: напоминает о записи, помогает подтвердить приход, собирает отзывы, помогает поднимать рейтинг на Яндекс Картах и 2ГИС и возвращает в диалог клиентов, которые давно не были в салоне.",
+            "11 типов уведомлений в модуле": "11 готовых шаблонов под запись",
+            "Каскад каналов: Telegram -> WhatsApp -> MAX": "Telegram, WhatsApp, VK и MAX",
+            "Каскад каналов: Telegram → WhatsApp → MAX": "Telegram, WhatsApp, VK и MAX",
+            "До 3 сообщений и до 5 медиа в одном сценарии": "Многошаговые сценарии с фото и видео",
+            "Сценарии и тексты строятся по шаблонам модуля уведомлений: от напоминаний до ветвления оценки": "Лиза сама отправляет нужные сообщения в нужный момент: до визита, после посещения и когда клиенту важно вовремя написать.",
+            "Запрос оценки 1–5 и ветка по ответу клиента": "Оценка после визита и понятный сценарий ответа",
+            "Запрос оценки 1-5 и ветка по ответу клиента": "Оценка после визита и понятный сценарий ответа",
+            "Позитивная и негативная ветки настраиваются отдельно, с алертом администратору": "Если клиент недоволен, команда видит это сразу и может быстро ответить.",
+            "Сценарий «Потеряшки» после отмены или статуса «не пришел»": "Возврат клиента после отмены или долгой паузы",
+            "Сценарий «Потеряшки» после отмены или статуса «не пришёл»": "Возврат клиента после отмены или долгой паузы",
+            "Сообщение запускается от события и возвращает клиента в диалог": "Лиза аккуратно напоминает о салоне и помогает вернуть клиента в запись.",
+            "Служебные уведомления администратору в Telegram": "Уведомления команде, когда нужен быстрый ответ",
+            "Например, при негативной оценке клиентского визита": "Например, если клиент поставил низкую оценку или просит связаться.",
+            "Ждем вас по адресу ул. Ленина, 18. До встречи! 😌": "Ждём вас по адресу ул. Ленина, 18. В чате покажем пример работ мастера 📷",
+            "Ждем вас по адресу ул. Ленина, 18. До встречи!": "Ждём вас по адресу ул. Ленина, 18. В чате покажем пример работ мастера 📷",
+            "Оцените визит по шкале от 1 до 5 и отправьте цифру.": "Оцените визит по шкале 1-5. Если всё понравилось, отправим ссылку на Яндекс Карты и 2ГИС.",
+            "Оставьте отзыв на Яндекс Картах: ссылка": "Если всё понравилось, оставьте отзыв на Яндекс Картах или 2ГИС: ссылка"
+          },
           benefitsHeading: "Почему салонам удобно с Лизой",
           benefitsLead: "Лиза берёт на себя часть ежедневной переписки с клиентами и помогает держать запись в порядке без лишней ручной работы.",
           benefitsCards: [
@@ -468,8 +495,8 @@
             },
             {
               kicker: "Запуск без перегруза",
-              title: "Можно начать спокойно, без тяжёлого внедрения",
-              body: "Подключаем Лизу, настраиваем нужные сценарии и помогаем запуститься быстро, без длинного проекта и лишней путаницы.",
+              title: "Отзывы и рейтинг на картах растут стабильнее",
+              body: "После визита Лиза просит оценку и помогает мягко довести довольного клиента до отзыва на Яндекс Картах или 2ГИС.",
               icon: "rocket"
             },
             {
@@ -480,13 +507,13 @@
             },
             {
               kicker: "Прозрачный старт",
-              title: "Не обязательно сразу брать максимум",
-              body: "Можно начать с базового тарифа, выбрать один мессенджер и расшириться позже, когда станет понятен рабочий объём.",
+              title: "Возвращает клиентов, которые давно не были",
+              body: "Если человек исчез из записи после паузы, Лиза помогает аккуратно напомнить о салоне и вернуть его в диалог.",
               icon: "chart"
             },
             {
               kicker: "Контроль команды",
-              title: "Администратор видит, где нужен живой ответ",
+              title: "Команда видит важные ситуации раньше",
               body: "Если клиенту важно ответить быстро или нужно вмешательство команды, это не теряется в общем потоке сообщений.",
               icon: "bell"
             }
@@ -507,9 +534,9 @@
               icon: "clock"
             },
             {
-              title: "Отзывы собирать проще и вовремя",
-              body: "После визита Лиза сама просит клиента оценить сервис. Так проще не упускать довольных клиентов и быстрее замечать проблемные ситуации.",
-              metric: "Больше живой обратной связи",
+              title: "Рейтинг на картах растёт стабильнее",
+              body: "После визита Лиза собирает оценку и помогает переводить довольных клиентов в отзывы на Яндекс Картах и 2ГИС.",
+              metric: "Больше отзывов на картах",
               icon: "star"
             },
             {
@@ -730,6 +757,7 @@
           clean.copy.navFaq = safeString(srcCopy.navFaq, clean.copy.navFaq, 64);
           clean.copy.headerCta = safeString(srcCopy.headerCta, clean.copy.headerCta, 90);
           clean.copy.heroCta = safeString(srcCopy.heroCta, clean.copy.heroCta, 90);
+          clean.copy.outcomesSubheading = safeString(srcCopy.outcomesSubheading, clean.copy.outcomesSubheading, 260);
           clean.copy.benefitsHeading = safeString(srcCopy.benefitsHeading, clean.copy.benefitsHeading, 160);
           clean.copy.benefitsLead = safeString(srcCopy.benefitsLead, clean.copy.benefitsLead, 520);
           clean.copy.outcomesHeading = safeString(srcCopy.outcomesHeading, clean.copy.outcomesHeading, 160);
@@ -799,6 +827,9 @@
 
           if (asObject(srcCopy.selectorTextMap)) {
             clean.copy.selectorTextMap = srcCopy.selectorTextMap;
+          }
+          if (asObject(srcCopy.exactTextMap)) {
+            clean.copy.exactTextMap = srcCopy.exactTextMap;
           }
           if (asObject(srcCopy.fullTextMap)) {
             clean.copy.fullTextMap = srcCopy.fullTextMap;
@@ -952,11 +983,13 @@
         var heading = document.createElement("h2");
         heading.className = "mb-4 text-5xl font-bold text-gray-900 lg:text-6xl";
         heading.textContent = cfg.copy.outcomesHeading || cfg.copy.resultHeading;
-        var sub = document.createElement("p");
-        sub.className = "text-xl text-gray-700 max-w-4xl mx-auto";
-        sub.textContent = cfg.copy.outcomesLead || cfg.copy.resultLead;
         headingWrap.appendChild(heading);
-        headingWrap.appendChild(sub);
+        if (cfg.copy.outcomesSubheading) {
+          var sub = document.createElement("p");
+          sub.className = "text-xl text-gray-700 max-w-4xl mx-auto";
+          sub.textContent = cfg.copy.outcomesSubheading;
+          headingWrap.appendChild(sub);
+        }
         root.appendChild(headingWrap);
 
         var wrap = document.createElement("div");
@@ -1270,6 +1303,27 @@
         return applied;
       }
 
+      function applyExactTextMap(cfg) {
+        var map = asObject(cfg.copy.exactTextMap);
+        if (!map) return 0;
+        var applied = 0;
+        var keys = Object.keys(map);
+        if (!keys.length) return 0;
+        var set = new Set(keys);
+
+        var nodes = Array.prototype.slice.call(document.body.querySelectorAll("h1,h2,h3,h4,p,span,a,button,label,div"));
+        nodes.forEach(function (node) {
+          if (!node || !node.firstChild || node.childElementCount > 0) return;
+          var current = (node.textContent || "").trim();
+          if (!current || !set.has(current)) return;
+          var next = safeString(map[current], "", 600);
+          if (!next || next === current) return;
+          node.textContent = next;
+          applied += 1;
+        });
+        return applied;
+      }
+
       function shouldSkipNodeByParent(parent) {
         if (!parent || !parent.tagName) return true;
         var tag = parent.tagName.toLowerCase();
@@ -1541,8 +1595,9 @@
           changed = benefitsOk || resultOk || pricingOk;
         }
         var fullTextAppliedCount = applyFullTextControl(runtimeConfig);
+        var exactTextAppliedCount = applyExactTextMap(runtimeConfig);
         var textAppliedCount = applySelectorOverrides(runtimeConfig);
-        return changed || navChanged > 0 || fullTextAppliedCount > 0 || textAppliedCount > 0;
+        return changed || navChanged > 0 || fullTextAppliedCount > 0 || exactTextAppliedCount > 0 || textAppliedCount > 0;
       }
 
       function scheduleApply() {
