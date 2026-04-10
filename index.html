@@ -421,6 +421,112 @@
       box-shadow: 0 14px 26px rgba(15, 22, 62, 0.28);
     }
 
+    .liza-footer-clean {
+      background: #ffffff;
+      margin-top: 24px;
+      border-top: 1px solid #dbe6f6;
+    }
+
+    .liza-footer-inner {
+      max-width: 1420px;
+      margin: 0 auto;
+      padding: 28px 24px 34px;
+    }
+
+    .liza-footer-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .liza-footer-col {
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .liza-footer-col--center {
+      justify-items: center;
+      text-align: center;
+    }
+
+    .liza-footer-col--right {
+      justify-items: end;
+      text-align: right;
+    }
+
+    .liza-footer-link,
+    .liza-footer-text {
+      color: #13253a;
+      font-size: clamp(1rem, 0.98rem + 0.22vw, 1.12rem);
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .liza-footer-link {
+      transition: color 0.18s ease, opacity 0.18s ease;
+    }
+
+    .liza-footer-link:hover {
+      color: #2a64d1;
+    }
+
+    .liza-footer-socials {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .liza-footer-social {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #5a63ff 0%, #7c35ff 100%);
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      box-shadow: 0 12px 24px rgba(88, 75, 203, 0.24);
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .liza-footer-social:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 28px rgba(88, 75, 203, 0.3);
+    }
+
+    .liza-footer-social svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    @keyframes lizaHeroFloat {
+      0% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(0, -10px, 0); }
+      100% { transform: translate3d(0, 0, 0); }
+    }
+
+    .liza-hero-float {
+      animation: lizaHeroFloat 5.8s ease-in-out infinite;
+      will-change: transform;
+    }
+
+    .liza-hero-float--1 { animation-delay: 0.7s; }
+    .liza-hero-float--2 { animation-delay: 1.4s; }
+    .liza-hero-float--3 { animation-delay: 2.1s; }
+
     @media (max-width: 1160px) {
       .liza-pricing-shell {
         grid-template-columns: 1fr;
@@ -435,6 +541,21 @@
       .liza-messenger-row {
         grid-template-columns: 1fr;
       }
+
+      .liza-footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .liza-footer-col,
+      .liza-footer-col--center,
+      .liza-footer-col--right {
+        justify-items: start;
+        text-align: left;
+      }
+
+      .liza-footer-socials {
+        justify-content: flex-start;
+      }
     }
   </style>
 </head>
@@ -446,21 +567,21 @@
       var DEFAULT_CONFIG = {
         copy: {
           navHow: "Как это работает",
-          navBenefits: "Почему выбирают",
+          navBenefits: "Почему нас выбирают",
           navOutcomes: "Что меняется",
           navPricing: "Тарифы",
           navFaq: "FAQ",
           headerCta: "Запустить бесплатно на 3 дня",
           heroCta: "Запустить бесплатно на 3 дня",
-          outcomesSubheading: "",
+          outcomesSubheading: "Лиза помогает салону держать связь с клиентами без ручной переписки на каждом этапе записи.",
           exactTextMap: {
             "снижать неявки": "напоминает о визите",
             "подтверждать визиты": "помогает подтвердить запись",
             "собирать отзывы": "собирает отзывы после посещения",
             "возвращать потеряшек": "возвращает клиента в диалог",
-            "уведомлять администратора": "помогает растить рейтинг на картах",
+            "уведомлять администратора": "помогает поднимать рейтинг на картах",
             "Мы берём шаблоны уведомлений из модуля, настраиваем таймеры и запускаем рабочие цепочки без ручной рутины.": "Лиза сама пишет клиентам до и после визита: напоминает о записи, помогает подтвердить приход, собирает отзывы и возвращает в чат тех, кто давно не приходил.",
-            "11 типов уведомлений в модуле": "11 готовых шаблонов под запись",
+            "11 типов уведомлений в модуле": "11 готовых сценариев под запись",
             "Каскад каналов: Telegram -> WhatsApp -> MAX": "Telegram, WhatsApp, VK и MAX",
             "Каскад каналов: Telegram → WhatsApp → MAX": "Telegram, WhatsApp, VK и MAX",
             "До 3 сообщений и до 5 медиа в одном сценарии": "Многошаговые сценарии с фото и видео",
@@ -482,48 +603,48 @@
             "Оцените визит по шкале от 1 до 5 и отправьте цифру.": "Оцените визит по шкале 1-5. Если всё понравилось, отправим ссылку на Яндекс Карты и 2ГИС.",
             "Оставьте отзыв на Яндекс Картах: ссылка": "Если всё понравилось, оставьте отзыв на Яндекс Картах или 2ГИС: ссылка"
           },
-          benefitsHeading: "Почему салонам удобно с Лизой",
-          benefitsLead: "Лиза берёт на себя ежедневные сообщения и помогает держать запись в порядке: команда меньше пишет вручную, а клиент вовремя получает нужный ответ.",
+          benefitsHeading: "Почему нас выбирают",
+          benefitsLead: "Лиза не выглядит как сложный сервис для внедрения. Она закрывает понятные задачи салона: напоминает о записи, собирает отзывы, возвращает клиентов после паузы и помогает команде меньше писать вручную.",
           benefitsCards: [
             {
               kicker: "Рутина",
-              title: "Админ не пишет одни и те же сообщения вручную",
-              body: "Напоминания, подтверждения и сообщения после визита Лиза отправляет сама. У администратора остаётся больше времени на живое общение с клиентами.",
+              title: "Команда меньше пишет вручную",
+              body: "Напоминания, подтверждения и сообщения после визита Лиза отправляет сама. Администратор не тратит полдня на одинаковые ответы в чатах.",
               icon: "repeat"
             },
             {
               kicker: "Привычные чаты",
-              title: "Клиент получает сообщения там, где ему удобно",
-              body: "Ничего не нужно скачивать и изучать. Сообщения приходят в Telegram, WhatsApp, VK или MAX и выглядят как обычный диалог.",
+              title: "Клиенту не нужно привыкать к новому сервису",
+              body: "Сообщения приходят в Telegram, WhatsApp, VK или MAX. Человек получает их там, где и так общается каждый день, и может сразу ответить.",
               icon: "chat"
             },
             {
-              kicker: "Быстрый старт",
-              title: "Запуск без долгого внедрения",
-              body: "Подключаем YClients, выбираем нужные сценарии и запускаем работу без длинного проекта и сложной подготовки.",
+              kicker: "Быстрый запуск",
+              title: "Можно стартовать без долгого внедрения",
+              body: "Подключаем YClients, включаем нужные сценарии и помогаем быстро запуститься. Без большого проекта, лишних согласований и путаницы на старте.",
               icon: "rocket"
             },
             {
-              kicker: "Гибкие тексты",
-              title: "Шаблоны легко подстроить под стиль салона",
-              body: "Можно адаптировать фразы, тон и содержание сообщений под ваши услуги, график и привычный способ общения с клиентами.",
+              kicker: "Готовые шаблоны",
+              title: "Не нужно сочинять сообщения с нуля",
+              body: "У Лизы уже есть готовые шаблоны под запись, подтверждение, отзывы и возврат клиентов. Мы подстраиваем их под ваш стиль общения и услуги.",
               icon: "settings"
             },
             {
               kicker: "Рост рейтинга",
-              title: "Отзывы на картах собирать проще",
-              body: "После визита Лиза просит оценку и переводит довольных клиентов в отзывы на Яндекс Картах и 2ГИС.",
+              title: "Легче собирать отзывы на Яндекс Картах и 2ГИС",
+              body: "После визита Лиза сначала просит оценку, а потом переводит довольных клиентов в отзыв. Так рейтинг на картах растёт ровнее и без ручных напоминаний.",
               icon: "chart"
             },
             {
-              kicker: "Контроль команды",
-              title: "Команда видит важные ситуации раньше",
-              body: "Если клиенту важно ответить быстро или нужно вмешательство команды, это не теряется в общем потоке сообщений.",
+              kicker: "Возврат клиентов",
+              title: "Лиза помогает вернуть тех, кто давно не записывался",
+              body: "Если человек давно не был у вас или отменил запись, Лиза помогает снова выйти на связь и вернуть клиента в разговор без навязчивых сообщений.",
               icon: "bell"
             }
           ],
           outcomesHeading: "Что меняется после запуска",
-          outcomesLead: "После запуска запись становится спокойнее: меньше пропусков, меньше ручной переписки и больше понятной обратной связи от клиентов.",
+          outcomesLead: "В работе салона становится меньше ручной рутины и больше понятности: кто подтвердил запись, кому пора напомнить и где уже можно просить отзыв.",
           outcomesCards: [
             {
               title: "Клиенты реже забывают о записи",
@@ -551,7 +672,7 @@
             }
           ],
           resultHeading: "Что меняется после запуска",
-          resultLead: "После запуска запись становится спокойнее: меньше пропусков, меньше ручной переписки и больше понятной обратной связи от клиентов.",
+          resultLead: "В работе салона становится меньше ручной рутины и больше понятности: кто подтвердил запись, кому пора напомнить и где уже можно просить отзыв.",
           resultCards: [
             {
               title: "Клиенты реже забывают о записи",
@@ -630,8 +751,21 @@
             { key: "max", label: "MAX", icon: "MX", checkedByDefault: false }
           ]
         },
+        legal: {
+          email: "laserzone10@gmail.com",
+          phoneDisplay: "+7 916 187-90-12",
+          phoneHref: "tel:+79161879012",
+          privacyHref: "https://liza-ai-admin.ru/privacy",
+          businessName: "ИП Сойту Артём Анатольевич",
+          inn: "100399380426",
+          socials: [
+            { label: "Telegram", shortLabel: "TG", href: "https://t.me/liza_ai_admin" },
+            { label: "ВКонтакте", shortLabel: "VK", href: "https://vk.com/liza_ai" },
+            { label: "WhatsApp", shortLabel: "WA", href: "https://api.whatsapp.com/send/?phone=79161879012&text&type=phone_number&app_absent=0" }
+          ]
+        },
         behavior: {
-          rebuildManagedSections: false,
+          rebuildManagedSections: true,
           fullTextControl: false,
           fullTextMode: "replace",
           placeholderWithKey: false
@@ -641,6 +775,8 @@
       var runtimeConfig = clone(DEFAULT_CONFIG);
       var queuedApply = null;
       var pendingConfigAck = false;
+      var domObserver = null;
+      var observerTimer = null;
       var forceFullTextExport = false;
       try {
         forceFullTextExport = new URLSearchParams(window.location.search).get("liza_fulltext_export") === "1";
@@ -840,6 +976,27 @@
           }
         }
 
+        var srcLegal = asObject(src.legal);
+        if (srcLegal) {
+          clean.legal.email = safeString(srcLegal.email, clean.legal.email, 120);
+          clean.legal.phoneDisplay = safeString(srcLegal.phoneDisplay, clean.legal.phoneDisplay, 40);
+          clean.legal.phoneHref = safeString(srcLegal.phoneHref, clean.legal.phoneHref, 64);
+          clean.legal.privacyHref = safeString(srcLegal.privacyHref, clean.legal.privacyHref, 240);
+          clean.legal.businessName = safeString(srcLegal.businessName, clean.legal.businessName, 180);
+          clean.legal.inn = safeString(srcLegal.inn, clean.legal.inn, 32);
+          if (Array.isArray(srcLegal.socials) && srcLegal.socials.length) {
+            clean.legal.socials = srcLegal.socials.slice(0, 4).map(function (item, idx) {
+              var fallback = clean.legal.socials[Math.min(idx, clean.legal.socials.length - 1)] || {};
+              var srcItem = asObject(item);
+              return {
+                label: safeString(srcItem.label, fallback.label || "Ссылка", 40),
+                shortLabel: safeString(srcItem.shortLabel, fallback.shortLabel || "GO", 4),
+                href: safeString(srcItem.href, fallback.href || "#", 260)
+              };
+            });
+          }
+        }
+
         var srcPricing = asObject(src.pricing);
         if (srcPricing) {
           clean.pricing.currency = safeString(srcPricing.currency, clean.pricing.currency, 6);
@@ -921,7 +1078,7 @@
       }
 
       function renderBenefitsSection(cfg) {
-        var section = sectionByIdOrHeading("benefits", ["Почему салонам удобно с Лизой", "Почему Лиза", "Преимущества"]);
+        var section = sectionByIdOrHeading("benefits", ["Почему нас выбирают", "Почему салонам удобно с Лизой", "Почему Лиза", "Преимущества"]);
         if (!section) return false;
         var root = sectionContentRoot(section);
         if (!root) return false;
@@ -976,7 +1133,7 @@
       }
 
       function renderOutcomeSection(cfg) {
-        var section = sectionByIdOrHeading("proof", ["Что меняется после запуска", "Почему нас выбирают", "Результат", "Кейсы"]);
+        var section = sectionByIdOrHeading("proof", ["Что меняется после запуска", "Что реально работает в модуле", "Что реально работает", "Почему нас выбирают", "Результат", "Кейсы"]);
         if (!section) return false;
         var root = sectionContentRoot(section);
         if (!root) return false;
@@ -1000,10 +1157,13 @@
         wrap.className = "liza-outcomes-rebuild";
         wrap.setAttribute("data-liza-managed", "outcomes");
 
-        var lead = document.createElement("div");
-        lead.className = "liza-outcomes-lead";
-        lead.textContent = cfg.copy.outcomesLead || cfg.copy.resultLead;
-        wrap.appendChild(lead);
+        var leadText = cfg.copy.outcomesLead || cfg.copy.resultLead;
+        if (leadText) {
+          var lead = document.createElement("div");
+          lead.className = "liza-outcomes-lead";
+          lead.textContent = leadText;
+          wrap.appendChild(lead);
+        }
 
         var grid = document.createElement("div");
         grid.className = "liza-outcomes-grid";
@@ -1289,6 +1449,115 @@
         widget.addEventListener("change", syncPricing);
         syncPricing();
         return true;
+      }
+
+      function renderFooterSection(cfg) {
+        var footer = document.querySelector("footer") || sectionByIdOrHeading("footer", ["Юридическая информация", "Реквизиты и контакты", "Политика конфиденциальности"]);
+        if (!footer) return false;
+        if (footer.querySelector('[data-liza-managed="footer"]')) return false;
+
+        footer.classList.add("liza-footer-clean");
+        footer.replaceChildren();
+
+        var inner = document.createElement("div");
+        inner.className = "liza-footer-inner";
+        inner.setAttribute("data-liza-managed", "footer");
+
+        var grid = document.createElement("div");
+        grid.className = "liza-footer-grid";
+
+        var left = document.createElement("div");
+        left.className = "liza-footer-col";
+
+        var email = document.createElement("a");
+        email.className = "liza-footer-link";
+        email.href = "mailto:" + cfg.legal.email;
+        email.textContent = cfg.legal.email;
+        left.appendChild(email);
+
+        var phone = document.createElement("a");
+        phone.className = "liza-footer-link";
+        phone.href = cfg.legal.phoneHref;
+        phone.textContent = cfg.legal.phoneDisplay;
+        left.appendChild(phone);
+
+        var center = document.createElement("div");
+        center.className = "liza-footer-col liza-footer-col--center";
+
+        var privacy = document.createElement("a");
+        privacy.className = "liza-footer-link";
+        privacy.href = cfg.legal.privacyHref;
+        privacy.target = "_blank";
+        privacy.rel = "noopener noreferrer";
+        privacy.textContent = "Политика конфиденциальности";
+        center.appendChild(privacy);
+
+        var socials = document.createElement("div");
+        socials.className = "liza-footer-socials";
+        cfg.legal.socials.forEach(function (item) {
+          var link = document.createElement("a");
+          link.className = "liza-footer-social";
+          link.href = item.href;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.setAttribute("aria-label", item.label);
+          link.innerHTML = getFooterSocialIcon(item.label);
+          socials.appendChild(link);
+        });
+        center.appendChild(socials);
+
+        var right = document.createElement("div");
+        right.className = "liza-footer-col liza-footer-col--right";
+
+        var business = document.createElement("p");
+        business.className = "liza-footer-text";
+        business.textContent = cfg.legal.businessName;
+        right.appendChild(business);
+
+        var inn = document.createElement("p");
+        inn.className = "liza-footer-text";
+        inn.textContent = "ИНН: " + cfg.legal.inn;
+        right.appendChild(inn);
+
+        grid.appendChild(left);
+        grid.appendChild(center);
+        grid.appendChild(right);
+        inner.appendChild(grid);
+        footer.appendChild(inner);
+        return true;
+      }
+
+      function getFooterSocialIcon(label) {
+        var name = normalize(label);
+        if (name.indexOf("telegram") !== -1) {
+          return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4 3.8 10.6c-.8.3-.8 1.4 0 1.7l4.5 1.4 1.7 5.1c.2.7 1.1.8 1.6.3l2.5-2.4 4.9 3.6c.6.4 1.4.1 1.5-.6L22.5 5c.1-.7-.8-1.3-1.5-1z"></path><path d="m8.3 13.7 9.6-8.5"></path></svg>';
+        }
+        if (name.indexOf("контакте") !== -1 || name === "vk") {
+          return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5c.2 6.8 3.8 10.9 10 10.9h.4v-3.1c1.8.2 3.2 1.5 3.7 3.1H21c-.6-2.2-2.2-3.5-3.2-4 1-.6 2.3-2 2.7-4H18c-.5 1.6-1.7 2.8-3.5 3V7.5h-2.3v5.1c-1.8-.5-4-1.9-4.1-5.1H4z"></path></svg>';
+        }
+        return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12.1c0 4.6-3.8 8.3-8.5 8.3-1.5 0-2.9-.4-4.2-1.1L3.5 20.5l1.3-4.1a8 8 0 0 1-1.3-4.3C3.5 7.5 7.3 3.8 12 3.8s8.5 3.7 8.5 8.3z"></path><path d="M9.4 8.7c-.2-.4-.5-.4-.8-.4h-.7c-.2 0-.5.1-.7.4-.2.3-.9.9-.9 2.3s.9 2.8 1 3c.1.2 1.8 2.8 4.4 3.8 2.1.8 2.5.7 3 .7s1.4-.6 1.6-1.2c.2-.6.2-1.1.1-1.2s-.4-.2-.8-.4l-1.4-.7c-.2-.1-.5-.2-.7.2s-.8.9-.9 1c-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.6-.8-.8-1.4-1.8-1.5-2.1-.2-.3 0-.4.1-.6l.5-.6c.2-.2.2-.4.3-.6s0-.4 0-.6l-.7-1.5z"></path></svg>';
+      }
+
+      function enhanceHeroMotion() {
+        var hero = document.getElementById("hero");
+        if (!hero) return 0;
+
+        var visual = Array.prototype.slice.call(hero.querySelectorAll("div")).find(function (el) {
+          return !!el.querySelector("img") && window.getComputedStyle(el).position === "relative" && el.offsetHeight > 280;
+        });
+        if (!visual) return 0;
+
+        var changed = 0;
+        Array.prototype.slice.call(visual.querySelectorAll("*")).forEach(function (el, idx) {
+          var style = window.getComputedStyle(el);
+          var smallEnough = el.offsetWidth > 20 && el.offsetWidth < 220 && el.offsetHeight > 20 && el.offsetHeight < 220;
+          if (style.position !== "absolute") return;
+          if (!smallEnough) return;
+          if (el.classList.contains("liza-hero-float")) return;
+          el.classList.add("liza-hero-float", "liza-hero-float--" + (idx % 4));
+          changed += 1;
+        });
+        return changed;
       }
 
       function applySelectorOverrides(cfg) {
@@ -1592,6 +1861,8 @@
         if (!document.body) return false;
         var changed = false;
         var navChanged = applyNavigationAndCtaCopy(runtimeConfig);
+        var footerChanged = renderFooterSection(runtimeConfig);
+        var heroMotionChanged = enhanceHeroMotion();
         if (runtimeConfig.behavior && runtimeConfig.behavior.rebuildManagedSections) {
           var benefitsOk = renderBenefitsSection(runtimeConfig);
           var resultOk = renderOutcomeSection(runtimeConfig);
@@ -1601,7 +1872,35 @@
         var fullTextAppliedCount = applyFullTextControl(runtimeConfig);
         var exactTextAppliedCount = applyExactTextMap(runtimeConfig);
         var textAppliedCount = applySelectorOverrides(runtimeConfig);
-        return changed || navChanged > 0 || fullTextAppliedCount > 0 || exactTextAppliedCount > 0 || textAppliedCount > 0;
+        return changed || footerChanged || navChanged > 0 || heroMotionChanged > 0 || fullTextAppliedCount > 0 || exactTextAppliedCount > 0 || textAppliedCount > 0;
+      }
+
+      function needsManagedRefresh() {
+        if (!document.body) return false;
+        if (runtimeConfig.behavior && runtimeConfig.behavior.rebuildManagedSections) {
+          if (findHeading(document.body, ["Почему Лиза", "Преимущества", "Что реально работает в модуле", "Что реально работает"])) return true;
+          if (!document.querySelector('[data-liza-managed="benefits"]')) return true;
+          if (!document.querySelector('[data-liza-managed="outcomes"]')) return true;
+          if (!document.querySelector('[data-liza-managed="pricing"]')) return true;
+        }
+        var footer = document.querySelector("footer");
+        if (footer && !footer.querySelector('[data-liza-managed="footer"]')) return true;
+        return false;
+      }
+
+      function startDomObserver() {
+        if (domObserver || !window.MutationObserver) return;
+        var target = document.getElementById("liza-tilda-root") || document.body;
+        if (!target) return;
+        domObserver = new MutationObserver(function () {
+          if (!needsManagedRefresh()) return;
+          if (observerTimer) clearTimeout(observerTimer);
+          observerTimer = setTimeout(function () {
+            observerTimer = null;
+            scheduleApply();
+          }, 120);
+        });
+        domObserver.observe(target, { childList: true, subtree: true });
       }
 
       function scheduleApply() {
@@ -1610,7 +1909,18 @@
         var maxAttempts = 40;
         queuedApply = setInterval(function () {
           attempts += 1;
-          var changed = applyConfigToDom();
+          var changed = false;
+          try {
+            changed = applyConfigToDom();
+            document.documentElement.setAttribute("data-liza-apply-state", changed ? "changed" : "checked");
+            document.documentElement.removeAttribute("data-liza-apply-error");
+          } catch (err) {
+            document.documentElement.setAttribute("data-liza-apply-state", "error");
+            document.documentElement.setAttribute("data-liza-apply-error", String(err && err.message ? err.message : err).slice(0, 220));
+            clearInterval(queuedApply);
+            queuedApply = null;
+            return;
+          }
           if (pendingConfigAck && (changed || attempts >= 2)) {
             pendingConfigAck = false;
             try {
@@ -1660,8 +1970,13 @@
         applyIncomingConfig(data.payload);
       });
 
+      enforceRuntimeFlags(runtimeConfig);
+      startDomObserver();
+      scheduleApply();
+
       window.addEventListener("load", function () {
         enforceRuntimeFlags(runtimeConfig);
+        startDomObserver();
         scheduleApply();
         try {
           window.parent.postMessage({ type: "LIZA_CONFIG_IFRAME_READY", version: 1 }, "*");
