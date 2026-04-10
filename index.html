@@ -23,54 +23,66 @@
 
     .liza-benefits-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      grid-template-columns: 1fr;
+      gap: 18px;
     }
 
     .liza-benefit-card {
       border: 1px solid #d9e5f8;
       background: linear-gradient(170deg, #ffffff 0%, #f7faff 100%);
-      border-radius: 28px;
-      padding: 22px;
-      box-shadow: 0 14px 30px rgba(33, 73, 121, 0.1);
+      border-radius: 30px;
+      padding: 24px 26px;
+      box-shadow: 0 16px 34px rgba(33, 73, 121, 0.1);
       transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: 0 20px;
+      align-items: start;
     }
 
     .liza-benefit-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 20px 34px rgba(33, 73, 121, 0.14);
+      box-shadow: 0 22px 38px rgba(33, 73, 121, 0.14);
       border-color: #bdd4fb;
     }
 
     .liza-benefit-icon {
-      width: 78px;
-      height: 78px;
-      border-radius: 22px;
+      width: 88px;
+      height: 88px;
+      border-radius: 26px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       color: #fff;
-      box-shadow: 0 14px 34px rgba(52, 91, 179, 0.32);
+      box-shadow: 0 16px 36px rgba(52, 91, 179, 0.28);
       background: linear-gradient(138deg, #2f66ff 0%, #7a33ff 100%);
-      margin-bottom: 14px;
+      grid-row: 1 / span 2;
     }
 
     .liza-benefit-icon svg {
-      width: 34px;
-      height: 34px;
+      width: 40px;
+      height: 40px;
       stroke: currentColor;
     }
 
+    .liza-benefit-content {
+      display: grid;
+      gap: 8px;
+      align-content: start;
+      min-width: 0;
+    }
+
     .liza-benefit-kicker {
-      margin: 0 0 8px;
+      margin: 0;
       display: inline-flex;
       align-items: center;
+      justify-self: start;
       border-radius: 999px;
       border: 1px solid #d2e2ff;
       background: #eef4ff;
       color: #2a64d1;
-      padding: 4px 10px;
-      font-size: 0.78rem;
+      padding: 6px 12px;
+      font-size: 0.79rem;
       font-weight: 700;
       letter-spacing: 0.01em;
     }
@@ -481,35 +493,36 @@
     }
 
     .liza-footer-social {
-      width: 42px;
-      height: 42px;
-      border-radius: 999px;
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, #5a63ff 0%, #7c35ff 100%);
-      color: #fff;
+      background: #ffffff;
+      color: #4f43e3;
+      border: 1px solid #d9e4fb;
       text-decoration: none;
       font-size: 0.9rem;
       font-weight: 800;
       letter-spacing: 0.02em;
-      box-shadow: 0 12px 24px rgba(88, 75, 203, 0.24);
-      transition: transform 0.16s ease, box-shadow 0.16s ease;
+      box-shadow: 0 10px 24px rgba(56, 86, 139, 0.14);
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, color 0.16s ease, background 0.16s ease;
     }
 
     .liza-footer-social:hover {
       transform: translateY(-1px);
-      box-shadow: 0 16px 28px rgba(88, 75, 203, 0.3);
+      box-shadow: 0 16px 30px rgba(56, 86, 139, 0.18);
+      border-color: #c8d9fb;
+      color: #2b63da;
+      background: #f8fbff;
     }
 
     .liza-footer-social svg {
       width: 18px;
       height: 18px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 1.9;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+      fill: currentColor;
+      stroke: none;
     }
 
     @keyframes lizaHeroFloat {
@@ -526,6 +539,17 @@
     .liza-hero-float--1 { animation-delay: 0.7s; }
     .liza-hero-float--2 { animation-delay: 1.4s; }
     .liza-hero-float--3 { animation-delay: 2.1s; }
+
+    .liza-support-link-card {
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+    }
+
+    .liza-support-link-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 28px rgba(39, 76, 129, 0.12);
+      border-color: #cdddf9;
+    }
 
     @media (max-width: 1160px) {
       .liza-pricing-shell {
@@ -557,6 +581,26 @@
         justify-content: flex-start;
       }
     }
+
+    @media (max-width: 760px) {
+      .liza-benefit-card {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 20px;
+      }
+
+      .liza-benefit-icon {
+        width: 74px;
+        height: 74px;
+        border-radius: 22px;
+        grid-row: auto;
+      }
+
+      .liza-benefit-icon svg {
+        width: 34px;
+        height: 34px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -573,78 +617,75 @@
           navFaq: "FAQ",
           headerCta: "Запустить бесплатно на 3 дня",
           heroCta: "Запустить бесплатно на 3 дня",
-          outcomesSubheading: "Лиза помогает салону держать связь с клиентами без ручной переписки на каждом этапе записи.",
+          outcomesSubheading: "После запуска запись становится спокойнее: о визите напоминают заранее, отзывы не теряются, а команда быстрее видит, где нужен живой ответ.",
           exactTextMap: {
-            "снижать неявки": "напоминает о визите",
-            "подтверждать визиты": "помогает подтвердить запись",
-            "собирать отзывы": "собирает отзывы после посещения",
-            "возвращать потеряшек": "возвращает клиента в диалог",
-            "уведомлять администратора": "помогает поднимать рейтинг на картах",
-            "Мы берём шаблоны уведомлений из модуля, настраиваем таймеры и запускаем рабочие цепочки без ручной рутины.": "Лиза сама пишет клиентам до и после визита: напоминает о записи, помогает подтвердить приход, собирает отзывы и возвращает в чат тех, кто давно не приходил.",
-            "11 типов уведомлений в модуле": "11 готовых сценариев под запись",
+            "Лиза Бот помогает": "ЛизаБот",
+            "Лиза Бот помогает салону не терять запись в тишине": "ЛизаБот",
+            "снижать неявки": "Напоминает о визите",
+            "подтверждать визиты": "Подтверждает запись",
+            "собирать отзывы": "Повышает рейтинг на картах",
+            "возвращать потеряшек": "Возвращает потеряшек",
+            "уведомлять администратора": "Повышает рейтинг на картах",
+            "Мы берём шаблоны уведомлений из модуля, настраиваем таймеры и запускаем рабочие цепочки без ручной рутины.": "Готовые шаблоны помогают быстро запуститься: Лиза напоминает о записи, подтверждает визит, возвращает клиентов после паузы и помогает поднимать рейтинг на картах.",
+            "11 типов уведомлений в модуле": "Готовые шаблоны под запись, отзывы и возврат",
             "Каскад каналов: Telegram -> WhatsApp -> MAX": "Telegram, WhatsApp, VK и MAX",
             "Каскад каналов: Telegram → WhatsApp → MAX": "Telegram, WhatsApp, VK и MAX",
-            "До 3 сообщений и до 5 медиа в одном сценарии": "Многошаговые сценарии с фото и видео",
-            "Сценарии и тексты строятся по шаблонам модуля уведомлений: от напоминаний до ветвления оценки": "Лиза сама отправляет нужные сообщения в нужный момент: до визита, после посещения и когда клиенту важно вовремя написать.",
+            "11 готовых сценариев под запись": "Готовые шаблоны под запись, отзывы и возврат",
+            "До 3 сообщений и до 5 медиа в одном сценарии": "Отзывы на Яндекс Картах и 2ГИС без ручной переписки",
+            "Многошаговые сценарии с фото и видео": "Отзывы на Яндекс Картах и 2ГИС без ручной переписки",
+            "Сценарии и тексты строятся по шаблонам модуля уведомлений: от напоминаний до ветвления оценки": "Лиза сама отправляет сообщения в нужный момент: до визита, после посещения и когда клиента важно вовремя вернуть в разговор.",
             "Напоминание перед визитом по таймеру": "Напоминает о записи заранее",
             "Срабатывает от создания записи и отправляется в заданное время до визита": "Клиент получает сообщение до визита и реже забывает о записи.",
-            "Подтверждение записи с ответом «да / нет»": "Помогает быстро подтвердить запись",
+            "Подтверждение записи с ответом «да / нет»": "Подтверждает запись в чате",
             "При ответе клиента система меняет статус в YClients автоматически": "Клиент отвечает в чате, и салон заранее понимает, всё ли в порядке с визитом.",
             "Запрос оценки 1–5 и ветка по ответу клиента": "Просит оценить визит после посещения",
             "Запрос оценки 1-5 и ветка по ответу клиента": "Просит оценить визит после посещения",
-            "Позитивная и негативная ветки настраиваются отдельно, с алертом администратору": "Если клиент недоволен, команда видит это сразу и может быстро ответить.",
-            "Сценарий «Потеряшки» после отмены или статуса «не пришел»": "Возврат клиента после отмены или долгой паузы",
-            "Сценарий «Потеряшки» после отмены или статуса «не пришёл»": "Возврат клиента после отмены или долгой паузы",
-            "Сообщение запускается от события и возвращает клиента в диалог": "Лиза напоминает о салоне и помогает вернуть клиента в запись.",
-            "Служебные уведомления администратору в Telegram": "Уведомления команде, когда нужен быстрый ответ",
-            "Например, при негативной оценке клиентского визита": "Например, если клиент поставил низкую оценку или просит связаться.",
+            "Позитивная и негативная ветки настраиваются отдельно, с алертом администратору": "Довольных клиентов можно переводить в отзыв, а если оценка низкая, команда узнает об этом сразу.",
+            "Сценарий «Потеряшки» после отмены или статуса «не пришел»": "Возвращает клиента после отмены или паузы",
+            "Сценарий «Потеряшки» после отмены или статуса «не пришёл»": "Возвращает клиента после отмены или паузы",
+            "Сообщение запускается от события и возвращает клиента в диалог": "Если запись отменили или клиент давно не был у вас, Лиза помогает снова начать разговор и вернуть человека в запись.",
+            "Служебные уведомления администратору в Telegram": "Если клиент недоволен, команда узнает сразу",
+            "Например, при негативной оценке клиентского визита": "При низкой оценке администратору приходит уведомление в Telegram через бота, и команда может быстро связаться с клиентом.",
             "Ждем вас по адресу ул. Ленина, 18. До встречи! 😌": "Если планы изменились, просто ответьте в этом чате.",
             "Ждем вас по адресу ул. Ленина, 18. До встречи!": "Если планы изменились, просто ответьте в этом чате.",
             "Оцените визит по шкале от 1 до 5 и отправьте цифру.": "Оцените визит по шкале 1-5. Если всё понравилось, отправим ссылку на Яндекс Карты и 2ГИС.",
-            "Оставьте отзыв на Яндекс Картах: ссылка": "Если всё понравилось, оставьте отзыв на Яндекс Картах или 2ГИС: ссылка"
+            "Оставьте отзыв на Яндекс Картах: ссылка": "Если всё понравилось, оставьте отзыв на Яндекс Картах или 2ГИС: ссылка",
+            "Поддержка 24/7": "Поддержка в Telegram",
+            "Ответим в течение 5 минут": "Откроем чат и поможем с запуском",
+            "Бюджет": "Итого",
+            "Бюджет:": "Итого:",
+            "Бесплатный тест 3 дня": "Бесплатный запуск на 3 дня",
+            "Оставьте заявку, и мы поможем спокойно подключить Лизу и запустить всё без лишней ручной работы.": "Оставьте заявку, и мы подключим Лизу, настроим шаблоны и покажем запуск на вашем салоне.",
+            "2. Настроим цепочки сообщений под ваши услуги.": "2. Настроим шаблоны сообщений под ваши услуги и график.",
+            "3. Вы получите первые результаты уже в тестовый период.": "3. Покажем на живом примере, как всё работает именно у вас.",
+            "А если у нас несколько филиалов?": "А если у нас несколько филиалов?",
+            "Это тоже можно настроить. Сначала смотрим, как у вас устроена запись и работа команды, а потом собираем удобную схему под ваш формат.": "Можно быстро подключить второй филиал, перенести в него готовые шаблоны и настройки уведомлений или настроить всё отдельно под его график и услуги.",
+            "Для сетевого формата выбирают старшие тарифы и настраивают сценарии по филиалам: отдельные тексты, услуги и правила отправки.": "Второй филиал можно подключить быстро: скопировать готовые шаблоны и настройки уведомлений или собрать их отдельно под этот филиал."
           },
-          benefitsHeading: "Почему нас выбирают",
-          benefitsLead: "Лиза не выглядит как сложный сервис для внедрения. Она закрывает понятные задачи салона: напоминает о записи, собирает отзывы, возвращает клиентов после паузы и помогает команде меньше писать вручную.",
+          benefitsHeading: "Почему салонам удобно с Лизой",
+          benefitsLead: "Три сильные стороны, за которые Лизу выбирают салоны: готовые шаблоны без долгой раскачки, рост отзывов на картах и работа с клиентами, которые выпали из записи.",
           benefitsCards: [
             {
-              kicker: "Рутина",
-              title: "Команда меньше пишет вручную",
-              body: "Напоминания, подтверждения и сообщения после визита Лиза отправляет сама. Администратор не тратит полдня на одинаковые ответы в чатах.",
-              icon: "repeat"
-            },
-            {
-              kicker: "Привычные чаты",
-              title: "Клиенту не нужно привыкать к новому сервису",
-              body: "Сообщения приходят в Telegram, WhatsApp, VK или MAX. Человек получает их там, где и так общается каждый день, и может сразу ответить.",
-              icon: "chat"
-            },
-            {
-              kicker: "Быстрый запуск",
-              title: "Можно стартовать без долгого внедрения",
-              body: "Подключаем YClients, включаем нужные сценарии и помогаем быстро запуститься. Без большого проекта, лишних согласований и путаницы на старте.",
-              icon: "rocket"
-            },
-            {
               kicker: "Готовые шаблоны",
-              title: "Не нужно сочинять сообщения с нуля",
-              body: "У Лизы уже есть готовые шаблоны под запись, подтверждение, отзывы и возврат клиентов. Мы подстраиваем их под ваш стиль общения и услуги.",
-              icon: "settings"
+              title: "Быстрый запуск на готовых сценариях",
+              body: "Подключаем YClients, берём готовые шаблоны под напоминания, подтверждения, отзывы и возврат клиентов, а потом подстраиваем их под ваш салон. Не нужно собирать всё с нуля и долго раскачивать запуск.",
+              icon: "sparkles"
             },
             {
-              kicker: "Рост рейтинга",
-              title: "Легче собирать отзывы на Яндекс Картах и 2ГИС",
-              body: "После визита Лиза сначала просит оценку, а потом переводит довольных клиентов в отзыв. Так рейтинг на картах растёт ровнее и без ручных напоминаний.",
-              icon: "chart"
+              kicker: "Рейтинг и контроль",
+              title: "Отзывы идут на карты, а спорные ситуации команда видит сразу",
+              body: "После визита Лиза сначала просит оценку в чате. Довольных клиентов можно переводить в отзыв на Яндекс Картах и 2ГИС, а если оценка низкая, администратору приходит уведомление в Telegram через бота, и команда быстро включается в ситуацию.",
+              icon: "map-star"
             },
             {
-              kicker: "Возврат клиентов",
-              title: "Лиза помогает вернуть тех, кто давно не записывался",
-              body: "Если человек давно не был у вас или отменил запись, Лиза помогает снова выйти на связь и вернуть клиента в разговор без навязчивых сообщений.",
-              icon: "bell"
+              kicker: "Возврат и филиалы",
+              title: "Проще вернуть клиента и быстро подключить второй филиал",
+              body: "Если запись отменили или человек давно не возвращался, Лиза помогает снова выйти на связь. А когда появляется второй филиал, можно скопировать в него шаблоны и настройки уведомлений или настроить всё отдельно под его услуги и график.",
+              icon: "branch"
             }
           ],
           outcomesHeading: "Что меняется после запуска",
-          outcomesLead: "В работе салона становится меньше ручной рутины и больше понятности: кто подтвердил запись, кому пора напомнить и где уже можно просить отзыв.",
+          outcomesLead: "Лиза снимает повторяющиеся сообщения и помогает спокойнее держать под контролем и запись, и обратную связь после визита.",
           outcomesCards: [
             {
               title: "Клиенты реже забывают о записи",
@@ -672,7 +713,7 @@
             }
           ],
           resultHeading: "Что меняется после запуска",
-          resultLead: "В работе салона становится меньше ручной рутины и больше понятности: кто подтвердил запись, кому пора напомнить и где уже можно просить отзыв.",
+          resultLead: "Лиза снимает повторяющиеся сообщения и помогает спокойнее держать под контролем и запись, и обратную связь после визита.",
           resultCards: [
             {
               title: "Клиенты реже забывают о записи",
@@ -1059,6 +1100,12 @@
           repeat: '<path d="m17 2 4 4-4 4"></path><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v2a4 4 0 0 1-4 4H3"></path>',
           chat: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path><path d="M8 12h.01"></path><path d="M12 12h.01"></path><path d="M16 12h.01"></path>',
           rocket: '<path d="M4.5 16.5c-1.5 1.26-2 3.24-2 3.24s1.98-.5 3.24-2c1.02-1.2.88-2.1.88-2.1s-.9-.14-2.12.86Z"></path><path d="m12 15-3-3a25.1 25.1 0 0 1 7-9 25.1 25.1 0 0 1 5 5 25.1 25.1 0 0 1-9 7Z"></path><path d="M9 12H4a2 2 0 0 0-2 2v2"></path><path d="M12 15v5a2 2 0 0 0 2 2h2"></path>',
+          layers: '<path d="M12 3 3 8l9 5 9-5-9-5Z"></path><path d="m3 12 9 5 9-5"></path><path d="m3 16 9 5 9-5"></path>',
+          map: '<path d="M12 21s6-5.4 6-11a6 6 0 1 0-12 0c0 5.6 6 11 6 11Z"></path><circle cx="12" cy="10" r="2.5"></circle>',
+          "map-star": '<path d="M12 21s6-5.4 6-11a6 6 0 1 0-12 0c0 5.6 6 11 6 11Z"></path><path d="m12 7.6.85 1.72 1.9.28-1.38 1.34.33 1.9L12 11.95l-1.7.9.33-1.9-1.38-1.34 1.9-.28z"></path>',
+          copy: '<rect x="9" y="9" width="11" height="11" rx="2"></rect><rect x="4" y="4" width="11" height="11" rx="2"></rect>',
+          branch: '<path d="M6 3v12"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="6" r="3"></circle><circle cx="18" cy="18" r="3"></circle><path d="M9 6h6"></path><path d="M9 18h6"></path><path d="M15 6v12"></path>',
+          sparkles: '<path d="m12 3 1.3 3.2L16.5 7.5l-3.2 1.3L12 12l-1.3-3.2L7.5 7.5l3.2-1.3Z"></path><path d="M5 14l.8 2 .2.2 2 .8-2 .8-.2.2-.8 2-.8-2-.2-.2-2-.8 2-.8.2-.2Z"></path><path d="M19 12l.6 1.5.2.2 1.5.6-1.5.6-.2.2-.6 1.5-.6-1.5-.2-.2-1.5-.6 1.5-.6.2-.2Z"></path>',
           settings: '<circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"></path>',
           chart: '<path d="M3 3v18h18"></path><path d="M8 14v4"></path><path d="M12 10v8"></path><path d="M16 6v12"></path>',
           bell: '<path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path>',
@@ -1102,28 +1149,31 @@
 
         var grid = document.createElement("div");
         grid.className = "liza-benefits-grid";
-        var fallbackIcons = ["repeat", "chat", "rocket", "settings", "chart", "bell"];
+        var fallbackIcons = ["layers", "map", "copy"];
         cfg.copy.benefitsCards.forEach(function (card, idx) {
           var article = document.createElement("article");
           article.className = "liza-benefit-card";
 
           article.appendChild(createIconSpan("liza-benefit-icon", card.icon || fallbackIcons[idx % fallbackIcons.length]));
+          var content = document.createElement("div");
+          content.className = "liza-benefit-content";
           if (card.kicker) {
             var kicker = document.createElement("p");
             kicker.className = "liza-benefit-kicker";
             kicker.textContent = card.kicker;
-            article.appendChild(kicker);
+            content.appendChild(kicker);
           }
 
           var t = document.createElement("h3");
           t.className = "liza-benefit-title";
           t.textContent = card.title;
-          article.appendChild(t);
+          content.appendChild(t);
 
           var b = document.createElement("p");
           b.className = "liza-benefit-copy";
           b.textContent = card.body;
-          article.appendChild(b);
+          content.appendChild(b);
+          article.appendChild(content);
 
           grid.appendChild(article);
         });
@@ -1454,7 +1504,6 @@
       function renderFooterSection(cfg) {
         var footer = document.querySelector("footer") || sectionByIdOrHeading("footer", ["Юридическая информация", "Реквизиты и контакты", "Политика конфиденциальности"]);
         if (!footer) return false;
-        if (footer.querySelector('[data-liza-managed="footer"]')) return false;
 
         footer.classList.add("liza-footer-clean");
         footer.replaceChildren();
@@ -1530,12 +1579,203 @@
       function getFooterSocialIcon(label) {
         var name = normalize(label);
         if (name.indexOf("telegram") !== -1) {
-          return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4 3.8 10.6c-.8.3-.8 1.4 0 1.7l4.5 1.4 1.7 5.1c.2.7 1.1.8 1.6.3l2.5-2.4 4.9 3.6c.6.4 1.4.1 1.5-.6L22.5 5c.1-.7-.8-1.3-1.5-1z"></path><path d="m8.3 13.7 9.6-8.5"></path></svg>';
+          return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 4.4 18.3 19c-.2.9-.9 1.2-1.8.7l-4-2.9-1.9 1.8c-.2.2-.4.4-.8.4l.3-4.2 7.7-7c.3-.3-.1-.5-.4-.3l-9.5 6-4.1-1.3c-.9-.3-.9-.9.2-1.3l15.9-6.1c.7-.3 1.4.2 1.2 1z"></path></svg>';
         }
         if (name.indexOf("контакте") !== -1 || name === "vk") {
           return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5c.2 6.8 3.8 10.9 10 10.9h.4v-3.1c1.8.2 3.2 1.5 3.7 3.1H21c-.6-2.2-2.2-3.5-3.2-4 1-.6 2.3-2 2.7-4H18c-.5 1.6-1.7 2.8-3.5 3V7.5h-2.3v5.1c-1.8-.5-4-1.9-4.1-5.1H4z"></path></svg>';
         }
-        return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12.1c0 4.6-3.8 8.3-8.5 8.3-1.5 0-2.9-.4-4.2-1.1L3.5 20.5l1.3-4.1a8 8 0 0 1-1.3-4.3C3.5 7.5 7.3 3.8 12 3.8s8.5 3.7 8.5 8.3z"></path><path d="M9.4 8.7c-.2-.4-.5-.4-.8-.4h-.7c-.2 0-.5.1-.7.4-.2.3-.9.9-.9 2.3s.9 2.8 1 3c.1.2 1.8 2.8 4.4 3.8 2.1.8 2.5.7 3 .7s1.4-.6 1.6-1.2c.2-.6.2-1.1.1-1.2s-.4-.2-.8-.4l-1.4-.7c-.2-.1-.5-.2-.7.2s-.8.9-.9 1c-.2.2-.3.2-.6.1-.3-.2-1.2-.5-2.3-1.6-.8-.8-1.4-1.8-1.5-2.1-.2-.3 0-.4.1-.6l.5-.6c.2-.2.2-.4.3-.6s0-.4 0-.6l-.7-1.5z"></path></svg>';
+        return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12c0 4.7-3.8 8.5-8.5 8.5-1.4 0-2.8-.3-4-1l-4.5 1.4 1.5-4.3a8.4 8.4 0 0 1-1.4-4.6A8.5 8.5 0 0 1 12 3.5a8.5 8.5 0 0 1 8.5 8.5Zm-4.9 1.8c-.2-.1-1.3-.7-1.5-.7-.2-.1-.3-.1-.5.1l-.7.8c-.1.1-.2.2-.4.1-.2-.1-.9-.3-1.6-1-.6-.5-1-1.2-1.1-1.4-.1-.2 0-.3.1-.4l.3-.4c.1-.1.1-.2.2-.3.1-.1 0-.2 0-.4l-.6-1.4c-.1-.2-.2-.2-.4-.2h-.4c-.1 0-.3 0-.5.2-.2.2-.7.7-.7 1.8s.8 2.2.9 2.4c.1.1 1.5 2.3 3.6 3.2 1.7.7 2 .5 2.4.5.4-.1 1.2-.5 1.3-1 .2-.5.2-.9.1-1s-.2-.1-.5-.3Z"></path></svg>';
+      }
+
+      var heroRotationTimer = null;
+
+      function getTelegramSupportHref(cfg) {
+        var socials = cfg && cfg.legal && Array.isArray(cfg.legal.socials) ? cfg.legal.socials : [];
+        var tg = socials.find(function (item) {
+          return normalize(item && item.label).indexOf("telegram") !== -1;
+        });
+        return tg && tg.href ? tg.href : "https://t.me/liza_ai_admin";
+      }
+
+      function findHeroLineWrap(hero) {
+        if (!hero) return null;
+        var heading = hero.querySelector("h1");
+        if (heading && heading.parentElement) {
+          var siblingWrap = Array.prototype.slice.call(heading.parentElement.children).find(function (el) {
+            return el !== heading && el.querySelectorAll && el.querySelectorAll("p").length >= 4;
+          });
+          if (siblingWrap) return siblingWrap;
+        }
+        return Array.prototype.slice.call(hero.querySelectorAll("div")).find(function (el) {
+          return el.querySelectorAll && el.querySelectorAll("p").length >= 4 && hasAny(el.textContent, ["напоминать о визите", "помогать подтвердить запись", "собирать отзывы", "возвращать клиента", "поднимать рейтинг"]);
+        }) || null;
+      }
+
+      function syncHeroRotationState(linesWrap, lines) {
+        if (!linesWrap || !lines.length) return 0;
+        var next = Number(linesWrap.getAttribute("data-liza-hero-index") || 0);
+        if (!isFinite(next) || next < 0) next = 0;
+        next = next % lines.length;
+        var changed = 0;
+        var baseClass = linesWrap.getAttribute("data-liza-hero-base-class") || "text-[clamp(1.65rem,3.55vw,3.5rem)] font-extrabold leading-[1.03] tracking-tight transition-all duration-500";
+        var activeClass = (baseClass + " hero-value-active text-gray-900").trim();
+        var mutedClass = (baseClass + " text-slate-300").trim();
+        Array.prototype.slice.call(linesWrap.querySelectorAll("p")).forEach(function (node, idx) {
+          var className = idx === next ? activeClass : mutedClass;
+          if (node.className !== className) {
+            node.className = className;
+            changed += 1;
+          }
+        });
+        return changed;
+      }
+
+      function patchHeroCopy(cfg) {
+        var hero = document.getElementById("hero");
+        if (!hero) return 0;
+        var changed = 0;
+        var heading = hero.querySelector("h1");
+        if (heading && heading.textContent !== "ЛизаБот") {
+          heading.textContent = "ЛизаБот";
+          changed += 1;
+        }
+        var desiredHeadingClass = "mb-4 text-[clamp(1.12rem,1.7vw,1.6rem)] font-bold tracking-tight text-slate-900";
+        if (heading && heading.className !== desiredHeadingClass) {
+          heading.className = desiredHeadingClass;
+          changed += 1;
+        }
+
+        var desiredLines = [
+          "Напоминает о визите",
+          "Подтверждает запись",
+          "Возвращает потеряшек",
+          "Повышает рейтинг на картах"
+        ];
+
+        var linesWrap = findHeroLineWrap(hero);
+        if (linesWrap) {
+          var currentNodes = Array.prototype.slice.call(linesWrap.querySelectorAll("p"));
+          var baseClass = currentNodes[0] ? (currentNodes[0].className || "")
+            .replace(/\bhero-value-active\b/g, "")
+            .replace(/\btext-gray-900\b/g, "")
+            .replace(/\btext-slate-300\b/g, "")
+            .replace(/\btext-\[#c9d7ec\]\b/g, "")
+            .replace(/\s+/g, " ")
+            .trim() : "";
+          if (!baseClass || baseClass.indexOf("text-[clamp(") === -1) {
+            baseClass = "text-[clamp(2.4rem,5.5vw,5.3rem)] font-extrabold leading-[0.98] tracking-tight transition-all duration-500";
+          }
+          if (baseClass) {
+            linesWrap.setAttribute("data-liza-hero-base-class", baseClass);
+          }
+          var activeIdx = Math.max(0, currentNodes.findIndex(function (node) {
+            return node.className.indexOf("hero-value-active") !== -1 || node.className.indexOf("text-gray-900") !== -1;
+          }));
+          var currentSignature = currentNodes.map(function (node) {
+            return (node.textContent || "").trim();
+          }).join("|");
+          var desiredSignature = desiredLines.join("|");
+          if (currentSignature !== desiredSignature) {
+            linesWrap.replaceChildren();
+            desiredLines.forEach(function (text, idx) {
+              var line = document.createElement("p");
+              line.textContent = text;
+              linesWrap.appendChild(line);
+            });
+            changed += 1;
+          }
+          linesWrap.setAttribute("data-liza-hero-index", String(activeIdx % desiredLines.length));
+          changed += syncHeroRotationState(linesWrap, desiredLines);
+        }
+
+        var heroCopy = Array.prototype.slice.call(hero.querySelectorAll("p")).find(function (node) {
+          return normalize(node.textContent).indexOf(normalize("Лиза сама отправляет сообщения")) !== -1 || normalize(node.textContent).indexOf(normalize("Мы берём шаблоны уведомлений")) !== -1;
+        });
+        var desiredCopy = "Готовые шаблоны помогают быстро запуститься: Лиза напоминает о визите, подтверждает запись, возвращает клиентов после паузы и помогает поднимать рейтинг на картах.";
+        if (heroCopy && heroCopy.textContent !== desiredCopy) {
+          heroCopy.textContent = desiredCopy;
+          changed += 1;
+        }
+
+        if (!heroRotationTimer) {
+          heroRotationTimer = setInterval(function () {
+            var currentHero = document.getElementById("hero");
+            var currentWrap = findHeroLineWrap(currentHero);
+            if (!currentWrap) return;
+            var idx = Number(currentWrap.getAttribute("data-liza-hero-index") || 0);
+            if (!isFinite(idx) || idx < 0) idx = 0;
+            idx = (idx + 1) % desiredLines.length;
+            currentWrap.setAttribute("data-liza-hero-index", String(idx));
+            syncHeroRotationState(currentWrap, desiredLines);
+          }, 2400);
+        }
+
+        return changed;
+      }
+
+      function patchLeadAndSupport(cfg) {
+        var changed = 0;
+        var supportHref = getTelegramSupportHref(cfg);
+
+        textElements(document.body).forEach(function (node) {
+          if (!node || !node.firstChild || node.childElementCount > 0) return;
+          var text = (node.textContent || "").trim();
+          if (text === "Бюджет") {
+            node.textContent = "Итого";
+            changed += 1;
+          } else if (text === "Бюджет:") {
+            node.textContent = "Итого:";
+            changed += 1;
+          }
+        });
+
+        var supportTitle = Array.prototype.slice.call(document.querySelectorAll("p,span,div,h3")).find(function (node) {
+          return normalize(node.textContent) === normalize("Поддержка в Telegram") || normalize(node.textContent) === normalize("Поддержка 24/7");
+        });
+
+        if (supportTitle) {
+          var card = supportTitle.closest("[class*='rounded-full']") || supportTitle.closest("a,button,article,section,div");
+          if (card && card.tagName !== "A") {
+            if (!card.classList.contains("liza-support-link-card")) {
+              card.classList.add("liza-support-link-card");
+              changed += 1;
+            }
+            if (card.getAttribute("data-liza-support-bound") !== "1") {
+              card.setAttribute("data-liza-support-bound", "1");
+              card.setAttribute("role", "link");
+              card.setAttribute("tabindex", "0");
+              card.style.cursor = "pointer";
+              card.addEventListener("click", function () {
+                window.open(supportHref, "_blank", "noopener");
+              });
+              card.addEventListener("keydown", function (event) {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  window.open(supportHref, "_blank", "noopener");
+                }
+              });
+              changed += 1;
+            }
+          } else if (card && card.tagName === "A" && card.href !== supportHref) {
+            card.href = supportHref;
+            card.target = "_blank";
+            card.rel = "noopener noreferrer";
+            card.style.cursor = "pointer";
+            changed += 1;
+          }
+          Array.prototype.slice.call(card ? card.querySelectorAll("p,span,div,h3,button") : []).forEach(function (node) {
+            if (node.getAttribute("data-liza-support-proxy") === "1") return;
+            node.setAttribute("data-liza-support-proxy", "1");
+            node.style.cursor = "pointer";
+            node.addEventListener("click", function (event) {
+              event.preventDefault();
+              event.stopPropagation();
+              window.open(supportHref, "_blank", "noopener");
+            });
+          });
+        }
+
+        return changed;
       }
 
       function enhanceHeroMotion() {
@@ -1862,6 +2102,8 @@
         var changed = false;
         var navChanged = applyNavigationAndCtaCopy(runtimeConfig);
         var footerChanged = renderFooterSection(runtimeConfig);
+        var heroCopyChanged = patchHeroCopy(runtimeConfig);
+        var leadSupportChanged = patchLeadAndSupport(runtimeConfig);
         var heroMotionChanged = enhanceHeroMotion();
         if (runtimeConfig.behavior && runtimeConfig.behavior.rebuildManagedSections) {
           var benefitsOk = renderBenefitsSection(runtimeConfig);
@@ -1872,7 +2114,7 @@
         var fullTextAppliedCount = applyFullTextControl(runtimeConfig);
         var exactTextAppliedCount = applyExactTextMap(runtimeConfig);
         var textAppliedCount = applySelectorOverrides(runtimeConfig);
-        return changed || footerChanged || navChanged > 0 || heroMotionChanged > 0 || fullTextAppliedCount > 0 || exactTextAppliedCount > 0 || textAppliedCount > 0;
+        return changed || footerChanged || navChanged > 0 || heroCopyChanged > 0 || leadSupportChanged > 0 || heroMotionChanged > 0 || fullTextAppliedCount > 0 || exactTextAppliedCount > 0 || textAppliedCount > 0;
       }
 
       function needsManagedRefresh() {
@@ -1893,14 +2135,13 @@
         var target = document.getElementById("liza-tilda-root") || document.body;
         if (!target) return;
         domObserver = new MutationObserver(function () {
-          if (!needsManagedRefresh()) return;
           if (observerTimer) clearTimeout(observerTimer);
           observerTimer = setTimeout(function () {
             observerTimer = null;
             scheduleApply();
           }, 120);
         });
-        domObserver.observe(target, { childList: true, subtree: true });
+        domObserver.observe(target, { childList: true, subtree: true, attributes: true, characterData: true });
       }
 
       function scheduleApply() {
@@ -1988,6 +2229,9 @@
   </script>
 </body>
 </html>
+
+
+
 
 
 
