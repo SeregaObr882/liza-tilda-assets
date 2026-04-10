@@ -1,0 +1,2449 @@
+﻿<!doctype html>
+<!-- DEPLOY_ID: v7-2026-04-03-marketing-refresh -->
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Liza Bot Landing</title>
+  <link rel="stylesheet" href="./liza-app.css?v=7" />
+  <style>
+    html, body { margin: 0; padding: 0; background: #f2f5fb; }
+    #liza-tilda-root { width: 100%; }
+
+    .liza-old-content {
+      display: none !important;
+    }
+
+    .liza-benefits-rebuild,
+    .liza-outcomes-rebuild {
+      margin-top: 24px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .liza-benefits-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .liza-benefit-card {
+      border: 1px solid #d9e5f8;
+      background: linear-gradient(170deg, #ffffff 0%, #f7faff 100%);
+      border-radius: 30px;
+      padding: 28px 30px;
+      min-height: 220px;
+      box-shadow: 0 18px 38px rgba(33, 73, 121, 0.1);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      display: grid;
+      grid-template-columns: 108px minmax(0, 1fr);
+      gap: 0 24px;
+      align-items: start;
+    }
+
+    .liza-benefit-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 38px rgba(33, 73, 121, 0.14);
+      border-color: #bdd4fb;
+    }
+
+    .liza-benefit-icon {
+      width: 96px;
+      height: 96px;
+      border-radius: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 20px 40px rgba(52, 91, 179, 0.28);
+      background: linear-gradient(138deg, #2f66ff 0%, #7a33ff 100%);
+      grid-row: 1 / span 2;
+    }
+
+    .liza-benefit-icon svg {
+      width: 44px;
+      height: 44px;
+      stroke: currentColor;
+    }
+
+    .liza-benefit-content {
+      display: grid;
+      gap: 8px;
+      align-content: start;
+      min-width: 0;
+    }
+
+    .liza-benefit-kicker {
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-self: start;
+      border-radius: 999px;
+      border: 1px solid #d2e2ff;
+      background: #eef4ff;
+      color: #2a64d1;
+      padding: 7px 14px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .liza-benefit-title {
+      margin: 0 0 8px;
+      color: #10253a;
+      font-size: 1.35rem;
+      font-weight: 850;
+      line-height: 1.25;
+    }
+
+    .liza-benefit-copy {
+      margin: 0;
+      color: #3b4e64;
+      font-size: 1.04rem;
+      line-height: 1.58;
+    }
+
+    .liza-outcomes-lead {
+      background: #eef3ff;
+      border: 1px solid #cfe0ff;
+      border-radius: 18px;
+      padding: 18px 20px;
+      color: #2a4665;
+      line-height: 1.5;
+      font-size: clamp(1.06rem, 1.02rem + 0.38vw, 1.24rem);
+      font-weight: 520;
+    }
+
+    .liza-outcomes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .liza-outcome-card {
+      border: 1px solid #d8e6fb;
+      background: #fff;
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 12px 28px rgba(34, 79, 132, 0.1);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .liza-outcome-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 34px rgba(34, 79, 132, 0.14);
+      border-color: #bfd5ff;
+    }
+
+    .liza-outcome-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .liza-outcome-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(56, 92, 187, 0.34);
+      background: linear-gradient(135deg, #2f66ff 0%, #7a33ff 100%);
+      flex-shrink: 0;
+    }
+
+    .liza-outcome-icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: currentColor;
+    }
+
+    .liza-outcome-title {
+      margin: 0;
+      color: #10253a;
+      font-size: 1.12rem;
+      font-weight: 800;
+      line-height: 1.28;
+    }
+
+    .liza-outcome-copy {
+      margin: 0;
+      color: #3b4e64;
+      font-size: 0.97rem;
+      line-height: 1.5;
+    }
+
+    .liza-outcome-metric {
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #1f5fce;
+      background: #edf4ff;
+      border: 1px solid #d7e7ff;
+    }
+
+    .liza-pricing-shell {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.75fr) minmax(280px, 1fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .liza-pricing-widget {
+      background: #fff;
+      border-radius: 26px;
+      border: 1px solid #d8e5fb;
+      box-shadow: 0 16px 36px rgba(35, 77, 126, 0.12);
+      padding: 20px;
+      color: #12263a;
+      display: grid;
+      gap: 12px;
+    }
+
+    .liza-pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .liza-plan {
+      border: 1px solid #d8e5fb;
+      border-radius: 18px;
+      padding: 12px;
+      background: #f9fbff;
+      cursor: pointer;
+      transition: 0.18s ease;
+      min-height: 140px;
+    }
+
+    .liza-plan input {
+      display: none;
+    }
+
+    .liza-plan.active {
+      background: linear-gradient(135deg, #eef5ff 0%, #ebeefe 100%);
+      border-color: #4a87ff;
+      box-shadow: 0 10px 22px rgba(42, 102, 201, 0.2);
+    }
+
+    .liza-plan-name {
+      margin: 0 0 7px;
+      font-weight: 800;
+      font-size: 1.04rem;
+      color: #102a45;
+    }
+
+    .liza-plan-price {
+      margin: 0;
+      font-size: 1.38rem;
+      font-weight: 900;
+      color: #1d5ed0;
+      letter-spacing: -0.01em;
+    }
+
+    .liza-plan-meta {
+      margin-top: 8px;
+      color: #516882;
+      font-size: 0.86rem;
+      line-height: 1.36;
+    }
+
+    .liza-plan-desc {
+      margin: 4px 0 0;
+      color: #5d6f84;
+      font-size: 0.84rem;
+      line-height: 1.35;
+    }
+
+    .liza-pricing-row-title {
+      margin: 2px 0 2px;
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: #233f5b;
+    }
+
+    .liza-pricing-row-hint {
+      margin: -2px 0 2px;
+      color: #5b6f87;
+      font-size: 0.84rem;
+      line-height: 1.42;
+    }
+
+    .liza-messenger-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .liza-ms-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #d2e0f8;
+      border-radius: 14px;
+      padding: 9px 11px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #26445f;
+      background: #f8fbff;
+      user-select: none;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .liza-ms-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .liza-ms-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.67rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      box-shadow: 0 6px 14px rgba(46, 74, 130, 0.22);
+      flex-shrink: 0;
+    }
+
+    .liza-ms-icon--telegram { background: linear-gradient(135deg, #2aabee 0%, #1b7fd6 100%); }
+    .liza-ms-icon--whatsapp { background: linear-gradient(135deg, #2ec866 0%, #1d9a4c 100%); }
+    .liza-ms-icon--vk { background: linear-gradient(135deg, #3a6fe8 0%, #2855c3 100%); }
+    .liza-ms-icon--max { background: linear-gradient(135deg, #5f7cff 0%, #7c3bff 100%); }
+    .liza-ms-icon--default { background: linear-gradient(135deg, #4f7fff 0%, #5a62d4 100%); }
+
+    .liza-ms-item.active {
+      border-color: #5692ff;
+      background: #eaf2ff;
+      box-shadow: inset 0 0 0 1px rgba(73, 131, 255, 0.18);
+    }
+
+    .liza-ms-item input {
+      accent-color: #2b76ff;
+      width: 15px;
+      height: 15px;
+    }
+
+    .liza-pricing-note-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .liza-pricing-note {
+      border: 1px solid #d9e7ff;
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: #f8fbff;
+      color: #3d5670;
+      font-size: 0.86rem;
+      line-height: 1.35;
+    }
+
+    .liza-pricing-note strong {
+      color: #1c3653;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .liza-pricing-aside {
+      border-radius: 26px;
+      border: 1px solid rgba(102, 128, 255, 0.28);
+      background: linear-gradient(155deg, #2f66ff 0%, #4d4bf5 52%, #6f2dff 100%);
+      box-shadow: 0 24px 44px rgba(60, 65, 166, 0.32);
+      color: #fff;
+      padding: 20px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+
+    .liza-aside-kicker {
+      margin: 0;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: rgba(236, 243, 255, 0.9);
+    }
+
+    .liza-aside-title {
+      margin: 0;
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+
+    .liza-pricing-summary {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.14);
+      padding: 14px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .liza-summary-big {
+      font-size: 2.05rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.06;
+      letter-spacing: -0.015em;
+    }
+
+    .liza-summary-line {
+      font-size: 0.92rem;
+      color: rgba(239, 245, 255, 0.96);
+      line-height: 1.45;
+    }
+
+    .liza-pricing-cta {
+      margin-top: 2px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 48px;
+      border-radius: 14px;
+      border: none;
+      text-decoration: none;
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #1744c2;
+      background: #fff;
+      transition: transform .14s ease, box-shadow .14s ease;
+      box-shadow: 0 10px 22px rgba(15, 22, 62, 0.22);
+    }
+
+    .liza-pricing-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 26px rgba(15, 22, 62, 0.28);
+    }
+
+    .liza-footer-clean {
+      background: #ffffff;
+      margin-top: 24px;
+      border-top: 1px solid #dbe6f6;
+    }
+
+    .liza-footer-inner {
+      max-width: 1420px;
+      margin: 0 auto;
+      padding: 28px 24px 34px;
+    }
+
+    .liza-footer-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .liza-footer-col {
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .liza-footer-col--center {
+      justify-items: center;
+      text-align: center;
+    }
+
+    .liza-footer-col--right {
+      justify-items: end;
+      text-align: right;
+    }
+
+    .liza-footer-link,
+    .liza-footer-text {
+      color: #13253a;
+      font-size: clamp(1rem, 0.98rem + 0.22vw, 1.12rem);
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .liza-footer-link {
+      transition: color 0.18s ease, opacity 0.18s ease;
+    }
+
+    .liza-footer-link:hover {
+      color: #2a64d1;
+    }
+
+    .liza-footer-socials {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .liza-footer-social {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      color: #4f43e3;
+      border: 1px solid #d9e4fb;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      box-shadow: 0 10px 24px rgba(56, 86, 139, 0.14);
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, color 0.16s ease, background 0.16s ease;
+    }
+
+    .liza-footer-social:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px rgba(56, 86, 139, 0.18);
+      border-color: #c8d9fb;
+      color: #2b63da;
+      background: #f8fbff;
+    }
+
+    .liza-footer-social svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+      stroke: none;
+    }
+
+    .liza-hero-chip {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid #d8e4f7;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 10px 22px rgba(34, 72, 120, 0.08);
+      color: #36506b;
+      font-size: 0.98rem;
+      font-weight: 700;
+      line-height: 1.25;
+      text-align: center;
+    }
+
+    @keyframes lizaHeroFloat {
+      0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+      25% { transform: translate3d(-3px, -8px, 0) rotate(-1.4deg) scale(1.01); }
+      50% { transform: translate3d(4px, -18px, 0) rotate(1.6deg) scale(1.02); }
+      75% { transform: translate3d(-2px, -9px, 0) rotate(-0.8deg) scale(1.01); }
+      100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+    }
+
+    .liza-hero-float {
+      animation: lizaHeroFloat 7.4s cubic-bezier(0.45, 0.05, 0.2, 0.96) infinite;
+      will-change: transform;
+      transform-origin: 50% 50%;
+    }
+
+    .liza-hero-float--0 { animation-duration: 8.2s; animation-delay: 0.15s; }
+    .liza-hero-float--1 { animation-duration: 7.6s; animation-delay: 0.75s; }
+    .liza-hero-float--2 { animation-duration: 8.8s; animation-delay: 1.35s; }
+    .liza-hero-float--3 { animation-duration: 7.1s; animation-delay: 2.15s; }
+
+    .liza-support-link-card {
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+    }
+
+    .liza-support-link-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 28px rgba(39, 76, 129, 0.12);
+      border-color: #cdddf9;
+    }
+
+    .liza-support-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      border-radius: inherit;
+    }
+
+    @media (max-width: 1160px) {
+      .liza-pricing-shell {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .liza-benefits-grid,
+      .liza-outcomes-grid,
+      .liza-pricing-grid,
+      .liza-pricing-note-grid,
+      .liza-messenger-row {
+        grid-template-columns: 1fr;
+      }
+
+      .liza-footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .liza-footer-col,
+      .liza-footer-col--center,
+      .liza-footer-col--right {
+        justify-items: start;
+        text-align: left;
+      }
+
+      .liza-footer-socials {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .liza-benefit-card {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 20px;
+        min-height: 0;
+      }
+
+      .liza-benefit-icon {
+        width: 76px;
+        height: 76px;
+        border-radius: 24px;
+        grid-row: auto;
+      }
+
+      .liza-benefit-icon svg {
+        width: 36px;
+        height: 36px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="liza-tilda-root"></div>
+  <script src="./liza-app.js?v=7"></script>
+  <script>
+    (function () {
+      var DEFAULT_CONFIG = {
+        copy: {
+          navHow: "Как это работает",
+          navBenefits: "Почему нас выбирают",
+          navOutcomes: "Что меняется",
+          navPricing: "Тарифы",
+          navFaq: "FAQ",
+          headerCta: "Запустить бесплатно на 3 дня",
+          heroCta: "Запустить бесплатно на 3 дня",
+          outcomesSubheading: "После запуска запись становится спокойнее: о визите напоминают заранее, отзывы не теряются, а команда быстрее видит, где нужен живой ответ.",
+          exactTextMap: {
+            "Лиза Бот помогает": "ЛизаБот",
+            "Лиза Бот помогает салону не терять запись в тишине": "ЛизаБот",
+            "снижать неявки": "Напоминает о визите",
+            "подтверждать визиты": "Подтверждает запись",
+            "собирать отзывы": "Повышает рейтинг на картах",
+            "возвращать потеряшек": "Возвращает потеряшек",
+            "уведомлять администратора": "Повышает рейтинг на картах",
+            "Мы берём шаблоны уведомлений из модуля, настраиваем таймеры и запускаем рабочие цепочки без ручной рутины.": "Лиза сама отправляет клиентам нужные сообщения: напоминает о записи, помогает подтвердить визит, возвращает тех, кто пропал после отмены или паузы, и переводит довольных гостей в отзывы на картах.",
+            "11 типов уведомлений в модуле": "Шаблоны под запись, отзывы и возврат",
+            "Каскад каналов: Telegram -> WhatsApp -> MAX": "Telegram, WhatsApp, VK и MAX",
+            "Каскад каналов: Telegram → WhatsApp → MAX": "Telegram, WhatsApp, VK и MAX",
+            "11 готовых сценариев под запись": "Шаблоны под запись, отзывы и возврат",
+            "11 готовых сценариев для салона": "Шаблоны под запись, отзывы и возврат",
+            "11 готовых сценариев": "Шаблоны под запись, отзывы и возврат",
+            "До 3 сообщений и до 5 медиа в одном сценарии": "Сценарии с фото и видео",
+            "Многошаговые сценарии с фото и видео": "Сценарии с фото и видео",
+            "Отзывы на Яндекс Картах и 2ГИС без ручной переписки": "Сценарии с фото и видео",
+            "Сценарии и тексты строятся по шаблонам модуля уведомлений: от напоминаний до ветвления оценки": "Лиза сама отправляет сообщения в нужный момент: до визита, после посещения и когда клиента важно вовремя вернуть в разговор.",
+            "Напоминание перед визитом по таймеру": "Напоминает о записи заранее",
+            "Срабатывает от создания записи и отправляется в заданное время до визита": "Клиент получает сообщение до визита и реже забывает о записи.",
+            "Подтверждение записи с ответом «да / нет»": "Подтверждает запись в чате",
+            "При ответе клиента система меняет статус в YClients автоматически": "Клиент отвечает в чате, и салон заранее понимает, всё ли в порядке с визитом.",
+            "Запрос оценки 1–5 и ветка по ответу клиента": "Просит оценить визит после посещения",
+            "Запрос оценки 1-5 и ветка по ответу клиента": "Просит оценить визит после посещения",
+            "Позитивная и негативная ветки настраиваются отдельно, с алертом администратору": "Довольных клиентов можно переводить в отзыв, а если оценка низкая, команда узнает об этом сразу.",
+            "Сценарий «Потеряшки» после отмены или статуса «не пришел»": "Возвращает клиента после отмены или паузы",
+            "Сценарий «Потеряшки» после отмены или статуса «не пришёл»": "Возвращает клиента после отмены или паузы",
+            "Сообщение запускается от события и возвращает клиента в диалог": "Если запись отменили или клиент давно не был у вас, Лиза помогает снова начать разговор и вернуть человека в запись.",
+            "Служебные уведомления администратору в Telegram": "Если клиент недоволен, команда узнает сразу",
+            "Например, при негативной оценке клиентского визита": "При низкой оценке администратору приходит уведомление в Telegram через бота, и команда может быстро связаться с клиентом.",
+            "Ждем вас по адресу ул. Ленина, 18. До встречи! 😌": "Если планы изменились, просто ответьте в этом чате.",
+            "Ждем вас по адресу ул. Ленина, 18. До встречи!": "Если планы изменились, просто ответьте в этом чате.",
+            "Оцените визит по шкале от 1 до 5 и отправьте цифру.": "Оцените визит по шкале 1-5. Если всё понравилось, отправим ссылку на Яндекс Карты и 2ГИС.",
+            "Оставьте отзыв на Яндекс Картах: ссылка": "Если всё понравилось, оставьте отзыв на Яндекс Картах или 2ГИС: ссылка",
+            "Поддержка 24/7": "Поддержка в Telegram",
+            "Ответим в течение 5 минут": "Откроем чат и поможем с запуском",
+            "Бюджет": "Итого",
+            "Бюджет:": "Итого:",
+            "Бесплатный тест 3 дня": "Бесплатный запуск на 3 дня",
+            "Оставьте заявку, и мы поможем спокойно подключить Лизу и запустить всё без лишней ручной работы.": "Оставьте заявку, и мы подключим Лизу, настроим шаблоны и покажем запуск на вашем салоне.",
+            "2. Настроим цепочки сообщений под ваши услуги.": "2. Настроим шаблоны сообщений под ваши услуги и график.",
+            "3. Вы получите первые результаты уже в тестовый период.": "3. Покажем на живом примере, как всё работает именно у вас.",
+            "А если у нас несколько филиалов?": "А если у нас несколько филиалов?",
+            "Это тоже можно настроить. Сначала смотрим, как у вас устроена запись и работа команды, а потом собираем удобную схему под ваш формат.": "Можно быстро подключить второй филиал, перенести в него готовые шаблоны и настройки уведомлений или настроить всё отдельно под его график и услуги.",
+            "Для сетевого формата выбирают старшие тарифы и настраивают сценарии по филиалам: отдельные тексты, услуги и правила отправки.": "Второй филиал можно подключить быстро: скопировать готовые шаблоны и настройки уведомлений или собрать их отдельно под этот филиал."
+          },
+          benefitsHeading: "Почему салонам удобно с Лизой",
+        benefitsLead: "Три причины, по которым с Лизой проще запускаться, собирать отзывы на картах и не терять клиентов после отмены или паузы.",
+        benefitsCards: [
+          {
+            kicker: "Готовые шаблоны",
+            title: "Запуск без долгой подготовки",
+            body: "Подключаем YClients, берём готовые шаблоны под запись, подтверждения, отзывы и возврат клиентов, а потом подстраиваем их под ваш салон. Не нужно собирать сценарии с нуля и тратить недели на старт.",
+            icon: "sparkles"
+          },
+          {
+            kicker: "Рейтинг и контроль",
+            title: "Отзывы идут на карты, а спорные ситуации не теряются",
+            body: "После визита Лиза сначала просит оценку в чате. Если клиенту всё понравилось, можно перевести его в отзыв на Яндекс Картах и 2ГИС. Если оценка низкая, администратору приходит уведомление в Telegram, и команда быстро включается в ситуацию.",
+            icon: "map-star"
+          },
+          {
+            kicker: "Возврат и филиалы",
+            title: "Клиента проще вернуть, филиал проще подключить",
+            body: "Если запись отменили или человек давно не возвращался, Лиза помогает снова выйти на связь. Когда появляется второй филиал, можно быстро скопировать туда шаблоны и настройки уведомлений или собрать отдельный сценарий под его услуги и график.",
+            icon: "branch"
+          }
+        ],
+          outcomesHeading: "Что меняется после запуска",
+          outcomesLead: "Лиза снимает повторяющиеся сообщения и помогает спокойнее держать под контролем и запись, и обратную связь после визита.",
+          outcomesCards: [
+            {
+              title: "Клиенты реже забывают о записи",
+              body: "Когда о визите напоминают заранее, меньше ситуаций, в которых человек просто пропускает запись из-за занятости.",
+              metric: "Меньше сорванных записей",
+              icon: "calendar"
+            },
+            {
+              title: "У администратора освобождается время",
+              body: "Не нужно каждый день вручную подтверждать визиты, напоминать о записи и отправлять одинаковые сообщения после посещения.",
+              metric: "Больше времени на работу с клиентами",
+              icon: "clock"
+            },
+            {
+              title: "Рейтинг на картах растёт стабильнее",
+              body: "После визита Лиза просит оценку и направляет довольных клиентов в отзывы на Яндекс Картах и 2ГИС.",
+              metric: "Рейтинг растёт стабильнее",
+              icon: "star"
+            },
+            {
+              title: "Клиенты не пропадают после отмены и паузы",
+              body: "Если запись отменили или человек давно не возвращался, Лиза напоминает о салоне и помогает вернуть клиента в разговор.",
+              metric: "Клиентов проще вернуть в запись",
+              icon: "refresh"
+            }
+          ],
+          resultHeading: "Что меняется после запуска",
+          resultLead: "Лиза снимает повторяющиеся сообщения и помогает спокойнее держать под контролем и запись, и обратную связь после визита.",
+          resultCards: [
+            {
+              title: "Клиенты реже забывают о записи",
+              body: "Когда о визите напоминают заранее, меньше ситуаций, в которых человек пропускает запись.",
+              metric: "Меньше сорванных записей",
+              icon: "calendar"
+            },
+            {
+              title: "У администратора освобождается время",
+              body: "Не нужно ежедневно вручную подтверждать визиты и отправлять однотипные сообщения.",
+              metric: "Больше времени на работу с клиентами",
+              icon: "clock"
+            },
+            {
+              title: "Рейтинг на картах растёт стабильнее",
+              body: "После визита Лиза просит оценку и направляет довольных клиентов в отзывы на Яндекс Картах и 2ГИС.",
+              metric: "Рейтинг растёт стабильнее",
+              icon: "star"
+            },
+            {
+              title: "Клиенты не пропадают после отмены и паузы",
+              body: "Если запись отменили или человек давно не возвращался, Лиза напоминает о салоне и помогает вернуть клиента в разговор.",
+              metric: "Клиентов проще вернуть в запись",
+              icon: "refresh"
+            }
+          ],
+          pricingHeading: "Тарифы и калькулятор",
+          pricingSubheading: "Выберите тариф и мессенджеры. Цена считается сразу, без скрытых условий и мелкого шрифта.",
+          pricingRowTitle: "Выберите тариф и мессенджеры",
+          pricingRowHint: "В тарифы Старт и Оптимальный входит один мессенджер на выбор. Каждый дополнительный — 750 ₽ в месяц. В Полном тарифе все мессенджеры уже включены.",
+          pricingCalcHint: "Итоговая цена зависит от тарифа и количества выбранных мессенджеров.",
+          summaryIncludedLabel: "Включено",
+          summarySelectedLabel: "Выбрано",
+          summaryExtraLabel: "Доплата",
+          fullTextPlaceholder: "placeholder",
+          fullTextMap: {},
+          selectorTextMap: {}
+        },
+        pricing: {
+          currency: "₽",
+          perMonthSuffix: "/ мес",
+          extraMessengerPrice: 750,
+          plans: [
+            {
+              key: "start",
+              name: "Старт",
+              basePrice: 999,
+              description: "Для небольшого салона или спокойного запуска",
+              messagesLabel: "300 сообщений в месяц",
+              includedMessengers: 1,
+              allMessengersIncluded: false
+            },
+            {
+              key: "optimal",
+              name: "Оптимальный",
+              basePrice: 1999,
+              description: "Для салона, где запись идёт каждый день",
+              messagesLabel: "1000 сообщений в месяц",
+              includedMessengers: 1,
+              allMessengersIncluded: false
+            },
+            {
+              key: "full",
+              name: "Полный",
+              basePrice: 3999,
+              description: "Для активной команды и полной связки каналов",
+              messagesLabel: "до 3000 сообщений в месяц",
+              includedMessengers: 99,
+              allMessengersIncluded: true
+            }
+          ],
+          messengers: [
+            { key: "telegram", label: "Telegram", icon: "TG", checkedByDefault: true },
+            { key: "whatsapp", label: "WhatsApp", icon: "WA", checkedByDefault: false },
+            { key: "vk", label: "ВКонтакте", icon: "VK", checkedByDefault: false },
+            { key: "max", label: "MAX", icon: "MX", checkedByDefault: false }
+          ]
+        },
+        legal: {
+          email: "laserzone10@gmail.com",
+          phoneDisplay: "+7 916 187-90-12",
+          phoneHref: "tel:+79161879012",
+          privacyHref: "https://liza-ai-admin.ru/privacy",
+          businessName: "ИП Сойту Артём Анатольевич",
+          inn: "100399380426",
+          socials: [
+            { label: "Telegram", shortLabel: "TG", href: "https://t.me/liza_ai_admin" },
+            { label: "ВКонтакте", shortLabel: "VK", href: "https://vk.com/liza_ai" },
+            { label: "WhatsApp", shortLabel: "WA", href: "https://api.whatsapp.com/send/?phone=79161879012&text&type=phone_number&app_absent=0" }
+          ]
+        },
+        behavior: {
+          rebuildManagedSections: true,
+          fullTextControl: false,
+          fullTextMode: "replace",
+          placeholderWithKey: false,
+          leadWebhookUrl: ""
+        }
+      };
+
+      var runtimeConfig = clone(DEFAULT_CONFIG);
+      var queuedApply = null;
+      var pendingConfigAck = false;
+      var domObserver = null;
+      var observerTimer = null;
+      var forceFullTextExport = false;
+      try {
+        forceFullTextExport = new URLSearchParams(window.location.search).get("liza_fulltext_export") === "1";
+      } catch (_e) {
+        forceFullTextExport = false;
+      }
+
+      function clone(value) {
+        return JSON.parse(JSON.stringify(value));
+      }
+
+      function asObject(value) {
+        return value && typeof value === "object" && !Array.isArray(value) ? value : null;
+      }
+
+      function safeString(value, fallback, maxLen) {
+        if (typeof value !== "string") return fallback;
+        var trimmed = value.trim();
+        if (!trimmed) return fallback;
+        if (trimmed.length > maxLen) return trimmed.slice(0, maxLen);
+        return trimmed;
+      }
+
+      function safeNumber(value, fallback, min, max) {
+        var num = Number(value);
+        if (!isFinite(num)) return fallback;
+        if (num < min) return fallback;
+        if (num > max) return fallback;
+        return Math.round(num);
+      }
+
+      function safeHttpsUrl(value, fallback, maxLen) {
+        if (typeof value !== "string") return fallback;
+        var trimmed = value.trim();
+        if (!trimmed) return fallback;
+        if (!/^https:\/\/\S+$/i.test(trimmed)) return fallback;
+        if (trimmed.length > maxLen) return trimmed.slice(0, maxLen);
+        return trimmed;
+      }
+
+      function normalize(value) {
+        return (value || "").replace(/\s+/g, " ").trim().toLowerCase();
+      }
+
+      function textElements(root) {
+        return Array.prototype.slice.call(root.querySelectorAll("h1,h2,h3,h4,p,span,button,div,label"));
+      }
+
+      function headingElements(root) {
+        return Array.prototype.slice.call(root.querySelectorAll("h1,h2,h3,h4"));
+      }
+
+      function hasAny(text, variants) {
+        var n = normalize(text);
+        return variants.some(function (v) { return n.indexOf(normalize(v)) !== -1; });
+      }
+
+      function findHeading(root, variants) {
+        return headingElements(root).find(function (el) { return hasAny(el.textContent, variants); }) || null;
+      }
+
+      function closestSectionLike(el) {
+        if (!el) return null;
+        return el.closest("section, article, [data-slot], .container, .max-w-\\[1440px\\], .max-w-\\[1400px\\], .max-w-\\[1420px\\]") || el.parentElement;
+      }
+
+      function sectionByIdOrHeading(id, fallbackHeadings) {
+        var byId = document.getElementById(id);
+        if (byId) return byId;
+        var heading = findHeading(document.body, fallbackHeadings);
+        return heading ? closestSectionLike(heading) : null;
+      }
+
+      function hideSectionBody(section, heading) {
+        if (!section || !heading) return;
+        var keep = new Set();
+        var node = heading;
+        while (node && node !== section) {
+          keep.add(node);
+          node = node.parentElement;
+        }
+
+        Array.prototype.slice.call(section.children).forEach(function (child) {
+          if (!keep.has(child)) child.classList.add("liza-old-content");
+        });
+      }
+
+      function firstHeading(section) {
+        if (!section) return null;
+        return section.querySelector("h1,h2,h3,h4");
+      }
+
+      function clearManagedBlock(section, key) {
+        if (!section) return;
+        var old = section.querySelector('[data-liza-managed="' + key + '"]');
+        if (old) old.remove();
+      }
+
+      function sectionContentRoot(section) {
+        if (!section) return null;
+        var directChildren = Array.prototype.slice.call(section.children || []);
+        var maxW = directChildren.find(function (el) {
+          return typeof el.className === "string" && /max-w-\[/.test(el.className) && !!el.querySelector("h1,h2,h3,h4");
+        });
+        if (maxW) return maxW;
+        maxW = directChildren.find(function (el) {
+          return typeof el.className === "string" && /max-w-\[/.test(el.className);
+        });
+        if (maxW) return maxW;
+        var firstContent = directChildren.find(function (el) {
+          return !el.classList.contains("liza-old-content");
+        });
+        return firstContent || section.firstElementChild || section;
+      }
+
+      function sanitizeConfig(raw) {
+        var clean = clone(DEFAULT_CONFIG);
+        var src = asObject(raw);
+        if (!src) return clean;
+
+        var srcCopy = asObject(src.copy);
+        if (srcCopy) {
+          clean.copy.navHow = safeString(srcCopy.navHow, clean.copy.navHow, 64);
+          clean.copy.navBenefits = safeString(srcCopy.navBenefits, clean.copy.navBenefits, 64);
+          clean.copy.navOutcomes = safeString(srcCopy.navOutcomes, clean.copy.navOutcomes, 64);
+          clean.copy.navPricing = safeString(srcCopy.navPricing, clean.copy.navPricing, 64);
+          clean.copy.navFaq = safeString(srcCopy.navFaq, clean.copy.navFaq, 64);
+          clean.copy.headerCta = safeString(srcCopy.headerCta, clean.copy.headerCta, 90);
+          clean.copy.heroCta = safeString(srcCopy.heroCta, clean.copy.heroCta, 90);
+          clean.copy.outcomesSubheading = safeString(srcCopy.outcomesSubheading, clean.copy.outcomesSubheading, 260);
+          clean.copy.benefitsHeading = safeString(srcCopy.benefitsHeading, clean.copy.benefitsHeading, 160);
+          clean.copy.benefitsLead = safeString(srcCopy.benefitsLead, clean.copy.benefitsLead, 520);
+          clean.copy.outcomesHeading = safeString(srcCopy.outcomesHeading, clean.copy.outcomesHeading, 160);
+          clean.copy.outcomesLead = safeString(srcCopy.outcomesLead, clean.copy.outcomesLead, 520);
+          clean.copy.resultHeading = safeString(srcCopy.resultHeading, clean.copy.resultHeading, 160);
+          clean.copy.resultLead = safeString(srcCopy.resultLead, clean.copy.resultLead, 480);
+          clean.copy.pricingHeading = safeString(srcCopy.pricingHeading, clean.copy.pricingHeading, 120);
+          clean.copy.pricingSubheading = safeString(srcCopy.pricingSubheading, clean.copy.pricingSubheading, 300);
+          clean.copy.pricingRowTitle = safeString(srcCopy.pricingRowTitle, clean.copy.pricingRowTitle, 120);
+          clean.copy.pricingRowHint = safeString(srcCopy.pricingRowHint, clean.copy.pricingRowHint, 420);
+          clean.copy.pricingCalcHint = safeString(srcCopy.pricingCalcHint, clean.copy.pricingCalcHint, 240);
+          clean.copy.summaryIncludedLabel = safeString(srcCopy.summaryIncludedLabel, clean.copy.summaryIncludedLabel, 80);
+          clean.copy.summarySelectedLabel = safeString(srcCopy.summarySelectedLabel, clean.copy.summarySelectedLabel, 80);
+          clean.copy.summaryExtraLabel = safeString(srcCopy.summaryExtraLabel, clean.copy.summaryExtraLabel, 80);
+          clean.copy.fullTextPlaceholder = safeString(srcCopy.fullTextPlaceholder, clean.copy.fullTextPlaceholder, 300);
+
+          if (Array.isArray(srcCopy.benefitsCards) && srcCopy.benefitsCards.length > 0) {
+            clean.copy.benefitsCards = srcCopy.benefitsCards.slice(0, 6).map(function (card, idx) {
+              var fallback = DEFAULT_CONFIG.copy.benefitsCards[idx] || DEFAULT_CONFIG.copy.benefitsCards[0];
+              var srcCard = asObject(card) || {};
+              return {
+                kicker: safeString(srcCard.kicker, fallback.kicker, 80),
+                title: safeString(srcCard.title, fallback.title, 140),
+                body: safeString(srcCard.body, fallback.body, 420),
+                icon: safeString(srcCard.icon, fallback.icon, 32)
+              };
+            });
+          }
+
+          if (Array.isArray(srcCopy.outcomesCards) && srcCopy.outcomesCards.length > 0) {
+            clean.copy.outcomesCards = srcCopy.outcomesCards.slice(0, 4).map(function (card, idx) {
+              var fallback = DEFAULT_CONFIG.copy.outcomesCards[idx] || DEFAULT_CONFIG.copy.outcomesCards[0];
+              var srcCard = asObject(card) || {};
+              return {
+                title: safeString(srcCard.title, fallback.title, 140),
+                body: safeString(srcCard.body, fallback.body, 420),
+                metric: safeString(srcCard.metric, fallback.metric, 140),
+                icon: safeString(srcCard.icon, fallback.icon, 32)
+              };
+            });
+          }
+
+          if (Array.isArray(srcCopy.resultCards) && srcCopy.resultCards.length > 0) {
+            clean.copy.resultCards = srcCopy.resultCards.slice(0, 6).map(function (card, idx) {
+              var fallback = DEFAULT_CONFIG.copy.resultCards[idx] || DEFAULT_CONFIG.copy.resultCards[0];
+              var srcCard = asObject(card) || {};
+              return {
+                title: safeString(srcCard.title, fallback.title, 120),
+                body: safeString(srcCard.body, fallback.body, 360),
+                metric: safeString(srcCard.metric, fallback.metric, 120),
+                icon: safeString(srcCard.icon, fallback.icon || "calendar", 32)
+              };
+            });
+          }
+
+          if ((!Array.isArray(srcCopy.outcomesCards) || srcCopy.outcomesCards.length === 0) && Array.isArray(srcCopy.resultCards) && srcCopy.resultCards.length > 0) {
+            clean.copy.outcomesCards = clean.copy.resultCards.slice(0, 4).map(function (card, idx) {
+              var fallback = DEFAULT_CONFIG.copy.outcomesCards[idx] || DEFAULT_CONFIG.copy.outcomesCards[0];
+              return {
+                title: card.title || fallback.title,
+                body: card.body || fallback.body,
+                metric: card.metric || fallback.metric,
+                icon: card.icon || fallback.icon
+              };
+            });
+          }
+
+          if (asObject(srcCopy.selectorTextMap)) {
+            clean.copy.selectorTextMap = srcCopy.selectorTextMap;
+          }
+          if (asObject(srcCopy.exactTextMap)) {
+            clean.copy.exactTextMap = srcCopy.exactTextMap;
+          }
+          if (asObject(srcCopy.fullTextMap)) {
+            clean.copy.fullTextMap = srcCopy.fullTextMap;
+          }
+        }
+
+        var srcLegal = asObject(src.legal);
+        if (srcLegal) {
+          clean.legal.email = safeString(srcLegal.email, clean.legal.email, 120);
+          clean.legal.phoneDisplay = safeString(srcLegal.phoneDisplay, clean.legal.phoneDisplay, 40);
+          clean.legal.phoneHref = safeString(srcLegal.phoneHref, clean.legal.phoneHref, 64);
+          clean.legal.privacyHref = safeString(srcLegal.privacyHref, clean.legal.privacyHref, 240);
+          clean.legal.businessName = safeString(srcLegal.businessName, clean.legal.businessName, 180);
+          clean.legal.inn = safeString(srcLegal.inn, clean.legal.inn, 32);
+          if (Array.isArray(srcLegal.socials) && srcLegal.socials.length) {
+            clean.legal.socials = srcLegal.socials.slice(0, 4).map(function (item, idx) {
+              var fallback = clean.legal.socials[Math.min(idx, clean.legal.socials.length - 1)] || {};
+              var srcItem = asObject(item);
+              return {
+                label: safeString(srcItem.label, fallback.label || "Ссылка", 40),
+                shortLabel: safeString(srcItem.shortLabel, fallback.shortLabel || "GO", 4),
+                href: safeString(srcItem.href, fallback.href || "#", 260)
+              };
+            });
+          }
+        }
+
+        var srcPricing = asObject(src.pricing);
+        if (srcPricing) {
+          clean.pricing.currency = safeString(srcPricing.currency, clean.pricing.currency, 6);
+          clean.pricing.perMonthSuffix = safeString(srcPricing.perMonthSuffix, clean.pricing.perMonthSuffix, 24);
+          clean.pricing.extraMessengerPrice = safeNumber(srcPricing.extraMessengerPrice, clean.pricing.extraMessengerPrice, 0, 100000);
+
+          if (Array.isArray(srcPricing.plans) && srcPricing.plans.length >= 3) {
+            clean.pricing.plans = srcPricing.plans.slice(0, 3).map(function (plan, idx) {
+              var fallback = DEFAULT_CONFIG.pricing.plans[idx] || DEFAULT_CONFIG.pricing.plans[0];
+              var srcPlan = asObject(plan) || {};
+              return {
+                key: safeString(srcPlan.key, fallback.key, 32),
+                name: safeString(srcPlan.name, fallback.name, 64),
+                basePrice: safeNumber(srcPlan.basePrice, fallback.basePrice, 0, 1000000),
+                description: safeString(srcPlan.description, fallback.description || "", 220),
+                messagesLabel: safeString(srcPlan.messagesLabel, fallback.messagesLabel, 120),
+                includedMessengers: safeNumber(srcPlan.includedMessengers, fallback.includedMessengers, 0, 99),
+                allMessengersIncluded: Boolean(srcPlan.allMessengersIncluded)
+              };
+            });
+          }
+
+          if (Array.isArray(srcPricing.messengers) && srcPricing.messengers.length > 0) {
+            clean.pricing.messengers = srcPricing.messengers.slice(0, 8).map(function (item, idx) {
+              var fallback = DEFAULT_CONFIG.pricing.messengers[idx] || DEFAULT_CONFIG.pricing.messengers[0];
+              var srcItem = asObject(item) || {};
+              return {
+                key: safeString(srcItem.key, fallback.key, 32),
+                label: safeString(srcItem.label, fallback.label, 48),
+                icon: safeString(srcItem.icon, fallback.icon || "", 8),
+                checkedByDefault: typeof srcItem.checkedByDefault === "boolean" ? srcItem.checkedByDefault : fallback.checkedByDefault
+              };
+            });
+          }
+        }
+
+        var srcBehavior = asObject(src.behavior);
+        if (srcBehavior && typeof srcBehavior.rebuildManagedSections === "boolean") {
+          clean.behavior.rebuildManagedSections = srcBehavior.rebuildManagedSections;
+        }
+        if (srcBehavior && typeof srcBehavior.fullTextControl === "boolean") {
+          clean.behavior.fullTextControl = srcBehavior.fullTextControl;
+        }
+        if (srcBehavior && (srcBehavior.fullTextMode === "replace" || srcBehavior.fullTextMode === "collect")) {
+          clean.behavior.fullTextMode = srcBehavior.fullTextMode;
+        }
+        if (srcBehavior && typeof srcBehavior.placeholderWithKey === "boolean") {
+          clean.behavior.placeholderWithKey = srcBehavior.placeholderWithKey;
+        }
+        if (srcBehavior && typeof srcBehavior.leadWebhookUrl === "string") {
+          clean.behavior.leadWebhookUrl = safeHttpsUrl(srcBehavior.leadWebhookUrl, clean.behavior.leadWebhookUrl || "", 260);
+        }
+
+        return clean;
+      }
+
+      function fmtMoney(value, cfg) {
+        return String(value) + " " + cfg.pricing.currency;
+      }
+
+      function iconSvgPath(iconName) {
+        var map = {
+          repeat: '<path d="m17 2 4 4-4 4"></path><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><path d="m7 22-4-4 4-4"></path><path d="M21 13v2a4 4 0 0 1-4 4H3"></path>',
+          chat: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path><path d="M8 12h.01"></path><path d="M12 12h.01"></path><path d="M16 12h.01"></path>',
+          rocket: '<path d="M4.5 16.5c-1.5 1.26-2 3.24-2 3.24s1.98-.5 3.24-2c1.02-1.2.88-2.1.88-2.1s-.9-.14-2.12.86Z"></path><path d="m12 15-3-3a25.1 25.1 0 0 1 7-9 25.1 25.1 0 0 1 5 5 25.1 25.1 0 0 1-9 7Z"></path><path d="M9 12H4a2 2 0 0 0-2 2v2"></path><path d="M12 15v5a2 2 0 0 0 2 2h2"></path>',
+          layers: '<path d="M12 3 3 8l9 5 9-5-9-5Z"></path><path d="m3 12 9 5 9-5"></path><path d="m3 16 9 5 9-5"></path>',
+          map: '<path d="M12 21s6-5.4 6-11a6 6 0 1 0-12 0c0 5.6 6 11 6 11Z"></path><circle cx="12" cy="10" r="2.5"></circle>',
+          "map-star": '<path d="M12 21s6-5.4 6-11a6 6 0 1 0-12 0c0 5.6 6 11 6 11Z"></path><path d="m12 7.6.85 1.72 1.9.28-1.38 1.34.33 1.9L12 11.95l-1.7.9.33-1.9-1.38-1.34 1.9-.28z"></path>',
+          copy: '<rect x="9" y="9" width="11" height="11" rx="2"></rect><rect x="4" y="4" width="11" height="11" rx="2"></rect>',
+          branch: '<path d="M6 3v12"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="6" r="3"></circle><circle cx="18" cy="18" r="3"></circle><path d="M9 6h6"></path><path d="M9 18h6"></path><path d="M15 6v12"></path>',
+          sparkles: '<path d="m12 3 1.3 3.2L16.5 7.5l-3.2 1.3L12 12l-1.3-3.2L7.5 7.5l3.2-1.3Z"></path><path d="M5 14l.8 2 .2.2 2 .8-2 .8-.2.2-.8 2-.8-2-.2-.2-2-.8 2-.8.2-.2Z"></path><path d="M19 12l.6 1.5.2.2 1.5.6-1.5.6-.2.2-.6 1.5-.6-1.5-.2-.2-1.5-.6 1.5-.6.2-.2Z"></path>',
+          settings: '<circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"></path>',
+          chart: '<path d="M3 3v18h18"></path><path d="M8 14v4"></path><path d="M12 10v8"></path><path d="M16 6v12"></path>',
+          bell: '<path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path>',
+          calendar: '<path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path>',
+          clock: '<circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path>',
+          star: '<path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a.53.53 0 0 0 .4.29l5.16.75a.53.53 0 0 1 .294.903l-3.735 3.64a.53.53 0 0 0-.152.47l.882 5.14a.53.53 0 0 1-.77.56l-4.617-2.427a.53.53 0 0 0-.494 0L7.136 18.727a.53.53 0 0 1-.77-.56l.882-5.14a.53.53 0 0 0-.152-.47L3.36 8.917a.53.53 0 0 1 .294-.903l5.16-.75a.53.53 0 0 0 .4-.29z"></path>',
+          refresh: '<path d="M3 2v6h6"></path><path d="M21 12A9 9 0 0 0 6 5.3L3 8"></path><path d="M21 22v-6h-6"></path><path d="M3 12a9 9 0 0 0 15 6.7L21 16"></path>'
+        };
+        return map[iconName] || map.chat;
+      }
+
+      function createIconSpan(className, iconName) {
+        var span = document.createElement("span");
+        span.className = className;
+        span.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + iconSvgPath(iconName) + "</svg>";
+        return span;
+      }
+
+      function renderBenefitsSection(cfg) {
+        var section = sectionByIdOrHeading("benefits", ["Почему нас выбирают", "Почему салонам удобно с Лизой", "Почему Лиза", "Преимущества"]);
+        if (!section) return false;
+        var root = sectionContentRoot(section);
+        if (!root) return false;
+        root.replaceChildren();
+
+        var headingWrap = document.createElement("div");
+        headingWrap.className = "mb-12 text-center";
+        var heading = document.createElement("h2");
+        heading.className = "mb-4 text-5xl font-bold text-gray-900 lg:text-6xl";
+        heading.textContent = cfg.copy.benefitsHeading;
+        var sub = document.createElement("p");
+        sub.className = "text-xl text-gray-700 max-w-4xl mx-auto";
+        sub.textContent = cfg.copy.benefitsLead;
+        headingWrap.appendChild(heading);
+        headingWrap.appendChild(sub);
+        root.appendChild(headingWrap);
+
+        var wrap = document.createElement("div");
+        wrap.className = "liza-benefits-rebuild";
+        wrap.setAttribute("data-liza-managed", "benefits");
+
+        var grid = document.createElement("div");
+        grid.className = "liza-benefits-grid";
+        var fallbackIcons = ["layers", "map", "copy"];
+        cfg.copy.benefitsCards.forEach(function (card, idx) {
+          var article = document.createElement("article");
+          article.className = "liza-benefit-card";
+
+          article.appendChild(createIconSpan("liza-benefit-icon", card.icon || fallbackIcons[idx % fallbackIcons.length]));
+          var content = document.createElement("div");
+          content.className = "liza-benefit-content";
+          if (card.kicker) {
+            var kicker = document.createElement("p");
+            kicker.className = "liza-benefit-kicker";
+            kicker.textContent = card.kicker;
+            content.appendChild(kicker);
+          }
+
+          var t = document.createElement("h3");
+          t.className = "liza-benefit-title";
+          t.textContent = card.title;
+          content.appendChild(t);
+
+          var b = document.createElement("p");
+          b.className = "liza-benefit-copy";
+          b.textContent = card.body;
+          content.appendChild(b);
+          article.appendChild(content);
+
+          grid.appendChild(article);
+        });
+        wrap.appendChild(grid);
+        root.appendChild(wrap);
+        return true;
+      }
+
+      function renderOutcomeSection(cfg) {
+        var section = sectionByIdOrHeading("proof", ["Что меняется после запуска", "Что реально работает в модуле", "Что реально работает", "Почему нас выбирают", "Результат", "Кейсы"]);
+        if (!section) return false;
+        var root = sectionContentRoot(section);
+        if (!root) return false;
+        root.replaceChildren();
+
+        var headingWrap = document.createElement("div");
+        headingWrap.className = "mb-12 text-center";
+        var heading = document.createElement("h2");
+        heading.className = "mb-4 text-5xl font-bold text-gray-900 lg:text-6xl";
+        heading.textContent = cfg.copy.outcomesHeading || cfg.copy.resultHeading;
+        headingWrap.appendChild(heading);
+        if (cfg.copy.outcomesSubheading) {
+          var sub = document.createElement("p");
+          sub.className = "text-xl text-gray-700 max-w-4xl mx-auto";
+          sub.textContent = cfg.copy.outcomesSubheading;
+          headingWrap.appendChild(sub);
+        }
+        root.appendChild(headingWrap);
+
+        var wrap = document.createElement("div");
+        wrap.className = "liza-outcomes-rebuild";
+        wrap.setAttribute("data-liza-managed", "outcomes");
+
+        var leadText = cfg.copy.outcomesLead || cfg.copy.resultLead;
+        if (leadText) {
+          var lead = document.createElement("div");
+          lead.className = "liza-outcomes-lead";
+          lead.textContent = leadText;
+          wrap.appendChild(lead);
+        }
+
+        var grid = document.createElement("div");
+        grid.className = "liza-outcomes-grid";
+        var cards = Array.isArray(cfg.copy.outcomesCards) && cfg.copy.outcomesCards.length ? cfg.copy.outcomesCards : cfg.copy.resultCards;
+        var fallbackIcons = ["calendar", "clock", "star", "refresh"];
+        cards.forEach(function (card, idx) {
+          var article = document.createElement("article");
+          article.className = "liza-outcome-card";
+
+          var head = document.createElement("div");
+          head.className = "liza-outcome-head";
+
+          var t = document.createElement("h3");
+          t.className = "liza-outcome-title";
+          t.textContent = card.title;
+
+          head.appendChild(createIconSpan("liza-outcome-icon", card.icon || fallbackIcons[idx % fallbackIcons.length]));
+          head.appendChild(t);
+
+          var b = document.createElement("p");
+          b.className = "liza-outcome-copy";
+          b.textContent = card.body;
+
+          var m = document.createElement("div");
+          m.className = "liza-outcome-metric";
+          m.textContent = card.metric;
+
+          article.appendChild(head);
+          article.appendChild(b);
+          article.appendChild(m);
+          grid.appendChild(article);
+        });
+        wrap.appendChild(grid);
+        root.appendChild(wrap);
+        return true;
+      }
+
+      function applyNavigationAndCtaCopy(cfg) {
+        function setAll(selector, text) {
+          if (!text) return 0;
+          var count = 0;
+          document.querySelectorAll(selector).forEach(function (node) {
+            if (node && node.textContent !== text) {
+              node.textContent = text;
+              count += 1;
+            }
+          });
+          return count;
+        }
+
+        var changed = 0;
+        changed += setAll('a[href="#how-it-works"]', cfg.copy.navHow);
+        changed += setAll('a[href="#benefits"]', cfg.copy.navBenefits);
+        changed += setAll('a[href="#proof"]', cfg.copy.navOutcomes);
+        changed += setAll('a[href="#pricing"]', cfg.copy.navPricing);
+        changed += setAll('a[href="#faq"]', cfg.copy.navFaq);
+        changed += setAll("header a[href=\"#lead-form\"]", cfg.copy.headerCta);
+        changed += setAll("#hero a[href=\"#lead-form\"]", cfg.copy.heroCta || cfg.copy.headerCta);
+        return changed;
+      }
+
+      function renderPricingSection(cfg) {
+        var section = sectionByIdOrHeading("pricing", ["Тарифы и калькулятор", "Тарифы"]);
+        if (!section) return false;
+        var root = sectionContentRoot(section);
+        if (!root) return false;
+        root.replaceChildren();
+
+        var headingWrap = document.createElement("div");
+        headingWrap.className = "text-center mb-12";
+        var heading = document.createElement("h2");
+        heading.className = "text-5xl lg:text-6xl font-bold text-gray-900 mb-4";
+        heading.textContent = cfg.copy.pricingHeading;
+        var sub = document.createElement("p");
+        sub.className = "text-xl text-gray-700 max-w-3xl mx-auto";
+        sub.textContent = cfg.copy.pricingSubheading;
+        headingWrap.appendChild(heading);
+        headingWrap.appendChild(sub);
+        root.appendChild(headingWrap);
+
+        var shell = document.createElement("div");
+        shell.className = "liza-pricing-shell";
+
+        var widget = document.createElement("div");
+        widget.className = "liza-pricing-widget";
+        widget.setAttribute("data-liza-managed", "pricing");
+
+        var plansGrid = document.createElement("div");
+        plansGrid.className = "liza-pricing-grid";
+
+        cfg.pricing.plans.forEach(function (plan, idx) {
+          var label = document.createElement("label");
+          label.className = "liza-plan" + (idx === 0 ? " active" : "");
+          label.setAttribute("data-plan", plan.key);
+
+          var input = document.createElement("input");
+          input.type = "radio";
+          input.name = "liza-plan";
+          input.value = plan.key;
+          if (idx === 0) input.checked = true;
+
+          var name = document.createElement("p");
+          name.className = "liza-plan-name";
+          name.textContent = plan.name;
+
+          var price = document.createElement("p");
+          price.className = "liza-plan-price";
+          price.textContent = fmtMoney(plan.basePrice, cfg);
+
+          var desc = document.createElement("p");
+          desc.className = "liza-plan-desc";
+          desc.textContent = plan.description || "";
+
+          var meta = document.createElement("p");
+          meta.className = "liza-plan-meta";
+          meta.appendChild(document.createTextNode(plan.messagesLabel));
+          meta.appendChild(document.createElement("br"));
+          meta.appendChild(document.createTextNode(plan.allMessengersIncluded ? "Все мессенджеры включены" : "1 мессенджер на выбор"));
+
+          label.appendChild(input);
+          label.appendChild(name);
+          label.appendChild(price);
+          label.appendChild(desc);
+          label.appendChild(meta);
+          plansGrid.appendChild(label);
+        });
+        widget.appendChild(plansGrid);
+
+        var rowTitle = document.createElement("p");
+        rowTitle.className = "liza-pricing-row-title";
+        rowTitle.textContent = cfg.copy.pricingRowTitle;
+        widget.appendChild(rowTitle);
+
+        var messengerRow = document.createElement("div");
+        messengerRow.className = "liza-messenger-row";
+        cfg.pricing.messengers.forEach(function (ms) {
+          var msLabel = document.createElement("label");
+          msLabel.className = "liza-ms-item";
+
+          var checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.value = ms.key;
+          checkbox.checked = !!ms.checkedByDefault;
+
+          var icon = document.createElement("span");
+          var iconClass = "liza-ms-icon liza-ms-icon--" + (ms.key || "default");
+          if (!/liza-ms-icon--(telegram|whatsapp|vk|max)/.test(iconClass)) iconClass = "liza-ms-icon liza-ms-icon--default";
+          icon.className = iconClass;
+          icon.textContent = ms.icon || (ms.key || "?").slice(0, 2).toUpperCase();
+
+          var labelText = document.createElement("span");
+          labelText.className = "liza-ms-label";
+          labelText.appendChild(icon);
+          labelText.appendChild(document.createTextNode(ms.label));
+
+          msLabel.appendChild(checkbox);
+          msLabel.appendChild(labelText);
+          messengerRow.appendChild(msLabel);
+        });
+        widget.appendChild(messengerRow);
+
+        var rowHint = document.createElement("p");
+        rowHint.className = "liza-pricing-row-hint";
+        rowHint.textContent = cfg.copy.pricingRowHint;
+        widget.appendChild(rowHint);
+
+        var noteGrid = document.createElement("div");
+        noteGrid.className = "liza-pricing-note-grid";
+
+        var note1 = document.createElement("div");
+        note1.className = "liza-pricing-note";
+        note1.innerHTML = "<strong>Как считается</strong>" + cfg.copy.pricingCalcHint;
+        noteGrid.appendChild(note1);
+
+        var note2 = document.createElement("div");
+        note2.className = "liza-pricing-note";
+        note2.innerHTML = "<strong>Без скрытых условий</strong>Цена пересчитывается сразу по выбранному тарифу и каналам.";
+        noteGrid.appendChild(note2);
+        widget.appendChild(noteGrid);
+
+        var aside = document.createElement("aside");
+        aside.className = "liza-pricing-aside";
+
+        var kicker = document.createElement("p");
+        kicker.className = "liza-aside-kicker";
+        kicker.textContent = "Рекомендованный тариф по параметрам";
+        aside.appendChild(kicker);
+
+        var summaryPlan = document.createElement("h3");
+        summaryPlan.className = "liza-aside-title";
+        summaryPlan.setAttribute("data-summary-plan", "true");
+        aside.appendChild(summaryPlan);
+
+        var summary = document.createElement("div");
+        summary.className = "liza-pricing-summary";
+
+        var summaryPrice = document.createElement("div");
+        summaryPrice.className = "liza-summary-big";
+        summaryPrice.setAttribute("data-summary-price", "true");
+
+        var summaryMessages = document.createElement("div");
+        summaryMessages.className = "liza-summary-line";
+        summaryMessages.setAttribute("data-summary-msg", "true");
+
+        var summaryMs = document.createElement("div");
+        summaryMs.className = "liza-summary-line";
+        summaryMs.setAttribute("data-summary-ms", "true");
+
+        var summaryExtra = document.createElement("div");
+        summaryExtra.className = "liza-summary-line";
+        summaryExtra.setAttribute("data-summary-extra", "true");
+
+        summary.appendChild(summaryPrice);
+        summary.appendChild(summaryMessages);
+        summary.appendChild(summaryMs);
+        summary.appendChild(summaryExtra);
+        aside.appendChild(summary);
+
+        var cta = document.createElement("a");
+        cta.className = "liza-pricing-cta";
+        cta.href = "#lead-form";
+        cta.textContent = "Получить расчет и запуск";
+        aside.appendChild(cta);
+
+        shell.appendChild(widget);
+        shell.appendChild(aside);
+        root.appendChild(shell);
+
+        function selectedPlanKey() {
+          var selected = widget.querySelector('input[name="liza-plan"]:checked');
+          return selected ? selected.value : cfg.pricing.plans[0].key;
+        }
+
+        function selectedMsCount() {
+          return Array.prototype.slice.call(widget.querySelectorAll('.liza-messenger-row input[type="checkbox"]:checked')).length;
+        }
+
+        function syncMessengerLabelState() {
+          widget.querySelectorAll(".liza-ms-item").forEach(function (label) {
+            var box = label.querySelector('input[type="checkbox"]');
+            label.classList.toggle("active", !!box && box.checked);
+          });
+        }
+
+        function syncPricing() {
+          var key = selectedPlanKey();
+          var plan = cfg.pricing.plans.find(function (x) { return x.key === key; }) || cfg.pricing.plans[0];
+          var allBoxes = Array.prototype.slice.call(widget.querySelectorAll('.liza-messenger-row input[type="checkbox"]'));
+
+          widget.querySelectorAll(".liza-plan").forEach(function (card) {
+            card.classList.toggle("active", card.getAttribute("data-plan") === key);
+          });
+
+          if (plan.allMessengersIncluded) {
+            allBoxes.forEach(function (box) {
+              box.checked = true;
+              box.disabled = true;
+            });
+          } else {
+            allBoxes.forEach(function (box) {
+              box.disabled = false;
+            });
+            if (selectedMsCount() === 0 && allBoxes[0]) allBoxes[0].checked = true;
+          }
+
+          var selected = selectedMsCount();
+          var extraUnits = plan.allMessengersIncluded ? 0 : Math.max(0, selected - plan.includedMessengers);
+          var extra = extraUnits * cfg.pricing.extraMessengerPrice;
+          var total = plan.basePrice + extra;
+
+          summaryPlan.textContent = plan.name;
+          summaryPrice.textContent = fmtMoney(total, cfg) + " " + cfg.pricing.perMonthSuffix;
+          summaryMessages.textContent = "Лимит: " + plan.messagesLabel;
+          if (plan.allMessengersIncluded) {
+            summaryMs.textContent = "Каналы: все включены";
+          } else {
+            summaryMs.textContent = cfg.copy.summaryIncludedLabel + ": " + plan.includedMessengers + ". " + cfg.copy.summarySelectedLabel + ": " + selected + ".";
+          }
+          summaryExtra.textContent = cfg.copy.summaryExtraLabel + ": " + fmtMoney(extra, cfg);
+          syncMessengerLabelState();
+        }
+
+        widget.addEventListener("change", syncPricing);
+        syncPricing();
+        return true;
+      }
+
+      function renderFooterSection(cfg) {
+        var footer = document.querySelector("footer") || sectionByIdOrHeading("footer", ["Юридическая информация", "Реквизиты и контакты", "Политика конфиденциальности"]);
+        if (!footer) return false;
+
+        footer.classList.add("liza-footer-clean");
+        footer.replaceChildren();
+
+        var inner = document.createElement("div");
+        inner.className = "liza-footer-inner";
+        inner.setAttribute("data-liza-managed", "footer");
+
+        var grid = document.createElement("div");
+        grid.className = "liza-footer-grid";
+
+        var left = document.createElement("div");
+        left.className = "liza-footer-col";
+
+        var email = document.createElement("a");
+        email.className = "liza-footer-link";
+        email.href = "mailto:" + cfg.legal.email;
+        email.textContent = cfg.legal.email;
+        left.appendChild(email);
+
+        var phone = document.createElement("a");
+        phone.className = "liza-footer-link";
+        phone.href = cfg.legal.phoneHref;
+        phone.textContent = cfg.legal.phoneDisplay;
+        left.appendChild(phone);
+
+        var center = document.createElement("div");
+        center.className = "liza-footer-col liza-footer-col--center";
+
+        var privacy = document.createElement("a");
+        privacy.className = "liza-footer-link";
+        privacy.href = cfg.legal.privacyHref;
+        privacy.target = "_blank";
+        privacy.rel = "noopener noreferrer";
+        privacy.textContent = "Политика конфиденциальности";
+        center.appendChild(privacy);
+
+        var socials = document.createElement("div");
+        socials.className = "liza-footer-socials";
+        cfg.legal.socials.forEach(function (item) {
+          var link = document.createElement("a");
+          link.className = "liza-footer-social";
+          link.href = item.href;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.setAttribute("aria-label", item.label);
+          link.innerHTML = getFooterSocialIcon(item.label);
+          socials.appendChild(link);
+        });
+        center.appendChild(socials);
+
+        var right = document.createElement("div");
+        right.className = "liza-footer-col liza-footer-col--right";
+
+        var business = document.createElement("p");
+        business.className = "liza-footer-text";
+        business.textContent = cfg.legal.businessName;
+        right.appendChild(business);
+
+        var inn = document.createElement("p");
+        inn.className = "liza-footer-text";
+        inn.textContent = "ИНН: " + cfg.legal.inn;
+        right.appendChild(inn);
+
+        grid.appendChild(left);
+        grid.appendChild(center);
+        grid.appendChild(right);
+        inner.appendChild(grid);
+        footer.appendChild(inner);
+        return true;
+      }
+
+      function getFooterSocialIcon(label) {
+        var name = normalize(label);
+        if (name.indexOf("telegram") !== -1) {
+          return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 4.4 18.3 19c-.2.9-.9 1.2-1.8.7l-4-2.9-1.9 1.8c-.2.2-.4.4-.8.4l.3-4.2 7.7-7c.3-.3-.1-.5-.4-.3l-9.5 6-4.1-1.3c-.9-.3-.9-.9.2-1.3l15.9-6.1c.7-.3 1.4.2 1.2 1z"></path></svg>';
+        }
+        if (name.indexOf("контакте") !== -1 || name === "vk") {
+          return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5c.2 6.8 3.8 10.9 10 10.9h.4v-3.1c1.8.2 3.2 1.5 3.7 3.1H21c-.6-2.2-2.2-3.5-3.2-4 1-.6 2.3-2 2.7-4H18c-.5 1.6-1.7 2.8-3.5 3V7.5h-2.3v5.1c-1.8-.5-4-1.9-4.1-5.1H4z"></path></svg>';
+        }
+        return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 12c0 4.7-3.8 8.5-8.5 8.5-1.4 0-2.8-.3-4-1l-4.5 1.4 1.5-4.3a8.4 8.4 0 0 1-1.4-4.6A8.5 8.5 0 0 1 12 3.5a8.5 8.5 0 0 1 8.5 8.5Zm-4.9 1.8c-.2-.1-1.3-.7-1.5-.7-.2-.1-.3-.1-.5.1l-.7.8c-.1.1-.2.2-.4.1-.2-.1-.9-.3-1.6-1-.6-.5-1-1.2-1.1-1.4-.1-.2 0-.3.1-.4l.3-.4c.1-.1.1-.2.2-.3.1-.1 0-.2 0-.4l-.6-1.4c-.1-.2-.2-.2-.4-.2h-.4c-.1 0-.3 0-.5.2-.2.2-.7.7-.7 1.8s.8 2.2.9 2.4c.1.1 1.5 2.3 3.6 3.2 1.7.7 2 .5 2.4.5.4-.1 1.2-.5 1.3-1 .2-.5.2-.9.1-1s-.2-.1-.5-.3Z"></path></svg>';
+      }
+
+      var heroRotationTimer = null;
+
+      function getTelegramSupportHref(cfg) {
+        var socials = cfg && cfg.legal && Array.isArray(cfg.legal.socials) ? cfg.legal.socials : [];
+        var tg = socials.find(function (item) {
+          return normalize(item && item.label).indexOf("telegram") !== -1;
+        });
+        return tg && tg.href ? tg.href : "https://t.me/liza_ai_admin";
+      }
+
+      function findHeroLineWrap(hero) {
+        if (!hero) return null;
+        var heading = hero.querySelector("h1");
+        if (heading && heading.parentElement) {
+          var siblingWrap = Array.prototype.slice.call(heading.parentElement.children).find(function (el) {
+            return el !== heading && el.querySelectorAll && el.querySelectorAll("p").length >= 4;
+          });
+          if (siblingWrap) return siblingWrap;
+        }
+        return Array.prototype.slice.call(hero.querySelectorAll("div")).find(function (el) {
+          return el.querySelectorAll && el.querySelectorAll("p").length >= 4 && hasAny(el.textContent, ["напоминать о визите", "помогать подтвердить запись", "собирать отзывы", "возвращать клиента", "поднимать рейтинг"]);
+        }) || null;
+      }
+
+      function syncHeroRotationState(linesWrap, lines) {
+        if (!linesWrap || !lines.length) return 0;
+        var next = Number(linesWrap.getAttribute("data-liza-hero-index") || 0);
+        if (!isFinite(next) || next < 0) next = 0;
+        next = next % lines.length;
+        var changed = 0;
+        var baseClass = linesWrap.getAttribute("data-liza-hero-base-class") || "text-[clamp(1.65rem,3.55vw,3.5rem)] font-extrabold leading-[1.03] tracking-tight transition-all duration-500";
+        var activeClass = (baseClass + " hero-value-active text-gray-900").trim();
+        var mutedClass = (baseClass + " text-slate-300").trim();
+        Array.prototype.slice.call(linesWrap.querySelectorAll("p")).forEach(function (node, idx) {
+          var className = idx === next ? activeClass : mutedClass;
+          if (node.className !== className) {
+            node.className = className;
+            changed += 1;
+          }
+        });
+        return changed;
+      }
+
+      function patchHeroCopy(cfg) {
+        var hero = document.getElementById("hero");
+        if (!hero) return 0;
+        var changed = 0;
+        var heading = hero.querySelector("h1");
+        if (heading && heading.textContent !== "ЛизаБот") {
+          heading.textContent = "ЛизаБот";
+          changed += 1;
+        }
+        var desiredHeadingClass = "mb-5 text-[clamp(3.25rem,6.2vw,5.95rem)] font-black leading-[0.97] tracking-tight text-slate-900";
+        if (heading && heading.className !== desiredHeadingClass) {
+          heading.className = desiredHeadingClass;
+          changed += 1;
+        }
+
+        var desiredLines = [
+          "Напоминает о визите",
+          "Подтверждает запись",
+          "Возвращает потеряшек",
+          "Повышает рейтинг на картах"
+        ];
+
+        var linesWrap = findHeroLineWrap(hero);
+        if (linesWrap) {
+          var currentNodes = Array.prototype.slice.call(linesWrap.querySelectorAll("p"));
+          var baseClass = "text-[clamp(3.15rem,6vw,5.45rem)] font-black leading-[0.97] tracking-tight transition-all duration-500";
+          if (baseClass) {
+            linesWrap.setAttribute("data-liza-hero-base-class", baseClass);
+          }
+          var activeIdx = Math.max(0, currentNodes.findIndex(function (node) {
+            return node.className.indexOf("hero-value-active") !== -1 || node.className.indexOf("text-gray-900") !== -1;
+          }));
+          var currentSignature = currentNodes.map(function (node) {
+            return (node.textContent || "").trim();
+          }).join("|");
+          var desiredSignature = desiredLines.join("|");
+          if (currentSignature !== desiredSignature) {
+            linesWrap.replaceChildren();
+            desiredLines.forEach(function (text, idx) {
+              var line = document.createElement("p");
+              line.textContent = text;
+              linesWrap.appendChild(line);
+            });
+            changed += 1;
+          }
+          linesWrap.setAttribute("data-liza-hero-index", String(activeIdx % desiredLines.length));
+          changed += syncHeroRotationState(linesWrap, desiredLines);
+        }
+
+        var heroCopy = Array.prototype.slice.call(hero.querySelectorAll("p")).find(function (node) {
+          return normalize(node.textContent).indexOf(normalize("Лиза сама отправляет сообщения")) !== -1 || normalize(node.textContent).indexOf(normalize("Мы берём шаблоны уведомлений")) !== -1;
+        });
+        var desiredCopy = "Лиза сама отправляет клиентам нужные сообщения: напоминает о записи, помогает подтвердить визит, возвращает тех, кто пропал после отмены или паузы, и переводит довольных гостей в отзывы на картах.";
+        if (heroCopy && heroCopy.textContent !== desiredCopy) {
+          heroCopy.textContent = desiredCopy;
+          changed += 1;
+        }
+
+        if (!heroRotationTimer) {
+          heroRotationTimer = setInterval(function () {
+            var currentHero = document.getElementById("hero");
+            var currentWrap = findHeroLineWrap(currentHero);
+            if (!currentWrap) return;
+            var idx = Number(currentWrap.getAttribute("data-liza-hero-index") || 0);
+            if (!isFinite(idx) || idx < 0) idx = 0;
+            idx = (idx + 1) % desiredLines.length;
+            currentWrap.setAttribute("data-liza-hero-index", String(idx));
+            syncHeroRotationState(currentWrap, desiredLines);
+          }, 2400);
+        }
+
+        return changed;
+      }
+
+      function patchHeroMetaChips() {
+        var hero = document.getElementById("hero");
+        if (!hero) return 0;
+        var changed = 0;
+        var chipMap = {
+          "11 типов уведомлений в модуле": "Шаблоны под запись, отзывы и возврат",
+          "11 готовых сценариев под запись": "Шаблоны под запись, отзывы и возврат",
+          "11 готовых сценариев для салона": "Шаблоны под запись, отзывы и возврат",
+          "11 готовых сценариев": "Шаблоны под запись, отзывы и возврат",
+          "Готовые шаблоны под запись, отзывы и возврат": "Шаблоны под запись, отзывы и возврат",
+          "Каскад каналов: Telegram -> WhatsApp -> MAX": "Telegram, WhatsApp, VK и MAX",
+          "Каскад каналов: Telegram → WhatsApp → MAX": "Telegram, WhatsApp, VK и MAX",
+          "До 3 сообщений и до 5 медиа в одном сценарии": "Сценарии с фото и видео",
+          "Многошаговые сообщения с фото и видео": "Сценарии с фото и видео",
+          "Многошаговые сценарии с фото и видео": "Сценарии с фото и видео",
+          "Отзывы на Яндекс Картах и 2ГИС без ручной переписки": "Сценарии с фото и видео",
+          "Сценарии с фото и видео": "Сценарии с фото и видео",
+          "Telegram, WhatsApp, VK и MAX": "Telegram, WhatsApp, VK и MAX",
+          "Шаблоны под запись, отзывы и возврат": "Шаблоны под запись, отзывы и возврат"
+        };
+
+        textElements(hero).forEach(function (node) {
+          if (!node || !node.firstChild || node.childElementCount > 0) return;
+          var current = (node.textContent || "").trim();
+          if (!current || !Object.prototype.hasOwnProperty.call(chipMap, current)) return;
+          var next = chipMap[current];
+          if (current !== next) {
+            node.textContent = next;
+            changed += 1;
+          }
+          if (!node.classList.contains("liza-hero-chip")) {
+            node.classList.add("liza-hero-chip");
+            changed += 1;
+          }
+        });
+
+        return changed;
+      }
+
+      function patchLeadAndSupport(cfg) {
+        var changed = 0;
+        var supportHref = getTelegramSupportHref(cfg);
+
+        textElements(document.body).forEach(function (node) {
+          if (!node || !node.firstChild || node.childElementCount > 0) return;
+          var text = (node.textContent || "").trim();
+          if (text === "Бюджет") {
+            node.textContent = "Итого";
+            changed += 1;
+          } else if (text === "Бюджет:") {
+            node.textContent = "Итого:";
+            changed += 1;
+          }
+        });
+
+        var supportTitle = Array.prototype.slice.call(document.querySelectorAll("p,span,div,h3")).find(function (node) {
+          return normalize(node.textContent) === normalize("Поддержка в Telegram") || normalize(node.textContent) === normalize("Поддержка 24/7");
+        });
+
+        if (supportTitle) {
+          var card = supportTitle.closest("[class*='rounded-full']") || supportTitle.closest("a,button,article,section,div");
+          if (card && card.tagName !== "A") {
+            if (!card.classList.contains("liza-support-link-card")) {
+              card.classList.add("liza-support-link-card");
+              changed += 1;
+            }
+            if (!/absolute|relative|sticky|fixed/.test(window.getComputedStyle(card).position || "")) {
+              card.style.position = "relative";
+              changed += 1;
+            }
+            var overlay = card.querySelector(".liza-support-overlay");
+            if (!overlay) {
+              overlay = document.createElement("a");
+              overlay.className = "liza-support-overlay";
+              overlay.setAttribute("aria-label", "Открыть поддержку в Telegram");
+              card.appendChild(overlay);
+              changed += 1;
+            }
+            if (overlay.href !== supportHref) {
+              overlay.href = supportHref;
+              overlay.target = "_blank";
+              overlay.rel = "noopener noreferrer";
+              changed += 1;
+            }
+            if (card.getAttribute("data-liza-support-bound") !== "1") {
+              card.setAttribute("data-liza-support-bound", "1");
+              card.setAttribute("role", "link");
+              card.setAttribute("tabindex", "0");
+              card.style.cursor = "pointer";
+              card.addEventListener("click", function () {
+                window.location.href = supportHref;
+              });
+              card.addEventListener("keydown", function (event) {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  window.location.href = supportHref;
+                }
+              });
+              changed += 1;
+            }
+          } else if (card && card.tagName === "A" && card.href !== supportHref) {
+            card.href = supportHref;
+            card.target = "_blank";
+            card.rel = "noopener noreferrer";
+            card.style.cursor = "pointer";
+            changed += 1;
+          }
+          Array.prototype.slice.call(card ? card.querySelectorAll("p,span,div,h3,button") : []).forEach(function (node) {
+            if (node.getAttribute("data-liza-support-proxy") === "1") return;
+            node.setAttribute("data-liza-support-proxy", "1");
+            node.style.cursor = "pointer";
+            node.addEventListener("click", function (event) {
+              event.preventDefault();
+              event.stopPropagation();
+              window.location.href = supportHref;
+            });
+          });
+        }
+
+        return changed;
+      }
+
+      function ensureLeadStatusNode(form) {
+        var status = form.querySelector("[data-liza-lead-status]");
+        if (status) return status;
+        status = document.createElement("p");
+        status.setAttribute("data-liza-lead-status", "true");
+        status.style.margin = "6px 0 0";
+        status.style.fontSize = "0.92rem";
+        status.style.lineHeight = "1.45";
+        status.style.color = "#44607c";
+        form.appendChild(status);
+        return status;
+      }
+
+      function collectLeadPayload(form) {
+        var textInputs = Array.prototype.slice.call(form.querySelectorAll('input[type="text"], input[type="tel"]'));
+        var quoteSummary = form.querySelector('input[name="quote_summary"]');
+        var toggleButtons = Array.prototype.slice.call(form.querySelectorAll('button[type="button"]'));
+        var selectedYClients = toggleButtons.find(function (btn) {
+          var cls = btn.className || "";
+          return cls.indexOf("border-blue-500") !== -1 || cls.indexOf("bg-blue-50") !== -1 || cls.indexOf("text-blue-700") !== -1;
+        });
+        var pricingRoot = document.getElementById("pricing");
+        var summaryPlan = pricingRoot ? pricingRoot.querySelector("[data-summary-plan]") : null;
+        var summaryPrice = pricingRoot ? pricingRoot.querySelector("[data-summary-price]") : null;
+        var summaryMessages = pricingRoot ? pricingRoot.querySelector("[data-summary-msg]") : null;
+        var summaryMs = pricingRoot ? pricingRoot.querySelector("[data-summary-ms]") : null;
+        var summaryExtra = pricingRoot ? pricingRoot.querySelector("[data-summary-extra]") : null;
+        var messengerLabels = pricingRoot ? Array.prototype.slice.call(pricingRoot.querySelectorAll('.liza-messenger-row input[type="checkbox"]:checked')).map(function (box) {
+          var label = box.closest(".liza-ms-item");
+          var text = label ? label.textContent : "";
+          return (text || "").replace(/\s+/g, " ").trim();
+        }).filter(Boolean) : [];
+
+        return {
+          name: textInputs[0] ? (textInputs[0].value || "").trim() : "",
+          phone: textInputs[1] ? (textInputs[1].value || "").trim() : "",
+          salonName: textInputs[2] ? (textInputs[2].value || "").trim() : "",
+          usesYClients: selectedYClients ? (selectedYClients.textContent || "").trim() : "",
+          planName: summaryPlan ? (summaryPlan.textContent || "").trim() : "",
+          totalPrice: summaryPrice ? (summaryPrice.textContent || "").trim() : "",
+          messagesInfo: summaryMessages ? (summaryMessages.textContent || "").trim() : "",
+          messengersInfo: summaryMs ? (summaryMs.textContent || "").trim() : "",
+          extraInfo: summaryExtra ? (summaryExtra.textContent || "").trim() : "",
+          selectedMessengers: messengerLabels,
+          quoteSummary: quoteSummary ? (quoteSummary.value || "").trim() : "",
+          sourcePage: window.location.href,
+          submittedAt: new Date().toISOString()
+        };
+      }
+
+      function wireLeadFormSubmit(cfg) {
+        var form = document.querySelector("#lead-form form");
+        if (!form) return 0;
+        var changed = 0;
+        var webhookUrl = cfg && cfg.behavior ? (cfg.behavior.leadWebhookUrl || "") : "";
+        if (form.getAttribute("data-liza-lead-webhook-url") !== webhookUrl) {
+          form.setAttribute("data-liza-lead-webhook-url", webhookUrl);
+          changed += 1;
+        }
+        if (form.getAttribute("data-liza-lead-bound") === "1") return changed;
+
+        form.setAttribute("data-liza-lead-bound", "1");
+        var submitButton = form.querySelector('button[type="submit"]');
+        var initialButtonText = submitButton ? submitButton.textContent : "";
+
+        form.addEventListener("submit", function (event) {
+          var activeWebhookUrl = form.getAttribute("data-liza-lead-webhook-url") || "";
+          if (!/^https:\/\/\S+$/i.test(activeWebhookUrl)) {
+            return;
+          }
+
+          event.preventDefault();
+          var payload = collectLeadPayload(form);
+          var status = ensureLeadStatusNode(form);
+
+          if (!payload.phone) {
+            status.textContent = "Укажите телефон, чтобы мы могли связаться с вами.";
+            status.style.color = "#c03d3d";
+            return;
+          }
+
+          if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = "Отправляем заявку...";
+          }
+          status.textContent = "Отправляем заявку в защищённый канал...";
+          status.style.color = "#44607c";
+
+          fetch(activeWebhookUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Cache-Control": "no-store"
+            },
+            credentials: "omit",
+            body: JSON.stringify(payload)
+          }).then(function (response) {
+            if (!response.ok) throw new Error("lead_submit_failed");
+            status.textContent = "Заявка отправлена. Скоро свяжемся с вами.";
+            status.style.color = "#1f7a45";
+            if (submitButton) {
+              submitButton.textContent = "Заявка отправлена";
+            }
+          }).catch(function () {
+            status.textContent = "Не удалось отправить заявку. Попробуйте ещё раз или напишите нам в Telegram.";
+            status.style.color = "#c03d3d";
+            if (submitButton) {
+              submitButton.disabled = false;
+              submitButton.textContent = initialButtonText || "Начать тест 3 дня";
+            }
+          });
+        });
+
+        return changed + 1;
+      }
+
+      function enhanceHeroMotion() {
+        var hero = document.getElementById("hero");
+        if (!hero) return 0;
+
+        var visual = Array.prototype.slice.call(hero.querySelectorAll("div")).find(function (el) {
+          return !!el.querySelector("img") && window.getComputedStyle(el).position === "relative" && el.offsetHeight > 280;
+        });
+        if (!visual) return 0;
+
+        var changed = 0;
+        Array.prototype.slice.call(visual.querySelectorAll("*")).forEach(function (el, idx) {
+          var style = window.getComputedStyle(el);
+          var smallEnough = el.offsetWidth > 20 && el.offsetWidth < 220 && el.offsetHeight > 20 && el.offsetHeight < 220;
+          if (style.position !== "absolute") return;
+          if (!smallEnough) return;
+          if (el.classList.contains("liza-hero-float")) return;
+          el.classList.add("liza-hero-float", "liza-hero-float--" + (idx % 4));
+          changed += 1;
+        });
+        return changed;
+      }
+
+      function applySelectorOverrides(cfg) {
+        var map = asObject(cfg.copy.selectorTextMap);
+        if (!map) return 0;
+        var applied = 0;
+        Object.keys(map).forEach(function (selector) {
+          var text = safeString(map[selector], "", 600);
+          if (!text) return;
+          var node = document.querySelector(selector);
+          if (node) {
+            node.textContent = text;
+            applied += 1;
+          }
+        });
+        return applied;
+      }
+
+      function applyExactTextMap(cfg) {
+        var map = asObject(cfg.copy.exactTextMap);
+        if (!map) return 0;
+        var applied = 0;
+        var keys = Object.keys(map);
+        if (!keys.length) return 0;
+        var set = new Set(keys);
+
+        var nodes = Array.prototype.slice.call(document.body.querySelectorAll("h1,h2,h3,h4,p,span,a,button,label,div"));
+        nodes.forEach(function (node) {
+          if (!node || !node.firstChild || node.childElementCount > 0) return;
+          var current = (node.textContent || "").trim();
+          if (!current || !set.has(current)) return;
+          var next = safeString(map[current], "", 600);
+          if (!next || next === current) return;
+          node.textContent = next;
+          applied += 1;
+        });
+        return applied;
+      }
+
+      function shouldSkipNodeByParent(parent) {
+        if (!parent || !parent.tagName) return true;
+        var tag = parent.tagName.toLowerCase();
+        if (["script", "style", "noscript", "template", "svg", "path"].indexOf(tag) !== -1) return true;
+        if (parent.closest && parent.closest("script,style,noscript,template,svg,path")) return true;
+        return false;
+      }
+
+      function cssPath(el) {
+        var parts = [];
+        var node = el;
+        while (node && node.nodeType === 1 && node !== document.body) {
+          var tag = node.tagName.toLowerCase();
+          var part = tag;
+          if (node.id) {
+            part += "#" + node.id;
+            parts.unshift(part);
+            break;
+          } else {
+            var index = 1;
+            var sib = node;
+            while ((sib = sib.previousElementSibling)) {
+              if (sib.tagName === node.tagName) index += 1;
+            }
+            part += ":nth-of-type(" + index + ")";
+            parts.unshift(part);
+          }
+          node = node.parentElement;
+        }
+        parts.unshift("body");
+        return parts.join(">");
+      }
+
+      function slugify(value) {
+        return String(value || "")
+          .toLowerCase()
+          .replace(/[^a-z0-9а-яё]+/gi, "_")
+          .replace(/^_+|_+$/g, "")
+          .slice(0, 60) || "common";
+      }
+
+      function inferSectionName(el) {
+        var section = el.closest("section,article,main,header,footer,[id],[data-slot]");
+        if (!section) return "common";
+        if (section.id) return slugify(section.id);
+        var heading = section.querySelector("h1,h2,h3");
+        if (heading) return slugify((heading.textContent || "").trim());
+        var cls = section.className && typeof section.className === "string" ? section.className.split(/\s+/)[0] : "";
+        return slugify(cls || section.tagName.toLowerCase());
+      }
+
+      function hashPath(str) {
+        var h = 2166136261;
+        for (var i = 0; i < str.length; i += 1) {
+          h ^= str.charCodeAt(i);
+          h += (h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24);
+        }
+        return (h >>> 0).toString(16);
+      }
+
+      function ensureOwnerKey(el) {
+        if (!el.hasAttribute("data-liza-text-owner")) {
+          var key = "o_" + hashPath(cssPath(el));
+          el.setAttribute("data-liza-text-owner", key);
+        }
+        return el.getAttribute("data-liza-text-owner");
+      }
+
+      function pickMappedValue(map, key, placeholder, withKey) {
+        var candidate = safeString(map[key], "", 600);
+        if (candidate) return candidate;
+        if (withKey) return placeholder + " [" + key + "]";
+        return placeholder;
+      }
+
+      function upsertExportMapNode(mapObj) {
+        var id = "liza-fulltext-map-json";
+        var node = document.getElementById(id);
+        if (!node) {
+          node = document.createElement("script");
+          node.id = id;
+          node.type = "application/json";
+          document.body.appendChild(node);
+        }
+        node.textContent = JSON.stringify(mapObj, null, 2);
+      }
+
+      function upsertExportMetaNode(metaObj) {
+        var id = "liza-fulltext-meta-json";
+        var node = document.getElementById(id);
+        if (!node) {
+          node = document.createElement("script");
+          node.id = id;
+          node.type = "application/json";
+          document.body.appendChild(node);
+        }
+        node.textContent = JSON.stringify(metaObj, null, 2);
+      }
+
+      function enforceRuntimeFlags(cfg) {
+        if (!cfg || !cfg.behavior) return;
+        if (forceFullTextExport) {
+          cfg.behavior.fullTextControl = true;
+          cfg.behavior.fullTextMode = "collect";
+        }
+      }
+
+      function applyFullTextControl(cfg) {
+        if (!cfg.behavior || !cfg.behavior.fullTextControl) return 0;
+        var fullMap = asObject(cfg.copy.fullTextMap) || {};
+        var placeholder = safeString(cfg.copy.fullTextPlaceholder, "placeholder", 300);
+        var isCollectMode = cfg.behavior.fullTextMode === "collect";
+        var withKey = !!cfg.behavior.placeholderWithKey;
+        var ownerNodeIndex = new Map();
+        var exportMap = {};
+        var exportMeta = {};
+        var applied = 0;
+
+        var walker = document.createTreeWalker(
+          document.body,
+          NodeFilter.SHOW_TEXT,
+          {
+            acceptNode: function (node) {
+              var parent = node.parentElement;
+              if (!parent) return NodeFilter.FILTER_REJECT;
+              if (shouldSkipNodeByParent(parent)) return NodeFilter.FILTER_REJECT;
+              var raw = (node.nodeValue || "").replace(/\s+/g, " ").trim();
+              if (!raw) return NodeFilter.FILTER_REJECT;
+              return NodeFilter.FILTER_ACCEPT;
+            }
+          }
+        );
+
+        var textNode = walker.nextNode();
+        while (textNode) {
+          var owner = textNode.parentElement;
+          var ownerKey = ensureOwnerKey(owner);
+          var nodeIdx = (ownerNodeIndex.get(ownerKey) || 0) + 1;
+          ownerNodeIndex.set(ownerKey, nodeIdx);
+          var textKey = ownerKey + ".n" + nodeIdx;
+          if (isCollectMode) {
+            var srcText = (textNode.nodeValue || "").replace(/\s+/g, " ").trim();
+            exportMap[textKey] = srcText;
+            exportMeta[textKey] = {
+              kind: "text",
+              section: inferSectionName(owner),
+              selector: cssPath(owner),
+              sample: srcText.slice(0, 120)
+            };
+          } else {
+            var textValue = pickMappedValue(fullMap, textKey, placeholder, withKey);
+            if (textNode.nodeValue !== textValue) {
+              textNode.nodeValue = textValue;
+              applied += 1;
+            }
+          }
+          textNode = walker.nextNode();
+        }
+
+        var controls = Array.prototype.slice.call(document.body.querySelectorAll("input,textarea,button,[placeholder],[aria-label]"));
+        controls.forEach(function (el) {
+          if (shouldSkipNodeByParent(el)) return;
+          var ownerKey = ensureOwnerKey(el);
+
+          if (el.hasAttribute("placeholder")) {
+            var phKey = ownerKey + ".placeholder";
+            if (isCollectMode) {
+              var phText = el.getAttribute("placeholder") || "";
+              exportMap[phKey] = phText;
+              exportMeta[phKey] = {
+                kind: "placeholder",
+                section: inferSectionName(el),
+                selector: cssPath(el),
+                sample: phText.slice(0, 120)
+              };
+            } else {
+              var phValue = pickMappedValue(fullMap, phKey, placeholder, withKey);
+              if (el.getAttribute("placeholder") !== phValue) {
+                el.setAttribute("placeholder", phValue);
+                applied += 1;
+              }
+            }
+          }
+
+          if (el.hasAttribute("aria-label")) {
+            var ariaKey = ownerKey + ".aria";
+            if (isCollectMode) {
+              var ariaText = el.getAttribute("aria-label") || "";
+              exportMap[ariaKey] = ariaText;
+              exportMeta[ariaKey] = {
+                kind: "aria",
+                section: inferSectionName(el),
+                selector: cssPath(el),
+                sample: ariaText.slice(0, 120)
+              };
+            } else {
+              var ariaValue = pickMappedValue(fullMap, ariaKey, placeholder, withKey);
+              if (el.getAttribute("aria-label") !== ariaValue) {
+                el.setAttribute("aria-label", ariaValue);
+                applied += 1;
+              }
+            }
+          }
+
+          if (el.tagName === "INPUT") {
+            var inputType = (el.getAttribute("type") || "text").toLowerCase();
+            if (["hidden", "checkbox", "radio", "range", "file", "color", "date", "datetime-local", "month", "time", "week"].indexOf(inputType) === -1) {
+              var valKey = ownerKey + ".value";
+              if (isCollectMode) {
+                var inText = el.value || "";
+                exportMap[valKey] = inText;
+                exportMeta[valKey] = {
+                  kind: "value",
+                  section: inferSectionName(el),
+                  selector: cssPath(el),
+                  sample: inText.slice(0, 120)
+                };
+              } else {
+                var valValue = pickMappedValue(fullMap, valKey, placeholder, withKey);
+                if (el.value !== valValue) {
+                  el.value = valValue;
+                  applied += 1;
+                }
+              }
+            }
+          } else if (el.tagName === "TEXTAREA") {
+            var taKey = ownerKey + ".value";
+            if (isCollectMode) {
+              var taText = el.value || "";
+              exportMap[taKey] = taText;
+              exportMeta[taKey] = {
+                kind: "value",
+                section: inferSectionName(el),
+                selector: cssPath(el),
+                sample: taText.slice(0, 120)
+              };
+            } else {
+              var taValue = pickMappedValue(fullMap, taKey, placeholder, withKey);
+              if (el.value !== taValue) {
+                el.value = taValue;
+                applied += 1;
+              }
+            }
+          }
+        });
+
+        if (isCollectMode) {
+          upsertExportMapNode(exportMap);
+          upsertExportMetaNode(exportMeta);
+          try {
+            window.parent.postMessage({ type: "LIZA_FULLTEXT_EXPORT_READY", payload: exportMap, meta: exportMeta }, "*");
+          } catch (_e) {
+            // no-op
+          }
+          return Object.keys(exportMap).length;
+        }
+
+        return applied;
+      }
+
+      function applyConfigToDom() {
+        if (!document.body) return false;
+        var changed = false;
+        var navChanged = applyNavigationAndCtaCopy(runtimeConfig);
+        var footerChanged = renderFooterSection(runtimeConfig);
+        var heroCopyChanged = patchHeroCopy(runtimeConfig);
+        var heroMetaChanged = patchHeroMetaChips(runtimeConfig);
+        var leadSupportChanged = patchLeadAndSupport(runtimeConfig);
+        var leadFormChanged = wireLeadFormSubmit(runtimeConfig);
+        var heroMotionChanged = enhanceHeroMotion();
+        if (runtimeConfig.behavior && runtimeConfig.behavior.rebuildManagedSections) {
+          var benefitsOk = renderBenefitsSection(runtimeConfig);
+          var resultOk = renderOutcomeSection(runtimeConfig);
+          var pricingOk = renderPricingSection(runtimeConfig);
+          changed = benefitsOk || resultOk || pricingOk;
+        }
+        var fullTextAppliedCount = applyFullTextControl(runtimeConfig);
+        var exactTextAppliedCount = applyExactTextMap(runtimeConfig);
+        var textAppliedCount = applySelectorOverrides(runtimeConfig);
+        return changed || footerChanged || navChanged > 0 || heroCopyChanged > 0 || heroMetaChanged > 0 || leadSupportChanged > 0 || leadFormChanged > 0 || heroMotionChanged > 0 || fullTextAppliedCount > 0 || exactTextAppliedCount > 0 || textAppliedCount > 0;
+      }
+
+      function needsManagedRefresh() {
+        if (!document.body) return false;
+        if (runtimeConfig.behavior && runtimeConfig.behavior.rebuildManagedSections) {
+          if (findHeading(document.body, ["Почему Лиза", "Преимущества", "Что реально работает в модуле", "Что реально работает"])) return true;
+          if (!document.querySelector('[data-liza-managed="benefits"]')) return true;
+          if (!document.querySelector('[data-liza-managed="outcomes"]')) return true;
+          if (!document.querySelector('[data-liza-managed="pricing"]')) return true;
+        }
+        var footer = document.querySelector("footer");
+        if (footer && !footer.querySelector('[data-liza-managed="footer"]')) return true;
+        return false;
+      }
+
+      function startDomObserver() {
+        if (domObserver || !window.MutationObserver) return;
+        var target = document.getElementById("liza-tilda-root") || document.body;
+        if (!target) return;
+        domObserver = new MutationObserver(function () {
+          if (observerTimer) clearTimeout(observerTimer);
+          observerTimer = setTimeout(function () {
+            observerTimer = null;
+            scheduleApply();
+          }, 120);
+        });
+        domObserver.observe(target, { childList: true, subtree: true, attributes: true, characterData: true });
+      }
+
+      function scheduleApply() {
+        if (queuedApply) clearInterval(queuedApply);
+        var attempts = 0;
+        var maxAttempts = 40;
+        queuedApply = setInterval(function () {
+          attempts += 1;
+          var changed = false;
+          try {
+            changed = applyConfigToDom();
+            document.documentElement.setAttribute("data-liza-apply-state", changed ? "changed" : "checked");
+            document.documentElement.removeAttribute("data-liza-apply-error");
+          } catch (err) {
+            document.documentElement.setAttribute("data-liza-apply-state", "error");
+            document.documentElement.setAttribute("data-liza-apply-error", String(err && err.message ? err.message : err).slice(0, 220));
+            clearInterval(queuedApply);
+            queuedApply = null;
+            return;
+          }
+          if (pendingConfigAck && (changed || attempts >= 2)) {
+            pendingConfigAck = false;
+            try {
+              window.parent.postMessage({ type: "LIZA_CONFIG_APPLIED", version: 1 }, "*");
+            } catch (_e) {
+              // no-op
+            }
+          }
+          if (changed && attempts > 2) {
+            clearInterval(queuedApply);
+            queuedApply = null;
+          } else if (attempts >= maxAttempts) {
+            clearInterval(queuedApply);
+            queuedApply = null;
+          }
+        }, 250);
+      }
+
+      function applyIncomingConfig(rawPayload) {
+        runtimeConfig = sanitizeConfig(rawPayload);
+        enforceRuntimeFlags(runtimeConfig);
+        pendingConfigAck = true;
+        scheduleApply();
+      }
+
+      function tryParseJson(value) {
+        if (typeof value !== "string") return value;
+        try {
+          return JSON.parse(value);
+        } catch (_e) {
+          return null;
+        }
+      }
+
+      function hasHttpOrigin(origin) {
+        if (!origin || origin === "null") return false;
+        return /^https?:\/\//i.test(origin);
+      }
+
+      window.addEventListener("message", function (event) {
+        if (event.source !== window.parent) return;
+        if (!hasHttpOrigin(event.origin)) return;
+
+        var data = tryParseJson(event.data);
+        if (!data || typeof data !== "object") return;
+        if (data.type !== "LIZA_CONFIG_V1") return;
+        applyIncomingConfig(data.payload);
+      });
+
+      enforceRuntimeFlags(runtimeConfig);
+      startDomObserver();
+      scheduleApply();
+
+      window.addEventListener("load", function () {
+        enforceRuntimeFlags(runtimeConfig);
+        startDomObserver();
+        scheduleApply();
+        try {
+          window.parent.postMessage({ type: "LIZA_CONFIG_IFRAME_READY", version: 1 }, "*");
+        } catch (_e) {
+          // no-op
+        }
+      }, { once: true });
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
