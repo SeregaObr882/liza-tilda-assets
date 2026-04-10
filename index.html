@@ -1685,7 +1685,7 @@
           heading.textContent = "ЛизаБот";
           changed += 1;
         }
-        var desiredHeadingClass = "mb-5 text-[clamp(2.4rem,4.9vw,4.6rem)] font-black leading-[1.03] tracking-tight text-slate-900";
+        var desiredHeadingClass = "mb-5 text-[clamp(3.25rem,6.2vw,5.95rem)] font-black leading-[0.97] tracking-tight text-slate-900";
         if (heading && heading.className !== desiredHeadingClass) {
           heading.className = desiredHeadingClass;
           changed += 1;
@@ -1701,7 +1701,7 @@
         var linesWrap = findHeroLineWrap(hero);
         if (linesWrap) {
           var currentNodes = Array.prototype.slice.call(linesWrap.querySelectorAll("p"));
-          var baseClass = "text-[clamp(2.05rem,4.15vw,4.05rem)] font-extrabold leading-[1.02] tracking-tight transition-all duration-500";
+          var baseClass = "text-[clamp(3.15rem,6vw,5.45rem)] font-black leading-[0.97] tracking-tight transition-all duration-500";
           if (baseClass) {
             linesWrap.setAttribute("data-liza-hero-base-class", baseClass);
           }
