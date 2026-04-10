@@ -1893,12 +1893,29 @@
           var cls = btn.className || "";
           return cls.indexOf("border-blue-500") !== -1 || cls.indexOf("bg-blue-50") !== -1 || cls.indexOf("text-blue-700") !== -1;
         });
+        var pricingRoot = document.getElementById("pricing");
+        var summaryPlan = pricingRoot ? pricingRoot.querySelector("[data-summary-plan]") : null;
+        var summaryPrice = pricingRoot ? pricingRoot.querySelector("[data-summary-price]") : null;
+        var summaryMessages = pricingRoot ? pricingRoot.querySelector("[data-summary-msg]") : null;
+        var summaryMs = pricingRoot ? pricingRoot.querySelector("[data-summary-ms]") : null;
+        var summaryExtra = pricingRoot ? pricingRoot.querySelector("[data-summary-extra]") : null;
+        var messengerLabels = pricingRoot ? Array.prototype.slice.call(pricingRoot.querySelectorAll('.liza-messenger-row input[type="checkbox"]:checked')).map(function (box) {
+          var label = box.closest(".liza-ms-item");
+          var text = label ? label.textContent : "";
+          return (text || "").replace(/\s+/g, " ").trim();
+        }).filter(Boolean) : [];
 
         return {
           name: textInputs[0] ? (textInputs[0].value || "").trim() : "",
           phone: textInputs[1] ? (textInputs[1].value || "").trim() : "",
           salonName: textInputs[2] ? (textInputs[2].value || "").trim() : "",
           usesYClients: selectedYClients ? (selectedYClients.textContent || "").trim() : "",
+          planName: summaryPlan ? (summaryPlan.textContent || "").trim() : "",
+          totalPrice: summaryPrice ? (summaryPrice.textContent || "").trim() : "",
+          messagesInfo: summaryMessages ? (summaryMessages.textContent || "").trim() : "",
+          messengersInfo: summaryMs ? (summaryMs.textContent || "").trim() : "",
+          extraInfo: summaryExtra ? (summaryExtra.textContent || "").trim() : "",
+          selectedMessengers: messengerLabels,
           quoteSummary: quoteSummary ? (quoteSummary.value || "").trim() : "",
           sourcePage: window.location.href,
           submittedAt: new Date().toISOString()

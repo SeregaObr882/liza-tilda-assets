@@ -23,21 +23,38 @@ export default {
     const name = safeText(payload.name, 80);
     const salon = safeText(payload.salonName, 120);
     const usesYClients = safeText(payload.usesYClients, 16);
+    const planName = safeText(payload.planName, 80);
+    const totalPrice = safeText(payload.totalPrice, 80);
+    const messagesInfo = safeText(payload.messagesInfo, 120);
+    const messengersInfo = safeText(payload.messengersInfo, 160);
+    const extraInfo = safeText(payload.extraInfo, 120);
+    const selectedMessengers = Array.isArray(payload.selectedMessengers)
+      ? payload.selectedMessengers.map(function (item) { return safeText(item, 40); }).filter(Boolean).slice(0, 8)
+      : [];
     const quoteSummary = safeText(payload.quoteSummary, 240);
     const sourcePage = safeText(payload.sourcePage, 400);
+    const submittedAt = safeText(payload.submittedAt, 60);
 
     if (!phone) {
       return json({ ok: false, error: "phone_required" }, 400);
     }
 
-    const text =
-      "Новая заявка с sell-landing\n\n" +
-      "Имя: " + (name || "не указано") + "\n" +
-      "Телефон: " + phone + "\n" +
-      "Салон: " + (salon || "не указано") + "\n" +
-      "YClients: " + (usesYClients || "не указано") + "\n" +
-      "Расчёт: " + (quoteSummary || "без расчёта") + "\n" +
-      "Страница: " + (sourcePage || "не указана");
+    const text = [
+      "Новая заявка с сайта Лиза Бот",
+      "",
+      "Имя: " + (name || "не указано"),
+      "Телефон: " + phone,
+      "Салон: " + (salon || "не указано"),
+      "YClients: " + (usesYClients || "не указано"),
+      "Тариф: " + (planName || "не указан"),
+      "Итого: " + (totalPrice || "не рассчитано"),
+      "Сообщения: " + (messagesInfo || "не указано"),
+      "Каналы: " + (selectedMessengers.length ? selectedMessengers.join(", ") : (messengersInfo || "не указано")),
+      "Доплата: " + (extraInfo || "не указано"),
+      "Расчёт: " + (quoteSummary || "без дополнительного комментария"),
+      "Страница: " + (sourcePage || "не указана"),
+      "Время: " + (submittedAt || "не указано")
+    ].join("\n");
 
     const tgResponse = await fetch(
       "https://api.telegram.org/bot" + env.TELEGRAM_BOT_TOKEN + "/sendMessage",
