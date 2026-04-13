@@ -544,24 +544,90 @@
       text-align: center;
     }
 
-    @keyframes lizaHeroFloat {
-      0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
-      25% { transform: translate3d(-3px, -8px, 0) rotate(-1.4deg) scale(1.01); }
-      50% { transform: translate3d(4px, -18px, 0) rotate(1.6deg) scale(1.02); }
-      75% { transform: translate3d(-2px, -9px, 0) rotate(-0.8deg) scale(1.01); }
-      100% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+    @keyframes lizaHeroFloatA {
+      0% { transform: translate3d(0, 0, 0) rotate(-2deg) scale(1); }
+      25% { transform: translate3d(-5px, -10px, 0) rotate(-4deg) scale(1.02); }
+      50% { transform: translate3d(6px, -20px, 0) rotate(2deg) scale(1.04); }
+      75% { transform: translate3d(-3px, -9px, 0) rotate(-1deg) scale(1.02); }
+      100% { transform: translate3d(0, 0, 0) rotate(-2deg) scale(1); }
+    }
+
+    @keyframes lizaHeroFloatB {
+      0% { transform: translate3d(0, 0, 0) rotate(3deg) scale(1); }
+      30% { transform: translate3d(7px, -14px, 0) rotate(5deg) scale(1.03); }
+      60% { transform: translate3d(-4px, -18px, 0) rotate(1deg) scale(1.05); }
+      100% { transform: translate3d(0, 0, 0) rotate(3deg) scale(1); }
+    }
+
+    @keyframes lizaHeroFloatC {
+      0% { transform: translate3d(0, 0, 0) rotate(-1deg) scale(1); }
+      20% { transform: translate3d(-8px, -8px, 0) rotate(-4deg) scale(1.01); }
+      55% { transform: translate3d(3px, -22px, 0) rotate(3deg) scale(1.04); }
+      100% { transform: translate3d(0, 0, 0) rotate(-1deg) scale(1); }
+    }
+
+    @keyframes lizaHeroFloatD {
+      0% { transform: translate3d(0, 0, 0) rotate(1deg) scale(1); }
+      35% { transform: translate3d(5px, -11px, 0) rotate(4deg) scale(1.02); }
+      65% { transform: translate3d(-6px, -17px, 0) rotate(-2deg) scale(1.03); }
+      100% { transform: translate3d(0, 0, 0) rotate(1deg) scale(1); }
     }
 
     .liza-hero-float {
-      animation: lizaHeroFloat 7.4s cubic-bezier(0.45, 0.05, 0.2, 0.96) infinite;
       will-change: transform;
       transform-origin: 50% 50%;
     }
 
-    .liza-hero-float--0 { animation-duration: 8.2s; animation-delay: 0.15s; }
-    .liza-hero-float--1 { animation-duration: 7.6s; animation-delay: 0.75s; }
-    .liza-hero-float--2 { animation-duration: 8.8s; animation-delay: 1.35s; }
-    .liza-hero-float--3 { animation-duration: 7.1s; animation-delay: 2.15s; }
+    #hero .liza-hero-visual > div:nth-of-type(2) .hero-float {
+      animation: lizaHeroFloatA 6.9s ease-in-out infinite !important;
+    }
+
+    #hero .liza-hero-visual > div:nth-of-type(3) .hero-float {
+      animation: lizaHeroFloatB 7.8s ease-in-out infinite !important;
+    }
+
+    #hero .liza-hero-visual > div:nth-of-type(4) .hero-float {
+      animation: lizaHeroFloatC 8.4s ease-in-out infinite !important;
+    }
+
+    #hero .liza-hero-visual > div:nth-of-type(5) .hero-float {
+      animation: lizaHeroFloatD 7.2s ease-in-out infinite !important;
+    }
+
+    .liza-gradient-bot-text {
+      background: linear-gradient(90deg, #2f66ff 0%, #6a37ff 55%, #8e3dff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .liza-wa-star {
+      position: absolute;
+      top: -6px;
+      right: -5px;
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: #ffffff;
+      color: #0f172a;
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 16px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.18);
+      pointer-events: none;
+    }
+
+    .liza-whatsapp-footnote {
+      margin-top: 14px;
+      font-size: 12px;
+      line-height: 1.45;
+      color: #6b7280;
+      max-width: 560px;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
     .liza-support-link-card {
       cursor: pointer;
@@ -966,6 +1032,138 @@
       });
 
       loadBundle("initial");
+    })();
+  </script>
+  <script>
+    (function () {
+      var root = document.getElementById("liza-tilda-root");
+      var latestConfig = null;
+      var applyTimer = null;
+      var observer = null;
+
+      function hasOwn(obj, key) {
+        return Object.prototype.hasOwnProperty.call(obj, key);
+      }
+
+      function query(selector) {
+        return root ? root.querySelector(selector) : null;
+      }
+
+      function scheduleApply() {
+        clearTimeout(applyTimer);
+        applyTimer = setTimeout(applyConfig, 90);
+      }
+
+      function applyTextNodeMap(map) {
+        if (!map || !root) return;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+          acceptNode: function (node) {
+            if (!node || !node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+            var parent = node.parentElement;
+            if (parent && /^(SCRIPT|STYLE|NOSCRIPT)$/.test(parent.tagName)) return NodeFilter.FILTER_REJECT;
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        });
+
+        var current;
+        while ((current = walker.nextNode())) {
+          var raw = current.nodeValue.trim();
+          if (!raw) continue;
+          if (hasOwn(map, raw) && map[raw] !== raw) {
+            current.nodeValue = current.nodeValue.replace(raw, map[raw]);
+          }
+        }
+
+        var fields = root.querySelectorAll("input[placeholder], textarea[placeholder]");
+        Array.prototype.forEach.call(fields, function (field) {
+          var placeholder = field.getAttribute("placeholder");
+          if (placeholder && hasOwn(map, placeholder) && map[placeholder] !== placeholder) {
+            field.setAttribute("placeholder", map[placeholder]);
+          }
+        });
+      }
+
+      function ensureHeroTitle(config) {
+        var title = query("#hero .liza-hero-title");
+        if (!title) return;
+        var html = config && config.heroTitleHtml
+          ? config.heroTitleHtml
+          : 'Лиза<span class="liza-gradient-bot-text">Бот</span>';
+        if (title.innerHTML !== html) title.innerHTML = html;
+      }
+
+      function ensureWhatsappMeta(config) {
+        var footerCenter = query("#footer .liza-footer-center");
+        if (!footerCenter) return;
+
+        var whatsappLink = query('#footer a[aria-label="WhatsApp"]');
+        if (whatsappLink) {
+          whatsappLink.style.position = "relative";
+          if (!whatsappLink.querySelector(".liza-wa-star")) {
+            var star = document.createElement("span");
+            star.className = "liza-wa-star";
+            star.textContent = "*";
+            whatsappLink.appendChild(star);
+          }
+        }
+
+        var note = footerCenter.querySelector(".liza-whatsapp-footnote");
+        if (!note) {
+          note = document.createElement("p");
+          note.className = "liza-whatsapp-footnote";
+          footerCenter.appendChild(note);
+        }
+
+        note.textContent = (config && config.whatsappFootnote) ||
+          "*WhatsApp — продукт компании Meta, деятельность которой признана экстремистской и запрещена на территории Российской Федерации";
+      }
+
+      function ensureOutcomeIcon() {
+        var iconHost = query("#proof .liza-outcome-card:nth-of-type(2) .liza-outcome-icon");
+        if (!iconHost) return;
+        if (iconHost.querySelector("svg, img")) return;
+        iconHost.innerHTML =
+          '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+          '<path d="M12 2v6"></path>' +
+          '<path d="M12 22v-2"></path>' +
+          '<path d="M4.93 4.93l4.24 4.24"></path>' +
+          '<path d="M14.83 14.83l4.24 4.24"></path>' +
+          '<path d="M2 12h2"></path>' +
+          '<path d="M20 12h2"></path>' +
+          '<path d="M6.34 17.66l-1.41 1.41"></path>' +
+          '<path d="M17.66 6.34l1.41-1.41"></path>' +
+          '</svg>';
+      }
+
+      function applyConfig() {
+        if (!root || !root.querySelector("*")) return;
+        if (latestConfig && latestConfig.fullTextMap) applyTextNodeMap(latestConfig.fullTextMap);
+        ensureHeroTitle(latestConfig);
+        ensureWhatsappMeta(latestConfig);
+        ensureOutcomeIcon();
+      }
+
+      function ensureObserver() {
+        if (!root || observer) return;
+        observer = new MutationObserver(function () {
+          scheduleApply();
+        });
+        observer.observe(root, { childList: true, subtree: true, characterData: true });
+      }
+
+      window.addEventListener("message", function (event) {
+        var data = event && event.data;
+        if (!data || typeof data !== "object") return;
+        if (data.type !== "LIZA_TEXT_CONFIG") return;
+        latestConfig = data.config || null;
+        ensureObserver();
+        scheduleApply();
+      });
+
+      window.addEventListener("load", function () {
+        ensureObserver();
+        scheduleApply();
+      });
     })();
   </script>
   <script>
