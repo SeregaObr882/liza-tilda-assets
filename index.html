@@ -2461,6 +2461,7 @@
             clearInterval(queuedApply);
             queuedApply = null;
           }
+          setTimeout(sendParentHeight, changed ? 80 : 0);
         }, 250);
       }
 
@@ -2469,6 +2470,7 @@
         enforceRuntimeFlags(runtimeConfig);
         pendingConfigAck = true;
         scheduleApply();
+        setTimeout(sendParentHeight, 60);
       }
 
       function tryParseJson(value) {
@@ -2485,6 +2487,25 @@
         return /^https?:\/\//i.test(origin);
       }
 
+      function sendParentHeight() {
+        if (window.parent === window) return;
+        var body = document.body;
+        var doc = document.documentElement;
+        if (!body || !doc) return;
+        var height = Math.max(
+          body.scrollHeight || 0,
+          body.offsetHeight || 0,
+          doc.clientHeight || 0,
+          doc.scrollHeight || 0,
+          doc.offsetHeight || 0
+        );
+        try {
+          window.parent.postMessage({ type: "LIZA_IFRAME_HEIGHT", height: height }, "*");
+        } catch (_e) {
+          // no-op
+        }
+      }
+
       window.addEventListener("message", function (event) {
         if (event.source !== window.parent) return;
         if (!hasHttpOrigin(event.origin)) return;
@@ -2498,17 +2519,25 @@
       enforceRuntimeFlags(runtimeConfig);
       startDomObserver();
       scheduleApply();
+      setTimeout(sendParentHeight, 120);
+      setTimeout(sendParentHeight, 500);
+      setTimeout(sendParentHeight, 1200);
 
       window.addEventListener("load", function () {
         enforceRuntimeFlags(runtimeConfig);
         startDomObserver();
         scheduleApply();
+        sendParentHeight();
         try {
           window.parent.postMessage({ type: "LIZA_CONFIG_IFRAME_READY", version: 1 }, "*");
         } catch (_e) {
           // no-op
         }
       }, { once: true });
+
+      window.addEventListener("resize", function () {
+        sendParentHeight();
+      });
     })();
   </script>
 </body>

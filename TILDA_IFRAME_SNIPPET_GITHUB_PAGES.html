@@ -1,8 +1,33 @@
-<div style="width:100%;margin:0;padding:0;">
+<div style="width:100%;margin:0;padding:0;overflow:hidden;">
   <iframe
-    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.28"
-    style="display:block;width:100%;height:100vh;border:0;background:#f2f5fb;"
+    id="liza-frame"
+    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.29"
+    style="display:block;width:100%;min-height:100vh;height:100vh;border:0;background:#f2f5fb;"
     loading="eager"
     referrerpolicy="no-referrer-when-downgrade"
   ></iframe>
 </div>
+
+<script>
+  (function () {
+    var frame = document.getElementById("liza-frame");
+    if (!frame) return;
+
+    function applyHeight(rawHeight) {
+      var next = Number(rawHeight);
+      if (!isFinite(next) || next < 900) next = 900;
+      frame.style.height = next + "px";
+    }
+
+    window.addEventListener("message", function (event) {
+      var data = event && event.data;
+      if (!data || typeof data !== "object") return;
+      if (data.type !== "LIZA_IFRAME_HEIGHT") return;
+      applyHeight(data.height);
+    });
+
+    frame.addEventListener("load", function () {
+      applyHeight(window.innerHeight || 900);
+    });
+  })();
+</script>
