@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Liza Bot Landing</title>
-  <link rel="stylesheet" href="./liza-app.css?v=10" />
+  <link rel="stylesheet" href="./liza-app.css?v=11" />
   <style>
     html, body { margin: 0; padding: 0; background: #f2f5fb; }
     #liza-tilda-root { width: 100%; }
@@ -874,39 +874,45 @@
 </head>
   <body>
   <div id="liza-tilda-root"></div>
+  <div id="liza-bootstrap-overlay" style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:#f2f5fb;">
+    <div style="max-width:900px;width:100%;padding:32px 28px;border:1px solid #d8e5fb;border-radius:28px;background:#fff;box-shadow:0 16px 36px rgba(35,77,126,.12);font-family:Inter,system-ui,sans-serif;color:#13263a;">
+      <h1 style="margin:0 0 12px;font-size:32px;line-height:1.05;">Загружаем сайт</h1>
+      <p style="margin:0;font-size:18px;line-height:1.5;color:#42566f;">Если страница откроется не сразу, обновим сборку автоматически.</p>
+    </div>
+  </div>
   <script>
     (function () {
       var root = document.getElementById("liza-tilda-root");
+      var overlay = document.getElementById("liza-bootstrap-overlay");
       var attempts = 0;
       var maxAttempts = 2;
 
       function hasRenderedContent() {
         if (!root) return false;
-        return !!root.querySelector("#hero, #pricing, #footer, header");
+        return !!root.querySelector("*");
       }
 
-      function showLoadingState() {
-        if (!root) return;
-        root.innerHTML =
-          '<div style="max-width:900px;margin:120px auto;padding:32px 28px;border:1px solid #d8e5fb;border-radius:28px;background:#fff;box-shadow:0 16px 36px rgba(35,77,126,.12);font-family:Inter,system-ui,sans-serif;color:#13263a;">' +
-          '<h1 style="margin:0 0 12px;font-size:32px;line-height:1.05;">Загружаем сайт</h1>' +
-          '<p style="margin:0;font-size:18px;line-height:1.5;color:#42566f;">Если страница откроется не сразу, обновим сборку автоматически.</p>' +
-          "</div>";
+      function hideOverlay() {
+        if (overlay) overlay.style.display = "none";
       }
 
       function showFatalState(reason) {
-        if (!root) return;
-        root.innerHTML =
-          '<div style="max-width:900px;margin:120px auto;padding:32px 28px;border:1px solid #d8e5fb;border-radius:28px;background:#fff;box-shadow:0 16px 36px rgba(35,77,126,.12);font-family:Inter,system-ui,sans-serif;color:#13263a;">' +
+        if (!overlay) return;
+        overlay.innerHTML =
+          '<div style="max-width:900px;width:100%;padding:32px 28px;border:1px solid #d8e5fb;border-radius:28px;background:#fff;box-shadow:0 16px 36px rgba(35,77,126,.12);font-family:Inter,system-ui,sans-serif;color:#13263a;">' +
           '<h1 style="margin:0 0 12px;font-size:32px;line-height:1.05;">Сайт загружается с ошибкой</h1>' +
           '<p style="margin:0 0 10px;font-size:18px;line-height:1.5;color:#42566f;">Основной скрипт страницы не смог корректно отрисовать контент.</p>' +
           '<p style="margin:0;font-size:14px;line-height:1.5;color:#6b7c93;">Причина: ' + String(reason || "unknown") + '</p>' +
           '</div>';
+        overlay.style.display = "flex";
       }
 
       function scheduleRenderCheck(tag) {
         setTimeout(function () {
-          if (hasRenderedContent()) return;
+          if (hasRenderedContent()) {
+            hideOverlay();
+            return;
+          }
           if (attempts < maxAttempts) {
             loadBundle("empty-render:" + tag);
           } else {
@@ -918,7 +924,7 @@
       function loadBundle(reason) {
         attempts += 1;
         var script = document.createElement("script");
-        script.src = "./liza-app.js?v=10&try=" + attempts + "&ts=" + Date.now();
+        script.src = "./liza-app.js?v=11&try=" + attempts + "&ts=" + Date.now();
         script.async = false;
         script.onload = function () {
           scheduleRenderCheck("load-" + attempts);
@@ -939,7 +945,6 @@
         }
       });
 
-      showLoadingState();
       loadBundle("initial");
     })();
   </script>
