@@ -1126,6 +1126,72 @@
   </script>
   <script>
     (function () {
+      function getQuoteState() {
+        try {
+          var raw = window.localStorage.getItem("liza_quote_v1");
+          return raw ? JSON.parse(raw) : null;
+        } catch (_e) {
+          return null;
+        }
+      }
+
+      function getButtonText(button) {
+        return ((button && button.textContent) || "").trim().toLowerCase();
+      }
+
+      function getYClientsChoice(form) {
+        var buttons = form.querySelectorAll('button[type="button"]');
+        for (var i = 0; i < buttons.length; i += 1) {
+          var button = buttons[i];
+          var text = getButtonText(button);
+          if (text !== "да" && text !== "нет") continue;
+          var className = button.className || "";
+          if (className.indexOf("border-blue-500") !== -1 || className.indexOf("bg-blue-50") !== -1) {
+            return text === "да" ? "Да" : "Нет";
+          }
+        }
+        return "";
+      }
+
+      function collectLeadPayload(form) {
+        var phoneField = form.querySelector('input[type="tel"]');
+        var textFields = form.querySelectorAll('input[type="text"], input:not([type])');
+        var nameField = textFields[0] || null;
+        var salonField = textFields.length > 1 ? textFields[textFields.length - 1] : null;
+        var quoteField = form.querySelector('input[name="quote_summary"]');
+        var quoteState = getQuoteState() || {};
+
+        return {
+          name: nameField ? nameField.value.trim() : "",
+          phone: phoneField ? phoneField.value.trim() : "",
+          salonName: salonField ? salonField.value.trim() : "",
+          usesYclients: getYClientsChoice(form),
+          quoteSummary: quoteField ? quoteField.value.trim() : "",
+          tariffName: quoteState.tariffName || "",
+          limitLabel: quoteState.mastersCount || "",
+          channelsCount: quoteState.channelsCount || "",
+          monthlyResult: quoteState.monthlyResult || "",
+          selectedChannels: quoteState.selectedChannels || "",
+          yearlyBilling: quoteState.yearlyBilling ? "Да" : "Нет",
+          sourcePage: window.location.href,
+          submittedAt: new Date().toLocaleString("ru-RU")
+        };
+      }
+
+      document.addEventListener("submit", function (event) {
+        var form = event.target;
+        if (!form || !form.matches || !form.matches("form")) return;
+        if (!form.querySelector('input[name="quote_summary"]')) return;
+
+        var payload = collectLeadPayload(form);
+        try {
+          window.parent.postMessage({ type: "LIZA_LEAD_SUBMIT", payload: payload }, "*");
+        } catch (_e) {}
+      }, true);
+    })();
+  </script>
+  <script>
+    (function () {
       function sendParentHeight() {
         if (window.parent === window) return;
         var body = document.body;

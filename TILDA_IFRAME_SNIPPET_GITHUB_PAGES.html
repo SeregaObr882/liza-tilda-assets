@@ -1,12 +1,25 @@
 ﻿<div style="width:100%;margin:0;padding:0;overflow:hidden;height:100vh;min-height:100svh;">
   <iframe
     id="liza-frame"
-    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.45"
+    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.48"
     style="display:block;width:100%;height:100vh;min-height:100svh;border:0;background:#f2f5fb;"
     loading="eager"
     referrerpolicy="no-referrer-when-downgrade"
   ></iframe>
 </div>
+
+<style>
+  .liza-shadow-form-wrap {
+    position: absolute !important;
+    left: -10000px !important;
+    top: auto !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+</style>
 
 <script>
   (function () {
@@ -125,7 +138,6 @@
         'Поддержка в Telegram': 'Поддержка в Telegram',
         'Откроем чат и поможем с запуском': 'Откроем чат и поможем с запуском',
         'Политика конфиденциальности': 'Политика конфиденциальности',
-        'Техподдержка в Telegram': 'Техподдержка в Telegram',
         'laserzone10@gmail.com': 'laserzone10@gmail.com',
         '+7 916 187-90-12': '+7 916 187-90-12',
         'ИП Сойту Артём Анатольевич': 'ИП Сойту Артём Анатольевич',
@@ -145,6 +157,82 @@
         frame.contentWindow.postMessage({ type: "LIZA_TEXT_CONFIG", config: LIZA_TEXT_CONFIG }, "*");
       } catch (_e) {}
     }
+
+    function findShadowForm() {
+      return document.querySelector(".liza-shadow-form-wrap form");
+    }
+
+    function upsertHidden(form, name, value) {
+      var input = form.querySelector('input[type="hidden"][name="' + name + '"]');
+      if (!input) {
+        input = document.createElement("input");
+        input.type = "hidden";
+        input.name = name;
+        form.appendChild(input);
+      }
+      input.value = value == null ? "" : String(value);
+    }
+
+    function findBestInput(form, variants, type) {
+      var fields = form.querySelectorAll("input, textarea, select");
+      for (var i = 0; i < fields.length; i += 1) {
+        var field = fields[i];
+        if (!field) continue;
+        if (type && field.type && field.type !== type) continue;
+        var haystack = [
+          field.name || "",
+          field.placeholder || "",
+          field.getAttribute("aria-label") || "",
+          field.getAttribute("data-original-title") || ""
+        ].join(" ").toLowerCase();
+        for (var j = 0; j < variants.length; j += 1) {
+          if (haystack.indexOf(variants[j]) !== -1) return field;
+        }
+      }
+      return null;
+    }
+
+    function fillShadowForm(payload) {
+      var form = findShadowForm();
+      if (!form) return;
+
+      var nameInput = findBestInput(form, ["имя", "name"], "text");
+      var phoneInput = findBestInput(form, ["телефон", "phone"], "tel") || findBestInput(form, ["телефон", "phone"]);
+      var salonInput = findBestInput(form, ["салон", "компания", "название"], "text");
+
+      if (nameInput) nameInput.value = payload.name || "";
+      if (phoneInput) phoneInput.value = payload.phone || "";
+      if (salonInput) salonInput.value = payload.salonName || "";
+
+      upsertHidden(form, "uses_yclients", payload.usesYclients || "");
+      upsertHidden(form, "quote_summary", payload.quoteSummary || "");
+      upsertHidden(form, "tariff_name", payload.tariffName || "");
+      upsertHidden(form, "limit_label", payload.limitLabel || "");
+      upsertHidden(form, "channels_count", payload.channelsCount || "");
+      upsertHidden(form, "monthly_result", payload.monthlyResult || "");
+      upsertHidden(form, "selected_channels", payload.selectedChannels || "");
+      upsertHidden(form, "yearly_billing", payload.yearlyBilling || "");
+      upsertHidden(form, "source_page", payload.sourcePage || "");
+      upsertHidden(form, "submitted_at", payload.submittedAt || "");
+
+      var submitButton = form.querySelector('[type="submit"]');
+      if (form.requestSubmit) form.requestSubmit(submitButton || undefined);
+      else if (submitButton && submitButton.click) submitButton.click();
+      else form.submit();
+    }
+
+    window.addEventListener("message", function (event) {
+      var data = event && event.data;
+      if (!data || typeof data !== "object") return;
+      if (data.type === "LIZA_IFRAME_HEIGHT" && typeof data.height === "number" && data.height > 0) {
+        frame.style.height = data.height + "px";
+        frame.style.minHeight = data.height + "px";
+        return;
+      }
+      if (data.type === "LIZA_LEAD_SUBMIT") {
+        fillShadowForm(data.payload || {});
+      }
+    });
 
     frame.addEventListener("load", function () {
       applyViewportHeight();
