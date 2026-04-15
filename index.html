@@ -1126,6 +1126,69 @@
   </script>
   <script>
     (function () {
+      var root = document.getElementById("liza-tilda-root");
+
+      function isLeadTriggerText(text) {
+        var value = (text || "").trim().toLowerCase();
+        return value.indexOf("начать тест 3 дня") !== -1 ||
+          value.indexOf("запустить бесплатно на 3 дня") !== -1 ||
+          value.indexOf("получить расчёт и запуск") !== -1;
+      }
+
+      function openLeadForm() {
+        if (typeof window.__lizaOpenLeadForm === "function") {
+          try {
+            window.__lizaOpenLeadForm();
+            return true;
+          } catch (_e) {}
+        }
+        try {
+          if (window.location.hash !== "#lead-form") {
+            window.location.hash = "#lead-form";
+          }
+          window.dispatchEvent(new Event("hashchange"));
+        } catch (_e2) {}
+        return false;
+      }
+
+      document.addEventListener("click", function (event) {
+        var target = event.target;
+        if (!target || !target.closest) return;
+
+        var link = target.closest('a[href^="#"]');
+        if (link && (!root || root.contains(link))) {
+          var hash = link.getAttribute("href");
+          if (hash === "#lead-form") {
+            event.preventDefault();
+            openLeadForm();
+            return;
+          }
+          if (hash && hash.length > 1) {
+            var section = document.querySelector(hash);
+            if (section) {
+              event.preventDefault();
+              section.scrollIntoView({ behavior: "smooth", block: "start" });
+              return;
+            }
+          }
+        }
+
+        var button = target.closest("button, a");
+        if (!button || (root && !root.contains(button))) return;
+        if (!isLeadTriggerText(button.textContent || "")) return;
+
+        var form = button.closest("form");
+        if (form && form.querySelector('input[name="quote_summary"]')) {
+          event.preventDefault();
+          if (form.requestSubmit) form.requestSubmit();
+          else form.submit();
+          return;
+        }
+
+        event.preventDefault();
+        openLeadForm();
+      }, true);
+
       function getQuoteState() {
         try {
           var raw = window.localStorage.getItem("liza_quote_v1");
