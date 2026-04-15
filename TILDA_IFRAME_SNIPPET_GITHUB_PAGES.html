@@ -1,7 +1,7 @@
 ﻿<div style="width:100%;margin:0;padding:0;overflow:visible;min-height:100svh;">
   <iframe
     id="liza-frame"
-    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.51"
+    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.52"
     style="display:block;width:100%;height:100vh;min-height:100svh;border:0;background:#f2f5fb;"
     loading="eager"
     referrerpolicy="no-referrer-when-downgrade"
@@ -9,8 +9,8 @@
 </div>
 
 <style>
-  .liza-shadow-form-wrap,
-  .uc-liza-shadow-form-wrap {
+  [class*="liza-shadow-form-wrap"],
+  [class*="uc-liza-shadow-form-wrap"] {
     position: absolute !important;
     left: -10000px !important;
     top: auto !important;
@@ -173,7 +173,7 @@
     }
 
     function hideShadowBlock() {
-      var target = document.querySelector(".liza-shadow-form-wrap, .uc-liza-shadow-form-wrap");
+      var target = document.querySelector("[class*=\"liza-shadow-form-wrap\"], [class*=\"uc-liza-shadow-form-wrap\"]");
       if (!target) return;
       var rec = target.closest(".t-rec") || target.closest("[id^='rec']");
       if (rec) {
@@ -204,7 +204,7 @@
     }
 
     function findShadowForm() {
-      return document.querySelector(".liza-shadow-form-wrap form, .uc-liza-shadow-form-wrap form");
+      return document.querySelector("[class*=\"liza-shadow-form-wrap\"] form, [class*=\"uc-liza-shadow-form-wrap\"] form");
     }
 
     function upsertHidden(form, name, value) {
@@ -307,6 +307,8 @@
     hideNearestFormBlock();
   })();
 </script>
+
+
 
 
 
