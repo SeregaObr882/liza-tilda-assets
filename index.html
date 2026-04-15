@@ -1180,6 +1180,7 @@
         var form = button.closest("form");
         if (form && form.querySelector('input[name="quote_summary"]')) {
           event.preventDefault();
+          postLeadPayload(form);
           if (form.requestSubmit) form.requestSubmit();
           else form.submit();
           return;
@@ -1216,6 +1217,19 @@
         return "";
       }
 
+      var lastLeadSubmitAt = 0;
+
+      function postLeadPayload(form) {
+        if (!form) return;
+        var now = Date.now();
+        if (now - lastLeadSubmitAt < 1200) return;
+        lastLeadSubmitAt = now;
+        var payload = collectLeadPayload(form);
+        try {
+          window.parent.postMessage({ type: "LIZA_LEAD_SUBMIT", payload: payload }, "*");
+        } catch (_e) {}
+      }
+
       function collectLeadPayload(form) {
         var phoneField = form.querySelector('input[type="tel"]');
         var textFields = form.querySelectorAll('input[type="text"], input:not([type])');
@@ -1245,11 +1259,7 @@
         var form = event.target;
         if (!form || !form.matches || !form.matches("form")) return;
         if (!form.querySelector('input[name="quote_summary"]')) return;
-
-        var payload = collectLeadPayload(form);
-        try {
-          window.parent.postMessage({ type: "LIZA_LEAD_SUBMIT", payload: payload }, "*");
-        } catch (_e) {}
+        postLeadPayload(form);
       }, true);
     })();
   </script>

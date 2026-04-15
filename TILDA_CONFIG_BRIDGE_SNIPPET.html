@@ -1,7 +1,7 @@
 ﻿<div style="width:100%;margin:0;padding:0;overflow:visible;min-height:100svh;">
   <iframe
     id="liza-frame"
-    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.53"
+    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.54"
     style="display:block;width:100%;height:100svh;min-height:100svh;border:0;background:#f2f5fb;"
     loading="eager"
     referrerpolicy="no-referrer-when-downgrade"
@@ -244,6 +244,15 @@
       return null;
     }
 
+    function dispatchFieldEvents(field) {
+      if (!field || !field.dispatchEvent) return;
+      try {
+        field.dispatchEvent(new Event("input", { bubbles: true }));
+        field.dispatchEvent(new Event("change", { bubbles: true }));
+        field.dispatchEvent(new Event("blur", { bubbles: true }));
+      } catch (_e) {}
+    }
+
     function fillShadowForm(payload) {
       var form = findShadowForm();
       if (!form) return;
@@ -252,9 +261,18 @@
       var phoneInput = findBestInput(form, ["телефон", "phone"], "tel") || findBestInput(form, ["телефон", "phone"]);
       var salonInput = findBestInput(form, ["салон", "компания", "название"], "text");
 
-      if (nameInput) nameInput.value = payload.name || "";
-      if (phoneInput) phoneInput.value = payload.phone || "";
-      if (salonInput) salonInput.value = payload.salonName || "";
+      if (nameInput) {
+        nameInput.value = payload.name || "";
+        dispatchFieldEvents(nameInput);
+      }
+      if (phoneInput) {
+        phoneInput.value = payload.phone || "";
+        dispatchFieldEvents(phoneInput);
+      }
+      if (salonInput) {
+        salonInput.value = payload.salonName || "";
+        dispatchFieldEvents(salonInput);
+      }
 
       upsertHidden(form, "uses_yclients", payload.usesYclients || "");
       upsertHidden(form, "quote_summary", payload.quoteSummary || "");
@@ -268,9 +286,20 @@
       upsertHidden(form, "submitted_at", payload.submittedAt || "");
 
       var submitButton = form.querySelector('[type="submit"]');
-      if (form.requestSubmit) form.requestSubmit(submitButton || undefined);
-      else if (submitButton && submitButton.click) submitButton.click();
-      else form.submit();
+      try {
+        form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+      } catch (_e2) {}
+      setTimeout(function () {
+        if (submitButton && submitButton.click) {
+          submitButton.click();
+          return;
+        }
+        if (form.requestSubmit) {
+          form.requestSubmit(submitButton || undefined);
+          return;
+        }
+        form.submit();
+      }, 60);
     }
 
     window.addEventListener("message", function (event) {
