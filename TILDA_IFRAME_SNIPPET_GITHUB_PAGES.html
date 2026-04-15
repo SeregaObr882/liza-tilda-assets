@@ -1,7 +1,7 @@
 ﻿<div style="width:100%;margin:0;padding:0;overflow:hidden;height:100vh;min-height:100svh;">
   <iframe
     id="liza-frame"
-    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.49"
+    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.50"
     style="display:block;width:100%;height:100vh;min-height:100svh;border:0;background:#f2f5fb;"
     loading="eager"
     referrerpolicy="no-referrer-when-downgrade"
@@ -19,6 +19,20 @@
     overflow: hidden !important;
     opacity: 0 !important;
     pointer-events: none !important;
+  }
+
+  .liza-shadow-form-wrap-hidden,
+  .liza-shadow-form-wrap-hidden.t-rec,
+  .liza-shadow-form-wrap-hidden .t-rec__artboard {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 </style>
 
@@ -158,6 +172,21 @@
       } catch (_e) {}
     }
 
+    function hideShadowBlock() {
+      var target = document.querySelector(".liza-shadow-form-wrap, .uc-liza-shadow-form-wrap");
+      if (!target) return;
+      var rec = target.closest(".t-rec") || target.closest("[id^='rec']");
+      if (rec) {
+        rec.classList.add("liza-shadow-form-wrap-hidden");
+        rec.setAttribute("aria-hidden", "true");
+        rec.style.display = "none";
+      } else {
+        target.classList.add("liza-shadow-form-wrap-hidden");
+        target.setAttribute("aria-hidden", "true");
+        target.style.display = "none";
+      }
+    }
+
     function findShadowForm() {
       return document.querySelector(".liza-shadow-form-wrap form, .uc-liza-shadow-form-wrap form");
     }
@@ -236,14 +265,22 @@
 
     frame.addEventListener("load", function () {
       applyViewportHeight();
+      hideShadowBlock();
       sendConfig();
+      setTimeout(hideShadowBlock, 50);
       setTimeout(sendConfig, 250);
+      setTimeout(hideShadowBlock, 250);
       setTimeout(sendConfig, 1000);
+      setTimeout(hideShadowBlock, 1000);
       setTimeout(sendConfig, 2200);
+      setTimeout(hideShadowBlock, 2200);
     });
 
     window.addEventListener("resize", applyViewportHeight);
+    document.addEventListener("DOMContentLoaded", hideShadowBlock);
+    window.addEventListener("load", hideShadowBlock);
     applyViewportHeight();
+    hideShadowBlock();
   })();
 </script>
 
