@@ -1219,14 +1219,28 @@
 
       var lastLeadSubmitAt = 0;
 
+      function logLead() {
+        if (!window.console || !console.log) return;
+        try {
+          var args = Array.prototype.slice.call(arguments);
+          args.unshift("[LIZA_IFRAME_APP]");
+          console.log.apply(console, args);
+        } catch (_e) {}
+      }
+
       function postLeadPayload(form) {
         if (!form) return;
         var now = Date.now();
-        if (now - lastLeadSubmitAt < 1200) return;
+        if (now - lastLeadSubmitAt < 1200) {
+          logLead("submit:skip-duplicate");
+          return;
+        }
         lastLeadSubmitAt = now;
         var payload = collectLeadPayload(form);
+        logLead("submit:payload-collected", payload);
         try {
           window.parent.postMessage({ type: "LIZA_LEAD_SUBMIT", payload: payload }, "*");
+          logLead("submit:payload-posted");
         } catch (_e) {}
       }
 
