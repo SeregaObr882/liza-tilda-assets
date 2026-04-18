@@ -1,7 +1,7 @@
 ﻿<div style="width:100%;margin:0;padding:0;overflow:visible;min-height:100svh;">
   <iframe
     id="liza-frame"
-    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.55"
+    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.56"
     style="display:block;width:100%;height:100svh;min-height:100svh;border:0;background:#f2f5fb;"
     loading="eager"
     referrerpolicy="no-referrer-when-downgrade"
@@ -9,18 +9,6 @@
 </div>
 
 <style>
-  [class*="liza-shadow-form-wrap"],
-  [class*="uc-liza-shadow-form-wrap"] {
-    position: absolute !important;
-    left: -10000px !important;
-    top: auto !important;
-    width: 1px !important;
-    height: 1px !important;
-    overflow: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-  }
-
   .liza-shadow-form-wrap-hidden,
   .liza-shadow-form-wrap-hidden.t-rec,
   .liza-shadow-form-wrap-hidden .t-rec__artboard {
@@ -190,46 +178,73 @@
       if (!frame.contentWindow) return;
       try {
         frame.contentWindow.postMessage({ type: "LIZA_TEXT_CONFIG", config: LIZA_TEXT_CONFIG }, "*");
+        log("config:sent");
       } catch (_e) {}
     }
 
-    function hideShadowBlock() {
-      var target = document.querySelector("[class*=\"liza-shadow-form-wrap\"], [class*=\"uc-liza-shadow-form-wrap\"]");
-      if (!target) {
-        log("shadow-block:not-found");
-        return;
-      }
-      var rec = target.closest(".t-rec") || target.closest("[id^='rec']");
-      if (rec) {
-        rec.classList.add("liza-shadow-form-wrap-hidden");
-        rec.setAttribute("aria-hidden", "true");
-        log("shadow-block:hidden-rec", rec.id || rec.className || "no-id");
-      } else {
-        target.classList.add("liza-shadow-form-wrap-hidden");
-        target.setAttribute("aria-hidden", "true");
-        log("shadow-block:hidden-target");
-      }
+    function postLeadStatus(status, message, extra) {
+      if (!frame.contentWindow) return;
+      try {
+        frame.contentWindow.postMessage({
+          type: "LIZA_LEAD_STATUS",
+          status: status,
+          message: message || "",
+          extra: extra || null
+        }, "*");
+      } catch (_e) {}
     }
 
-    function hideNearestFormBlock() {
+    function applyHiddenBlock(node, reason) {
+      if (!node) return;
+      node.classList.add("liza-shadow-form-wrap-hidden");
+      node.setAttribute("aria-hidden", "true");
+      node.style.position = "absolute";
+      node.style.left = "-10000px";
+      node.style.top = "0";
+      node.style.width = "1px";
+      node.style.height = "1px";
+      node.style.minHeight = "1px";
+      node.style.maxHeight = "1px";
+      node.style.overflow = "hidden";
+      node.style.opacity = "0";
+      node.style.pointerEvents = "none";
+      node.style.margin = "0";
+      node.style.padding = "0";
+      node.style.zIndex = "-1";
+      log("shadow-block:hidden", reason || node.id || node.className || "no-id");
+    }
+
+    function findNearestFormBlock() {
       var hostBlock = frame.closest(".t-rec") || frame.closest("[id^='rec']");
-      if (!hostBlock) return;
+      if (!hostBlock) return null;
       var cursor = hostBlock.nextElementSibling;
       while (cursor) {
         var hasForm = cursor.querySelector && cursor.querySelector("form");
         if (hasForm) {
-          cursor.classList.add("liza-shadow-form-wrap-hidden");
-          cursor.setAttribute("aria-hidden", "true");
-          log("nearest-form-block:hidden", cursor.id || cursor.className || "no-id");
-          return;
+          return cursor;
         }
         cursor = cursor.nextElementSibling;
+      }
+      return null;
+    }
+
+    function ensureShadowFormHidden() {
+      var explicit = document.querySelector("[class*=\"liza-shadow-form-wrap\"], [class*=\"uc-liza-shadow-form-wrap\"]");
+      if (explicit) {
+        applyHiddenBlock((explicit.closest(".t-rec") || explicit.closest("[id^='rec']") || explicit), "explicit-shadow-form");
+        return;
+      }
+      var nearest = findNearestFormBlock();
+      if (nearest) {
+        applyHiddenBlock(nearest, "nearest-form-block");
+        return;
       }
       log("nearest-form-block:not-found");
     }
 
     function findShadowForm() {
-      var form = document.querySelector("[class*=\"liza-shadow-form-wrap\"] form, [class*=\"uc-liza-shadow-form-wrap\"] form");
+      var hiddenHost = document.querySelector(".liza-shadow-form-wrap-hidden form");
+      var form = hiddenHost || document.querySelector("[class*=\"liza-shadow-form-wrap\"] form, [class*=\"uc-liza-shadow-form-wrap\"] form");
       log(form ? "shadow-form:found" : "shadow-form:not-found");
       return form;
     }
@@ -277,9 +292,11 @@
       var form = findShadowForm();
       if (!form) {
         log("lead-submit:abort:no-form");
+        postLeadStatus("error", "Скрытая форма Tilda не найдена.");
         return;
       }
       log("lead-submit:start", payload);
+      postLeadStatus("submitting", "Передаём заявку в Tilda…");
 
       var nameInput = findBestInput(form, ["имя", "name"], "text");
       var phoneInput = findBestInput(form, ["телефон", "phone"], "tel") || findBestInput(form, ["телефон", "phone"]);
@@ -323,16 +340,30 @@
         if (submitButton && submitButton.click) {
           log("lead-submit:button-click");
           submitButton.click();
+          postLeadStatus("success", "Заявка передана в Tilda. Проверьте Leads и Telegram.");
           return;
         }
         if (form.requestSubmit) {
           log("lead-submit:request-submit");
           form.requestSubmit(submitButton || undefined);
+          postLeadStatus("success", "Заявка передана в Tilda. Проверьте Leads и Telegram.");
           return;
         }
         log("lead-submit:raw-submit");
         form.submit();
+        postLeadStatus("success", "Заявка передана в Tilda. Проверьте Leads и Telegram.");
       }, 60);
+    }
+
+    var refreshTimer = null;
+    function scheduleRefresh(reason) {
+      clearTimeout(refreshTimer);
+      refreshTimer = setTimeout(function () {
+        applyViewportHeight();
+        ensureShadowFormHidden();
+        sendConfig();
+        log("bridge:refresh", reason || "");
+      }, 80);
     }
 
     window.addEventListener("message", function (event) {
@@ -345,31 +376,21 @@
     });
 
     frame.addEventListener("load", function () {
-      applyViewportHeight();
-      hideShadowBlock();
-      hideNearestFormBlock();
-      sendConfig();
-      setTimeout(hideShadowBlock, 50);
-      setTimeout(hideNearestFormBlock, 50);
-      setTimeout(sendConfig, 250);
-      setTimeout(hideShadowBlock, 250);
-      setTimeout(hideNearestFormBlock, 250);
-      setTimeout(sendConfig, 1000);
-      setTimeout(hideShadowBlock, 1000);
-      setTimeout(hideNearestFormBlock, 1000);
-      setTimeout(sendConfig, 2200);
-      setTimeout(hideShadowBlock, 2200);
-      setTimeout(hideNearestFormBlock, 2200);
+      scheduleRefresh("frame-load");
+      setTimeout(function () { scheduleRefresh("frame-load-400"); }, 400);
+      setTimeout(function () { scheduleRefresh("frame-load-1400"); }, 1400);
     });
 
     window.addEventListener("resize", applyViewportHeight);
-    document.addEventListener("DOMContentLoaded", hideShadowBlock);
-    document.addEventListener("DOMContentLoaded", hideNearestFormBlock);
-    window.addEventListener("load", hideShadowBlock);
-    window.addEventListener("load", hideNearestFormBlock);
-    applyViewportHeight();
-    hideShadowBlock();
-    hideNearestFormBlock();
+    document.addEventListener("DOMContentLoaded", function () { scheduleRefresh("dom-ready"); });
+    window.addEventListener("load", function () { scheduleRefresh("window-load"); });
+    if (window.MutationObserver && document.body) {
+      var bridgeObserver = new MutationObserver(function () {
+        scheduleRefresh("mutation");
+      });
+      bridgeObserver.observe(document.body, { childList: true, subtree: true });
+    }
+    scheduleRefresh("bootstrap");
   })();
 </script>
 

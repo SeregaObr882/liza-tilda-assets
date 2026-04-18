@@ -1127,6 +1127,9 @@
   <script>
     (function () {
       var root = document.getElementById("liza-tilda-root");
+      var activeLeadForm = null;
+      var leadAckTimer = null;
+      var lastLeadSubmitAt = 0;
 
       function isLeadTriggerText(text) {
         var value = (text || "").trim().toLowerCase();
@@ -1149,6 +1152,90 @@
           window.dispatchEvent(new Event("hashchange"));
         } catch (_e2) {}
         return false;
+      }
+
+      function logLead() {
+        if (!window.console || !console.log) return;
+        try {
+          var args = Array.prototype.slice.call(arguments);
+          args.unshift("[LIZA_IFRAME_APP]");
+          console.log.apply(console, args);
+        } catch (_e) {}
+      }
+
+      function ensureFormStatusNode(form) {
+        if (!form) return null;
+        var node = form.querySelector("[data-liza-form-status]");
+        if (node) return node;
+        node = document.createElement("div");
+        node.setAttribute("data-liza-form-status", "true");
+        node.style.marginTop = "12px";
+        node.style.fontSize = "14px";
+        node.style.lineHeight = "1.45";
+        node.style.fontWeight = "600";
+        node.style.display = "none";
+        var submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
+        if (submitButton && submitButton.parentNode) {
+          submitButton.parentNode.insertBefore(node, submitButton.nextSibling);
+        } else {
+          form.appendChild(node);
+        }
+        return node;
+      }
+
+      function setLeadFormState(form, state, message) {
+        if (!form) return;
+        form.setAttribute("data-liza-submit-state", state || "idle");
+        var statusNode = ensureFormStatusNode(form);
+        if (statusNode) {
+          statusNode.style.display = message ? "block" : "none";
+          statusNode.textContent = message || "";
+          statusNode.style.color =
+            state === "error" ? "#d43753" :
+            state === "success" ? "#11804b" :
+            "#39536f";
+        }
+        var submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
+        if (submitButton) {
+          var disabled = state === "submitting";
+          submitButton.disabled = disabled;
+          submitButton.setAttribute("aria-busy", disabled ? "true" : "false");
+          if (submitButton.tagName === "BUTTON") {
+            submitButton.style.opacity = disabled ? "0.72" : "";
+            submitButton.style.cursor = disabled ? "wait" : "";
+          }
+        }
+      }
+
+      function resolveNamedField(form, aliases, type) {
+        if (!form) return null;
+        for (var i = 0; i < aliases.length; i += 1) {
+          var alias = aliases[i];
+          var direct = form.querySelector('[data-liza-field="' + alias + '"], [name="' + alias + '"], [id="' + alias + '"]');
+          if (direct) return direct;
+        }
+
+        var fields = form.querySelectorAll("input, textarea, select");
+        for (var j = 0; j < fields.length; j += 1) {
+          var field = fields[j];
+          if (!field) continue;
+          if (type && field.type && field.type !== type) continue;
+          var labelText = "";
+          if (field.labels && field.labels[0] && field.labels[0].textContent) {
+            labelText = field.labels[0].textContent;
+          }
+          var haystack = [
+            field.name || "",
+            field.placeholder || "",
+            field.id || "",
+            field.getAttribute("aria-label") || "",
+            labelText
+          ].join(" ").toLowerCase();
+          for (var k = 0; k < aliases.length; k += 1) {
+            if (haystack.indexOf(aliases[k].toLowerCase()) !== -1) return field;
+          }
+        }
+        return null;
       }
 
       document.addEventListener("click", function (event) {
@@ -1181,8 +1268,6 @@
         if (form && form.querySelector('input[name="quote_summary"]')) {
           event.preventDefault();
           postLeadPayload(form);
-          if (form.requestSubmit) form.requestSubmit();
-          else form.submit();
           return;
         }
 
@@ -1217,17 +1302,6 @@
         return "";
       }
 
-      var lastLeadSubmitAt = 0;
-
-      function logLead() {
-        if (!window.console || !console.log) return;
-        try {
-          var args = Array.prototype.slice.call(arguments);
-          args.unshift("[LIZA_IFRAME_APP]");
-          console.log.apply(console, args);
-        } catch (_e) {}
-      }
-
       function postLeadPayload(form) {
         if (!form) return;
         var now = Date.now();
@@ -1236,19 +1310,26 @@
           return;
         }
         lastLeadSubmitAt = now;
+        activeLeadForm = form;
+        clearTimeout(leadAckTimer);
+        setLeadFormState(form, "submitting", "Отправляем заявку…");
         var payload = collectLeadPayload(form);
         logLead("submit:payload-collected", payload);
         try {
           window.parent.postMessage({ type: "LIZA_LEAD_SUBMIT", payload: payload }, "*");
           logLead("submit:payload-posted");
+          leadAckTimer = setTimeout(function () {
+            if (activeLeadForm === form) {
+              setLeadFormState(form, "error", "Не получили ответ от Tilda. Проверьте интеграцию формы и попробуйте ещё раз.");
+            }
+          }, 7000);
         } catch (_e) {}
       }
 
       function collectLeadPayload(form) {
-        var phoneField = form.querySelector('input[type="tel"]');
-        var textFields = form.querySelectorAll('input[type="text"], input:not([type])');
-        var nameField = textFields[0] || null;
-        var salonField = textFields.length > 1 ? textFields[textFields.length - 1] : null;
+        var phoneField = resolveNamedField(form, ["phone", "телефон"], "tel") || resolveNamedField(form, ["phone", "телефон"]);
+        var nameField = resolveNamedField(form, ["name", "имя", "ваше имя"], "text");
+        var salonField = resolveNamedField(form, ["salon_name", "название салона", "салон"], "text");
         var quoteField = form.querySelector('input[name="quote_summary"]');
         var quoteState = getQuoteState() || {};
 
@@ -1273,8 +1354,29 @@
         var form = event.target;
         if (!form || !form.matches || !form.matches("form")) return;
         if (!form.querySelector('input[name="quote_summary"]')) return;
+        event.preventDefault();
         postLeadPayload(form);
       }, true);
+
+      window.addEventListener("message", function (event) {
+        var data = event && event.data;
+        if (!data || typeof data !== "object") return;
+        if (data.type !== "LIZA_LEAD_STATUS") return;
+        if (!activeLeadForm) return;
+        clearTimeout(leadAckTimer);
+        if (data.status === "success") {
+          setLeadFormState(activeLeadForm, "success", data.message || "Заявка отправлена. Проверьте Telegram и Leads Tilda.");
+          logLead("submit:success", data);
+          return;
+        }
+        if (data.status === "submitting") {
+          setLeadFormState(activeLeadForm, "submitting", data.message || "Передаём заявку в Tilda…");
+          logLead("submit:bridge-submitting", data);
+          return;
+        }
+        setLeadFormState(activeLeadForm, "error", data.message || "Не удалось отправить заявку.");
+        logLead("submit:error", data);
+      });
     })();
   </script>
   <script>
