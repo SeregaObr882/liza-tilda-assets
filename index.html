@@ -913,6 +913,13 @@
       #hero .liza-hero-visual {
         height: auto !important;
         max-width: 100% !important;
+        overflow: hidden !important;
+        border-radius: 28px !important;
+      }
+
+      #hero .liza-hero-visual > div:nth-of-type(2),
+      #hero .liza-hero-visual > div:nth-of-type(4) {
+        display: none !important;
       }
 
       #footer .liza-footer-grid {
@@ -1146,10 +1153,7 @@
           } catch (_e) {}
         }
         try {
-          if (window.location.hash !== "#lead-form") {
-            window.location.hash = "#lead-form";
-          }
-          window.dispatchEvent(new Event("hashchange"));
+          window.dispatchEvent(new Event("liza:open-lead"));
         } catch (_e2) {}
         return false;
       }
@@ -1242,22 +1246,11 @@
         var target = event.target;
         if (!target || !target.closest) return;
 
-        var link = target.closest('a[href^="#"]');
-        if (link && (!root || root.contains(link))) {
-          var hash = link.getAttribute("href");
-          if (hash === "#lead-form") {
-            event.preventDefault();
-            openLeadForm();
-            return;
-          }
-          if (hash && hash.length > 1) {
-            var section = document.querySelector(hash);
-            if (section) {
-              event.preventDefault();
-              section.scrollIntoView({ behavior: "smooth", block: "start" });
-              return;
-            }
-          }
+        var leadLink = target.closest('a[href="#lead-form"]');
+        if (leadLink && (!root || root.contains(leadLink))) {
+          event.preventDefault();
+          openLeadForm();
+          return;
         }
 
         var button = target.closest("button, a");
