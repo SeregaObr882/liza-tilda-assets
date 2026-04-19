@@ -1333,7 +1333,7 @@
           logLead("submit:payload-posted");
           leadAckTimer = setTimeout(function () {
             if (activeLeadForm === form) {
-              setLeadFormState(form, "error", "Не получили ответ от Tilda. Проверьте интеграцию формы и попробуйте ещё раз.");
+              setLeadFormState(form, "error", "Не удалось отправить заявку. Попробуйте ещё раз.");
             }
           }, 7000);
         } catch (_e) {}
@@ -1383,12 +1383,12 @@
         if (!activeLeadForm) return;
         clearTimeout(leadAckTimer);
         if (data.status === "success") {
-          setLeadFormState(activeLeadForm, "success", data.message || "Заявка отправлена. Проверьте Telegram и Leads Tilda.");
+          setLeadFormState(activeLeadForm, "success", data.message || "Ваша заявка отправлена, скоро мы с вами свяжемся.");
           logLead("submit:success", data);
           return;
         }
         if (data.status === "submitting") {
-          setLeadFormState(activeLeadForm, "submitting", data.message || "Передаём заявку в Tilda…");
+          setLeadFormState(activeLeadForm, "submitting", data.message || "Отправляем заявку…");
           logLead("submit:bridge-submitting", data);
           return;
         }

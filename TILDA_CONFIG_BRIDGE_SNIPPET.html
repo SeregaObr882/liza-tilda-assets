@@ -296,11 +296,11 @@
       var form = findShadowForm();
       if (!form) {
         log("lead-submit:abort:no-form");
-        postLeadStatus("error", "Скрытая форма Tilda не найдена.");
+        postLeadStatus("error", "Не удалось отправить заявку. Попробуйте ещё раз.");
         return;
       }
       log("lead-submit:start", payload);
-      postLeadStatus("submitting", "Передаём заявку в Tilda…");
+      postLeadStatus("submitting", "Отправляем заявку…");
 
       var nameInput = findBestInput(form, ["имя", "name"], "text");
       var phoneInput = findBestInput(form, ["телефон", "phone"], "tel") || findBestInput(form, ["телефон", "phone"]);
@@ -344,18 +344,18 @@
         if (submitButton && submitButton.click) {
           log("lead-submit:button-click");
           submitButton.click();
-          postLeadStatus("success", "Заявка передана в Tilda. Проверьте Leads и Telegram.");
+          postLeadStatus("success", "Ваша заявка отправлена, скоро мы с вами свяжемся.");
           return;
         }
         if (form.requestSubmit) {
           log("lead-submit:request-submit");
           form.requestSubmit(submitButton || undefined);
-          postLeadStatus("success", "Заявка передана в Tilda. Проверьте Leads и Telegram.");
+          postLeadStatus("success", "Ваша заявка отправлена, скоро мы с вами свяжемся.");
           return;
         }
         log("lead-submit:raw-submit");
         form.submit();
-        postLeadStatus("success", "Заявка передана в Tilda. Проверьте Leads и Telegram.");
+        postLeadStatus("success", "Ваша заявка отправлена, скоро мы с вами свяжемся.");
       }, 60);
     }
 
