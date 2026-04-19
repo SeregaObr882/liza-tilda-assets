@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
@@ -7,8 +7,8 @@
   <style>
     :root {
       --page-bg: #f2f5fb;
-      --card-bg: rgba(255, 255, 255, 0.92);
-      --card-border: rgba(191, 219, 254, 0.88);
+      --card-bg: rgba(255, 255, 255, 0.94);
+      --card-border: rgba(191, 219, 254, 0.9);
       --text-main: #162033;
       --text-muted: #5f718f;
       --field-bg: #eef1f7;
@@ -17,20 +17,12 @@
       --accent-violet: #7c3aed;
       --accent-link: #ff8a68;
       --shadow-soft: 0 24px 70px rgba(37, 99, 235, 0.12);
-      --shadow-card: 0 18px 40px rgba(37, 99, 235, 0.14);
-      --radius-xl: 34px;
-      --radius-lg: 28px;
-      --radius-md: 22px;
+      --radius-xl: 30px;
+      --radius-lg: 24px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       min-height: 100vh;
@@ -41,18 +33,13 @@
       color: var(--text-main);
       font-family: "Manrope", "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
     }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
 
     .shell {
       max-width: 1440px;
       margin: 0 auto;
       padding: 16px 18px 42px;
     }
-
     .topbar {
       position: sticky;
       top: 14px;
@@ -63,7 +50,6 @@
       box-shadow: 0 14px 36px rgba(37, 99, 235, 0.12);
       backdrop-filter: blur(18px);
     }
-
     .topbar-inner {
       min-height: 74px;
       display: flex;
@@ -72,7 +58,6 @@
       gap: 22px;
       padding: 10px 20px;
     }
-
     .brand {
       font-size: 2rem;
       line-height: 0.95;
@@ -81,14 +66,12 @@
       color: #111827;
       flex-shrink: 0;
     }
-
     .brand .bot {
       background: linear-gradient(90deg, var(--accent-blue), var(--accent-violet));
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
-
     .nav {
       display: flex;
       align-items: center;
@@ -97,7 +80,6 @@
       flex: 1;
       min-width: 0;
     }
-
     .nav a {
       font-size: 1.08rem;
       font-weight: 700;
@@ -105,11 +87,7 @@
       transition: color 0.18s ease;
       white-space: nowrap;
     }
-
-    .nav a:hover {
-      color: var(--accent-blue);
-    }
-
+    .nav a:hover { color: var(--accent-blue); }
     .nav-cta {
       display: inline-flex;
       align-items: center;
@@ -127,53 +105,42 @@
       transition: transform 0.18s ease, box-shadow 0.18s ease;
       flex-shrink: 0;
     }
-
     .nav-cta:hover {
       transform: translateY(-1px);
       box-shadow: 0 20px 42px rgba(95, 64, 245, 0.28);
     }
 
-    .page {
-      padding: 48px 14px 30px;
-    }
-
+    .page { padding: 42px 14px 30px; }
     .hero-card {
-      max-width: 980px;
+      max-width: 860px;
       margin: 0 auto;
       border: 1px solid var(--card-border);
-      border-radius: 40px;
+      border-radius: 38px;
       background: var(--card-bg);
       box-shadow: var(--shadow-soft);
-      padding: 54px 56px 48px;
+      padding: 42px 44px 36px;
       position: relative;
       overflow: hidden;
     }
-
     .hero-card::before {
       content: "";
       position: absolute;
       inset: auto auto -140px -120px;
-      width: 340px;
-      height: 340px;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.22), transparent 65%);
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.18), transparent 65%);
       pointer-events: none;
     }
-
     .hero-card::after {
       content: "";
       position: absolute;
       inset: -120px -130px auto auto;
-      width: 320px;
-      height: 320px;
-      background: radial-gradient(circle, rgba(139, 92, 246, 0.18), transparent 68%);
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.14), transparent 68%);
       pointer-events: none;
     }
-
-    .hero-card > * {
-      position: relative;
-      z-index: 1;
-    }
-
+    .hero-card > * { position: relative; z-index: 1; }
     .eyebrow {
       display: inline-flex;
       align-items: center;
@@ -183,36 +150,29 @@
       background: #fff;
       border: 1px solid rgba(191, 219, 254, 0.9);
       box-shadow: 0 12px 24px rgba(37, 99, 235, 0.08);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       color: #305db5;
-      font-size: 0.97rem;
+      font-size: 0.95rem;
       font-weight: 700;
     }
-
     h1 {
-      margin: 0 0 18px;
-      font-size: clamp(44px, 5vw, 82px);
+      margin: 0 0 16px;
+      font-size: clamp(40px, 4.6vw, 72px);
       line-height: 0.96;
       letter-spacing: -0.05em;
       font-weight: 900;
       color: #111827;
-      max-width: 760px;
+      max-width: 660px;
     }
-
     .lead {
-      margin: 0 0 30px;
-      max-width: 760px;
-      font-size: clamp(18px, 1.45vw, 26px);
+      margin: 0 0 24px;
+      max-width: 700px;
+      font-size: clamp(17px, 1.25vw, 23px);
       line-height: 1.38;
       color: var(--text-muted);
       font-weight: 500;
     }
-
-    .form-grid {
-      display: grid;
-      gap: 18px;
-    }
-
+    .form-grid { display: grid; gap: 16px; }
     .field {
       width: 100%;
       border: 0;
@@ -220,195 +180,89 @@
       background: var(--field-bg);
       color: var(--text-main);
       outline: none;
-      padding: 24px 28px;
-      font-size: clamp(22px, 1.8vw, 30px);
+      padding: 19px 22px;
+      font-size: clamp(18px, 1.35vw, 24px);
       line-height: 1.32;
       font-family: inherit;
       transition: box-shadow 0.18s ease, transform 0.18s ease;
     }
-
-    .field::placeholder {
-      color: var(--field-placeholder);
-    }
-
+    .field::placeholder { color: var(--field-placeholder); }
     .field:focus-visible {
       box-shadow: 0 0 0 3px rgba(99, 70, 249, 0.22);
       background: #f3f6fc;
     }
-
-    textarea.field {
-      min-height: 168px;
-      resize: vertical;
-    }
-
+    textarea.field { min-height: 130px; resize: vertical; }
     .policy {
       display: grid;
       grid-template-columns: 36px minmax(0, 1fr);
-      gap: 14px;
+      gap: 12px;
       align-items: start;
       margin: 2px 0 0;
-      font-size: clamp(16px, 1.14vw, 20px);
+      font-size: clamp(16px, 1.1vw, 19px);
       line-height: 1.35;
       color: #475569;
     }
-
     .policy input[type="checkbox"] {
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       margin: 2px 0 0;
       accent-color: #111827;
       cursor: pointer;
     }
-
-    .policy a {
-      color: var(--accent-link);
-    }
-
+    .policy a { color: var(--accent-link); }
     .submit {
       width: 100%;
-      min-height: 76px;
+      min-height: 64px;
       border: 0;
       border-radius: 999px;
       background: linear-gradient(90deg, var(--accent-blue), var(--accent-violet));
       color: #fff;
-      font-size: clamp(28px, 2vw, 38px);
+      font-size: clamp(24px, 1.7vw, 32px);
       font-weight: 800;
       line-height: 1;
       letter-spacing: -0.02em;
-      padding: 20px 28px;
+      padding: 18px 24px;
       cursor: pointer;
       box-shadow: 0 22px 42px rgba(95, 64, 245, 0.24);
       transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
-
     .submit:hover {
       transform: translateY(-1px);
       box-shadow: 0 26px 48px rgba(95, 64, 245, 0.29);
     }
-
     .note {
-      margin: 14px 4px 0;
+      margin: 0;
+      min-height: 24px;
       font-size: 14px;
+      line-height: 1.35;
       color: #70809b;
-    }
-
-    @media (max-width: 1100px) {
-      .nav {
-        gap: 22px;
-      }
-
-      .nav a {
-        font-size: 1rem;
-      }
+      display: none;
     }
 
     @media (max-width: 920px) {
-      .shell {
-        padding-inline: 12px;
-      }
-
-      .topbar-inner {
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 14px 16px 16px;
-      }
-
-      .brand {
-        width: 100%;
-        text-align: left;
-        font-size: 1.85rem;
-      }
-
-      .nav {
-        order: 3;
-        width: 100%;
-        flex-wrap: wrap;
-        gap: 14px 20px;
-        justify-content: flex-start;
-      }
-
-      .nav-cta {
-        order: 2;
-        margin-left: auto;
-      }
-
-      .page {
-        padding-top: 28px;
-      }
-
-      .hero-card {
-        padding: 34px 22px 30px;
-        border-radius: 30px;
-      }
-
-      .eyebrow {
-        margin-bottom: 18px;
-      }
-
-      .lead {
-        margin-bottom: 24px;
-      }
-
-      .field {
-        padding: 20px 18px;
-        border-radius: 22px;
-      }
-
-      textarea.field {
-        min-height: 144px;
-      }
-
-      .policy {
-        grid-template-columns: 30px minmax(0, 1fr);
-        gap: 12px;
-      }
-
-      .policy input[type="checkbox"] {
-        width: 26px;
-        height: 26px;
-      }
-
-      .submit {
-        min-height: 64px;
-      }
+      .shell { padding-inline: 12px; }
+      .topbar-inner { flex-wrap: wrap; justify-content: center; padding: 14px 16px 16px; }
+      .brand { width: 100%; text-align: left; font-size: 1.85rem; }
+      .nav { order: 3; width: 100%; flex-wrap: wrap; gap: 14px 20px; justify-content: flex-start; }
+      .nav-cta { order: 2; margin-left: auto; }
+      .page { padding-top: 28px; }
+      .hero-card { padding: 30px 20px 24px; border-radius: 30px; }
+      .field { padding: 18px 16px; border-radius: 22px; }
+      textarea.field { min-height: 118px; }
+      .policy { grid-template-columns: 30px minmax(0, 1fr); }
+      .policy input[type="checkbox"] { width: 26px; height: 26px; }
     }
 
     @media (max-width: 640px) {
-      .topbar-inner {
-        min-height: 0;
-      }
-
-      .brand {
-        font-size: 1.7rem;
-      }
-
-      .nav {
-        display: none;
-      }
-
-      .nav-cta {
-        width: 100%;
-      }
-
-      .hero-card {
-        padding: 28px 18px 24px;
-      }
-
-      h1 {
-        font-size: 50px;
-      }
-
-      .lead {
-        font-size: 18px;
-      }
-
-      .field {
-        font-size: 18px;
-      }
-
-      .submit {
-        font-size: 24px;
-      }
+      .topbar-inner { min-height: 0; }
+      .brand { font-size: 1.7rem; }
+      .nav { display: none; }
+      .nav-cta { width: 100%; }
+      .hero-card { padding: 28px 18px 24px; }
+      h1 { font-size: 50px; }
+      .lead { font-size: 17px; }
+      .field { font-size: 17px; }
+      .submit { font-size: 24px; }
     }
   </style>
 </head>
@@ -428,9 +282,7 @@
           <a href="https://liza-ai-admin.ru/notifications#faq">FAQ</a>
         </nav>
 
-        <a class="nav-cta" href="https://liza-ai-admin.ru/notifications">
-          На основной сайт
-        </a>
+        <a class="nav-cta" href="https://liza-ai-admin.ru/notifications">На основной сайт</a>
       </div>
     </header>
 
@@ -438,47 +290,26 @@
       <section class="hero-card">
         <div class="eyebrow">Подключение интеграции YClients</div>
         <h1>Подключение к YClients</h1>
-        <p class="lead">
-          Укажите ваш актуальный номер телефона и удобный способ связи, чтобы мы могли быстро связаться с вами и помочь с подключением интеграции.
-        </p>
+        <p class="lead">Укажите ваш актуальный номер телефона и удобный способ связи, чтобы мы могли быстро связаться с вами и помочь с подключением интеграции.</p>
 
         <form id="connect-form" action="#" method="post" novalidate>
           <input type="hidden" name="salon_id" id="salon_id" />
           <input type="hidden" name="yclients_email" id="yclients_email" />
 
           <div class="form-grid">
-            <input
-              class="field"
-              type="tel"
-              name="phone"
-              id="phone"
-              inputmode="tel"
-              placeholder="+7(000)000-0000"
-              required
-              autocomplete="tel"
-            />
+            <input class="field" type="tel" name="phone" id="phone" inputmode="tel" placeholder="+7(000)000-0000" required autocomplete="tel" />
 
-            <textarea
-              class="field"
-              name="contact_preference"
-              id="contact_preference"
-              placeholder="Здесь вы можете указать, как с вами удобнее связаться (например, ник в Telegram или номер телефона для WhatsApp)"
-            ></textarea>
+            <textarea class="field" name="contact_preference" id="contact_preference" placeholder="Здесь вы можете указать, как с вами удобнее связаться (например, ник в Telegram или номер телефона для WhatsApp)"></textarea>
 
             <label class="policy" for="consent">
               <input type="checkbox" id="consent" name="consent" required checked />
-              <span>
-                Нажимая на кнопку, Вы соглашаетесь с
-                <a href="https://liza-ai-admin.ru/privacy" target="_blank" rel="noopener noreferrer">
-                  политикой обработки персональных данных
-                </a>
-              </span>
+              <span>Нажимая на кнопку, Вы соглашаетесь с <a href="https://liza-ai-admin.ru/privacy" target="_blank" rel="noopener noreferrer">политикой обработки персональных данных</a></span>
             </label>
 
             <button class="submit" type="submit">Подключить</button>
           </div>
 
-          <p class="note">Скрытые поля `salon_id` и `yclients_email` подставляются автоматически из URL.</p>
+          <p class="note" id="connect-status" aria-live="polite"></p>
         </form>
       </section>
     </main>
@@ -486,7 +317,29 @@
 
   <script>
   (function() {
-      
+      var form = document.getElementById('connect-form');
+      var submitButton = form ? form.querySelector('button[type="submit"]') : null;
+      var statusNode = document.getElementById('connect-status');
+
+      function setFormState(state, message) {
+          if (!form) return;
+          form.setAttribute('data-connect-submit-state', state || 'idle');
+          if (submitButton) {
+              var isSubmitting = state === 'submitting';
+              submitButton.disabled = isSubmitting;
+              submitButton.style.opacity = isSubmitting ? '0.75' : '';
+              submitButton.style.cursor = isSubmitting ? 'wait' : '';
+          }
+          if (statusNode) {
+              statusNode.style.display = message ? 'block' : 'none';
+              statusNode.textContent = message || '';
+              statusNode.style.color =
+                  state === 'error' ? '#d43753' :
+                  state === 'success' ? '#11804b' :
+                  '#5f718f';
+          }
+      }
+
       function getURLParameter(name) {
           var urlParams = new URLSearchParams(window.location.search);
           return urlParams.get(name);
@@ -505,9 +358,71 @@
               console.error('Error parsing user data:', error);
           }
       }
+
+      function postLeadPayload() {
+          if (!form) return;
+          var phoneField = document.getElementById('phone');
+          var contactField = document.getElementById('contact_preference');
+          var salonField = document.getElementById('salon_id');
+          var emailField = document.getElementById('yclients_email');
+          var consentField = document.getElementById('consent');
+
+          if (!phoneField || !phoneField.value.trim()) {
+              setFormState('error', 'Укажите номер телефона.');
+              return;
+          }
+
+          if (consentField && !consentField.checked) {
+              setFormState('error', 'Нужно согласиться с политикой обработки персональных данных.');
+              return;
+          }
+
+          setFormState('submitting', 'Отправляем заявку…');
+
+          try {
+              window.parent.postMessage({
+                  type: 'LIZA_YCLIENTS_CONNECT_SUBMIT',
+                  payload: {
+                      phone: phoneField ? phoneField.value.trim() : '',
+                      contactPreference: contactField ? contactField.value.trim() : '',
+                      salonId: salonField ? salonField.value.trim() : '',
+                      yclientsEmail: emailField ? emailField.value.trim() : '',
+                      sourcePage: window.location.href,
+                      submittedAt: new Date().toLocaleString('ru-RU')
+                  }
+              }, '*');
+          } catch (error) {
+              setFormState('error', 'Не удалось отправить заявку. Попробуйте ещё раз.');
+          }
+      }
+
+      if (form) {
+          form.addEventListener('submit', function(event) {
+              event.preventDefault();
+              postLeadPayload();
+          });
+      }
+
+      window.addEventListener('message', function(event) {
+          var data = event && event.data;
+          if (!data || typeof data !== 'object') return;
+          if (data.type !== 'LIZA_YCLIENTS_CONNECT_STATUS') return;
+
+          if (data.status === 'success') {
+              setFormState('success', data.message || 'Ваша заявка отправлена, скоро мы с вами свяжемся.');
+              return;
+          }
+          if (data.status === 'submitting') {
+              setFormState('submitting', data.message || 'Отправляем заявку…');
+              return;
+          }
+          if (data.status === 'error') {
+              setFormState('error', data.message || 'Не удалось отправить заявку. Попробуйте ещё раз.');
+          }
+      });
       
       // Наблюдатель за изменениями DOM
-      var observer = new MutationObserver(function(mutations) {
+      var observer = new MutationObserver(function() {
           if (salonId) {
               var salonField = document.querySelector('input[name="salon_id"]') || 
                            document.querySelector('input[id="salon_id"]');
@@ -525,13 +440,11 @@
           }
       });
       
-      // Начать наблюдение
       observer.observe(document.body, {
           childList: true,
           subtree: true
       });
       
-      // Попытаться установить значения сразу
       window.addEventListener('load', function() {
           if (salonId) {
               var salonField = document.querySelector('input[name="salon_id"]');
