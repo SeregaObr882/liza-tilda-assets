@@ -304,7 +304,7 @@
 
       var nameInput = findBestInput(form, ["имя", "name"], "text");
       var phoneInput = findBestInput(form, ["телефон", "phone"], "tel") || findBestInput(form, ["телефон", "phone"]);
-      var salonInput = findBestInput(form, ["салон", "компания", "название"], "text");
+      var salonInput = findBestInput(form, ["salon_name", "salon", "салон", "компания", "название"], "text");
 
       if (nameInput) {
         nameInput.value = payload.name || "";
