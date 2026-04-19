@@ -1,0 +1,222 @@
+<style>
+  .liza-yclients-shadow-form-hidden,
+  .liza-yclients-shadow-form-hidden.t-rec,
+  .liza-yclients-shadow-form-hidden .t-rec__artboard {
+    position: absolute !important;
+    left: -10000px !important;
+    top: 0 !important;
+    width: 1px !important;
+    height: 1px !important;
+    min-height: 1px !important;
+    max-height: 1px !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: -1 !important;
+  }
+</style>
+
+<script>
+(function () {
+  var frame = document.getElementById('liza-yclients-connect-frame');
+  if (!frame) {
+    console.warn('[LIZA_YCLIENTS_BRIDGE] iframe #liza-yclients-connect-frame not found');
+    return;
+  }
+
+  var DEBUG = true;
+
+  function log() {
+    if (!DEBUG || !window.console || !console.log) return;
+    try {
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift('[LIZA_YCLIENTS_BRIDGE]');
+      console.log.apply(console, args);
+    } catch (_error) {}
+  }
+
+  function postLeadStatus(status, message, extra) {
+    if (!frame.contentWindow) return;
+    try {
+      frame.contentWindow.postMessage({
+        type: 'LIZA_YCLIENTS_CONNECT_STATUS',
+        status: status,
+        message: message || '',
+        extra: extra || null
+      }, '*');
+    } catch (_error) {}
+  }
+
+  function applyHiddenBlock(node, reason) {
+    if (!node) return;
+    var active = document.activeElement;
+    if (active && node.contains && node.contains(active) && active.blur) {
+      try { active.blur(); } catch (_blurError) {}
+    }
+    node.classList.add('liza-yclients-shadow-form-hidden');
+    node.setAttribute('aria-hidden', 'true');
+    log('shadow-block:hidden', reason || node.id || node.className || 'no-id');
+  }
+
+  function findNearestFormBlock() {
+    var hostBlock = frame.closest('.t-rec') || frame.closest('[id^="rec"]');
+    if (!hostBlock) return null;
+    var cursor = hostBlock.nextElementSibling;
+    while (cursor) {
+      if (cursor.querySelector && cursor.querySelector('form')) return cursor;
+      cursor = cursor.nextElementSibling;
+    }
+    return null;
+  }
+
+  function ensureShadowFormHidden() {
+    var explicit = document.querySelector('[class*="liza-yclients-shadow-form-wrap"], [class*="uc-liza-yclients-shadow-form-wrap"]');
+    if (explicit) {
+      applyHiddenBlock(explicit.closest('.t-rec') || explicit.closest('[id^="rec"]') || explicit, 'explicit-yclients-shadow-form');
+      return;
+    }
+    var nearest = findNearestFormBlock();
+    if (nearest) {
+      applyHiddenBlock(nearest, 'nearest-form-block');
+      return;
+    }
+    log('nearest-form-block:not-found');
+  }
+
+  function findShadowForm() {
+    var form =
+      document.querySelector('.liza-yclients-shadow-form-hidden form') ||
+      document.querySelector('[class*="liza-yclients-shadow-form-wrap"] form, [class*="uc-liza-yclients-shadow-form-wrap"] form');
+    log(form ? 'shadow-form:found' : 'shadow-form:not-found');
+    return form;
+  }
+
+  function dispatchFieldEvents(field) {
+    if (!field || !field.dispatchEvent) return;
+    try {
+      field.dispatchEvent(new Event('input', { bubbles: true }));
+      field.dispatchEvent(new Event('change', { bubbles: true }));
+      field.dispatchEvent(new Event('blur', { bubbles: true }));
+    } catch (_error) {}
+  }
+
+  function fillNamedField(form, names, value) {
+    for (var i = 0; i < names.length; i += 1) {
+      var name = names[i];
+      var field = form.querySelector('[name="' + name + '"], #' + name);
+      if (field) {
+        field.value = value == null ? '' : String(value);
+        dispatchFieldEvents(field);
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function upsertHidden(form, name, value) {
+    var field = form.querySelector('input[type="hidden"][name="' + name + '"]');
+    if (!field) {
+      field = document.createElement('input');
+      field.type = 'hidden';
+      field.name = name;
+      form.appendChild(field);
+    }
+    field.value = value == null ? '' : String(value);
+  }
+
+  function fillShadowForm(payload) {
+    var form = findShadowForm();
+    if (!form) {
+      postLeadStatus('error', 'Не удалось отправить заявку. Попробуйте ещё раз.');
+      return;
+    }
+
+    log('lead-submit:start', payload || {});
+    postLeadStatus('submitting', 'Отправляем заявку...');
+
+    var phoneFilled = fillNamedField(form, ['phone', 'client_phone', 'contact_phone'], payload.phone || '');
+    var contactFilled = fillNamedField(form, ['contact_preference', 'contact_method', 'contact_text'], payload.contactPreference || '');
+
+    upsertHidden(form, 'salon_id', payload.salonId || '');
+    upsertHidden(form, 'yclients_email', payload.yclientsEmail || '');
+    upsertHidden(form, 'source_page', payload.sourcePage || '');
+    upsertHidden(form, 'submitted_at', payload.submittedAt || '');
+
+    log('lead-submit:filled', {
+      phone: phoneFilled,
+      contactPreference: contactFilled,
+      salonId: !!(payload && payload.salonId),
+      yclientsEmail: !!(payload && payload.yclientsEmail)
+    });
+
+    try {
+      form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+      log('lead-submit:dispatch-submit');
+    } catch (_error) {}
+
+    setTimeout(function () {
+      var submitButton = form.querySelector('[type="submit"]');
+      if (submitButton && submitButton.click) {
+        log('lead-submit:button-click');
+        submitButton.click();
+        postLeadStatus('success', 'Ваша заявка отправлена, скоро мы с вами свяжемся.');
+        return;
+      }
+      if (form.requestSubmit) {
+        log('lead-submit:request-submit');
+        form.requestSubmit();
+        postLeadStatus('success', 'Ваша заявка отправлена, скоро мы с вами свяжемся.');
+        return;
+      }
+      log('lead-submit:raw-submit');
+      form.submit();
+      postLeadStatus('success', 'Ваша заявка отправлена, скоро мы с вами свяжемся.');
+    }, 80);
+  }
+
+  function applyViewportHeight() {
+    var height = window.innerHeight || document.documentElement.clientHeight || 900;
+    frame.style.height = height + 'px';
+    frame.style.minHeight = height + 'px';
+  }
+
+  var refreshTimer = null;
+  function scheduleRefresh(reason) {
+    clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(function () {
+      applyViewportHeight();
+      ensureShadowFormHidden();
+      log('bridge:refresh', reason || '');
+    }, 80);
+  }
+
+  window.addEventListener('message', function (event) {
+    var data = event && event.data;
+    if (!data || typeof data !== 'object') return;
+    if (data.type === 'LIZA_YCLIENTS_CONNECT_SUBMIT') {
+      log('message:lead-received', data.payload || {});
+      fillShadowForm(data.payload || {});
+    }
+  });
+
+  frame.addEventListener('load', function () {
+    scheduleRefresh('frame-load');
+    setTimeout(function () { scheduleRefresh('frame-load-400'); }, 400);
+    setTimeout(function () { scheduleRefresh('frame-load-1400'); }, 1400);
+  });
+
+  window.addEventListener('resize', applyViewportHeight);
+  document.addEventListener('DOMContentLoaded', function () { scheduleRefresh('dom-ready'); });
+  window.addEventListener('load', function () { scheduleRefresh('window-load'); });
+  if (window.MutationObserver && document.body) {
+    var observer = new MutationObserver(function () {
+      scheduleRefresh('mutation');
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  scheduleRefresh('bootstrap');
+})();
+</script>

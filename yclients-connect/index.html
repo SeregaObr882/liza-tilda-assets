@@ -1,0 +1,479 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Подключение к YClients</title>
+  <style>
+    :root {
+      --page-bg: #f2f5fb;
+      --card-bg: rgba(255, 255, 255, 0.94);
+      --card-border: rgba(191, 219, 254, 0.9);
+      --text-main: #162033;
+      --text-muted: #5f718f;
+      --field-bg: #eef1f7;
+      --field-placeholder: #99a6bd;
+      --accent-blue: #2563eb;
+      --accent-violet: #7c3aed;
+      --accent-link: #ff8a68;
+      --shadow-soft: 0 24px 70px rgba(37, 99, 235, 0.12);
+      --radius-xl: 30px;
+      --radius-lg: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(191, 219, 254, 0.55), transparent 38%),
+        radial-gradient(circle at bottom right, rgba(196, 181, 253, 0.32), transparent 32%),
+        var(--page-bg);
+      color: var(--text-main);
+      font-family: "Manrope", "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    .shell {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 16px 18px 42px;
+    }
+    .topbar {
+      position: sticky;
+      top: 14px;
+      z-index: 30;
+      border: 1px solid rgba(191, 219, 254, 0.8);
+      border-radius: 26px;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 14px 36px rgba(37, 99, 235, 0.12);
+      backdrop-filter: blur(18px);
+    }
+    .topbar-inner {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 22px;
+      padding: 10px 20px;
+    }
+    .brand {
+      font-size: 2rem;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      color: #111827;
+      flex-shrink: 0;
+    }
+    .brand .bot {
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-violet));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 34px;
+      flex: 1;
+      min-width: 0;
+    }
+    .nav a {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #475569;
+      transition: color 0.18s ease;
+      white-space: nowrap;
+    }
+    .nav a:hover { color: var(--accent-blue); }
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 26px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-violet));
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      box-shadow: 0 18px 36px rgba(95, 64, 245, 0.24);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      flex-shrink: 0;
+    }
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 42px rgba(95, 64, 245, 0.28);
+    }
+
+    .page { padding: 42px 14px 30px; }
+    .hero-card {
+      max-width: 860px;
+      margin: 0 auto;
+      border: 1px solid var(--card-border);
+      border-radius: 38px;
+      background: var(--card-bg);
+      box-shadow: var(--shadow-soft);
+      padding: 42px 44px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: auto auto -140px -120px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.18), transparent 65%);
+      pointer-events: none;
+    }
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      inset: -120px -130px auto auto;
+      width: 280px;
+      height: 280px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.14), transparent 68%);
+      pointer-events: none;
+    }
+    .hero-card > * { position: relative; z-index: 1; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid rgba(191, 219, 254, 0.9);
+      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.08);
+      margin-bottom: 20px;
+      color: #305db5;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+    h1 {
+      margin: 0 0 16px;
+      font-size: clamp(40px, 4.6vw, 72px);
+      line-height: 0.96;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+      color: #111827;
+      max-width: 660px;
+    }
+    .lead {
+      margin: 0 0 24px;
+      max-width: 700px;
+      font-size: clamp(17px, 1.25vw, 23px);
+      line-height: 1.38;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .form-grid { display: grid; gap: 16px; }
+    .field {
+      width: 100%;
+      border: 0;
+      border-radius: var(--radius-lg);
+      background: var(--field-bg);
+      color: var(--text-main);
+      outline: none;
+      padding: 19px 22px;
+      font-size: clamp(18px, 1.35vw, 24px);
+      line-height: 1.32;
+      font-family: inherit;
+      transition: box-shadow 0.18s ease, transform 0.18s ease;
+    }
+    .field::placeholder { color: var(--field-placeholder); }
+    .field:-webkit-autofill,
+    .field:-webkit-autofill:hover,
+    .field:-webkit-autofill:focus,
+    .field:-webkit-autofill:active {
+      -webkit-text-fill-color: var(--text-main) !important;
+      -webkit-box-shadow: 0 0 0 1000px var(--field-bg) inset !important;
+      box-shadow: 0 0 0 1000px var(--field-bg) inset !important;
+      caret-color: var(--text-main);
+      font-size: clamp(18px, 1.35vw, 24px) !important;
+      transition: background-color 9999s ease-in-out 0s;
+    }
+    .field:focus-visible {
+      box-shadow: 0 0 0 3px rgba(99, 70, 249, 0.22);
+      background: #f3f6fc;
+    }
+    textarea.field { min-height: 130px; resize: vertical; }
+    .policy {
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      margin: 2px 0 0;
+      font-size: clamp(16px, 1.1vw, 19px);
+      line-height: 1.35;
+      color: #475569;
+    }
+    .policy input[type="checkbox"] {
+      width: 28px;
+      height: 28px;
+      margin: 2px 0 0;
+      accent-color: #111827;
+      cursor: pointer;
+    }
+    .policy a { color: var(--accent-link); }
+    .submit {
+      width: 100%;
+      min-height: 64px;
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-violet));
+      color: #fff;
+      font-size: clamp(24px, 1.7vw, 32px);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      padding: 18px 24px;
+      cursor: pointer;
+      box-shadow: 0 22px 42px rgba(95, 64, 245, 0.24);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 26px 48px rgba(95, 64, 245, 0.29);
+    }
+    .note {
+      margin: 0;
+      min-height: 24px;
+      font-size: 14px;
+      line-height: 1.35;
+      color: #70809b;
+      display: none;
+    }
+
+    @media (max-width: 920px) {
+      .shell { padding-inline: 12px; }
+      .topbar-inner { flex-wrap: wrap; justify-content: center; padding: 14px 16px 16px; }
+      .brand { width: 100%; text-align: left; font-size: 1.85rem; }
+      .nav { order: 3; width: 100%; flex-wrap: wrap; gap: 14px 20px; justify-content: flex-start; }
+      .nav-cta { order: 2; margin-left: auto; }
+      .page { padding-top: 28px; }
+      .hero-card { padding: 30px 20px 24px; border-radius: 30px; }
+      .field { padding: 18px 16px; border-radius: 22px; }
+      textarea.field { min-height: 118px; }
+      .policy { grid-template-columns: 30px minmax(0, 1fr); }
+      .policy input[type="checkbox"] { width: 26px; height: 26px; }
+    }
+
+    @media (max-width: 640px) {
+      .topbar-inner { min-height: 0; }
+      .brand { font-size: 1.7rem; }
+      .nav { display: none; }
+      .nav-cta { width: 100%; }
+      .hero-card { padding: 28px 18px 24px; }
+      h1 { font-size: 50px; }
+      .lead { font-size: 17px; }
+      .field { font-size: 17px; }
+      .submit { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="https://liza-ai-admin.ru/notifications">
+          Лиза <span class="bot">Бот</span>
+        </a>
+
+        <nav class="nav" aria-label="Навигация по основному сайту">
+          <a href="https://liza-ai-admin.ru/notifications#how-it-works">Как это работает</a>
+          <a href="https://liza-ai-admin.ru/notifications#benefits">Почему выбирают</a>
+          <a href="https://liza-ai-admin.ru/notifications#proof">Что меняется</a>
+          <a href="https://liza-ai-admin.ru/notifications#pricing">Тарифы</a>
+          <a href="https://liza-ai-admin.ru/notifications#faq">FAQ</a>
+        </nav>
+
+        <a class="nav-cta" href="https://liza-ai-admin.ru/notifications">На основной сайт</a>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="hero-card">
+        <div class="eyebrow">Подключение интеграции YClients</div>
+        <h1>Подключение к YClients</h1>
+        <p class="lead">Укажите ваш актуальный номер телефона и удобный способ связи, чтобы мы могли быстро связаться с вами и помочь с подключением интеграции.</p>
+
+        <form id="connect-form" action="#" method="post" novalidate>
+          <input type="hidden" name="salon_id" id="salon_id" />
+          <input type="hidden" name="yclients_email" id="yclients_email" />
+
+          <div class="form-grid">
+            <input class="field" type="tel" name="phone" id="phone" inputmode="tel" placeholder="+7(000)000-0000" required autocomplete="tel" />
+
+            <textarea class="field" name="contact_preference" id="contact_preference" placeholder="Здесь вы можете указать, как с вами удобнее связаться (например, ник в Telegram или номер телефона для WhatsApp)"></textarea>
+
+            <label class="policy" for="consent">
+              <input type="checkbox" id="consent" name="consent" required checked />
+              <span>Нажимая на кнопку, Вы соглашаетесь с <a href="https://liza-ai-admin.ru/privacy" target="_blank" rel="noopener noreferrer">политикой обработки персональных данных</a></span>
+            </label>
+
+            <button class="submit" type="submit">Подключить</button>
+          </div>
+
+          <p class="note" id="connect-status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script>
+  (function() {
+      var form = document.getElementById('connect-form');
+      var submitButton = form ? form.querySelector('button[type="submit"]') : null;
+      var statusNode = document.getElementById('connect-status');
+
+      function setFormState(state, message) {
+          if (!form) return;
+          form.setAttribute('data-connect-submit-state', state || 'idle');
+          if (submitButton) {
+              var isSubmitting = state === 'submitting';
+              submitButton.disabled = isSubmitting;
+              submitButton.style.opacity = isSubmitting ? '0.75' : '';
+              submitButton.style.cursor = isSubmitting ? 'wait' : '';
+          }
+          if (statusNode) {
+              statusNode.style.display = message ? 'block' : 'none';
+              statusNode.textContent = message || '';
+              statusNode.style.color =
+                  state === 'error' ? '#d43753' :
+                  state === 'success' ? '#11804b' :
+                  '#5f718f';
+          }
+      }
+
+      function getURLParameter(name) {
+          var urlParams = new URLSearchParams(window.location.search);
+          return urlParams.get(name);
+      }
+      
+      var salonId = getURLParameter('salon_id');
+      var rawUserData = getURLParameter('user_data');
+      var email = null;
+      
+      if (rawUserData) {
+          try {
+              const jsonUserData = atob(rawUserData);
+              const userData = JSON.parse(jsonUserData);
+              email = userData.email;
+          } catch (error) {
+              console.error('Error parsing user data:', error);
+          }
+      }
+
+      function postLeadPayload() {
+          if (!form) return;
+          var phoneField = document.getElementById('phone');
+          var contactField = document.getElementById('contact_preference');
+          var salonField = document.getElementById('salon_id');
+          var emailField = document.getElementById('yclients_email');
+          var consentField = document.getElementById('consent');
+
+          if (!phoneField || !phoneField.value.trim()) {
+              setFormState('error', 'Укажите номер телефона.');
+              return;
+          }
+
+          if (consentField && !consentField.checked) {
+              setFormState('error', 'Нужно согласиться с политикой обработки персональных данных.');
+              return;
+          }
+
+          setFormState('submitting', 'Отправляем заявку…');
+
+          try {
+              window.parent.postMessage({
+                  type: 'LIZA_YCLIENTS_CONNECT_SUBMIT',
+                  payload: {
+                      phone: phoneField ? phoneField.value.trim() : '',
+                      contactPreference: contactField ? contactField.value.trim() : '',
+                      salonId: salonField ? salonField.value.trim() : '',
+                      yclientsEmail: emailField ? emailField.value.trim() : '',
+                      sourcePage: window.location.href,
+                      submittedAt: new Date().toLocaleString('ru-RU')
+                  }
+              }, '*');
+          } catch (error) {
+              setFormState('error', 'Не удалось отправить заявку. Попробуйте ещё раз.');
+          }
+      }
+
+      if (form) {
+          form.addEventListener('submit', function(event) {
+              event.preventDefault();
+              postLeadPayload();
+          });
+      }
+
+      window.addEventListener('message', function(event) {
+          var data = event && event.data;
+          if (!data || typeof data !== 'object') return;
+          if (data.type !== 'LIZA_YCLIENTS_CONNECT_STATUS') return;
+
+          if (data.status === 'success') {
+              setFormState('success', data.message || 'Ваша заявка отправлена, скоро мы с вами свяжемся.');
+              return;
+          }
+          if (data.status === 'submitting') {
+              setFormState('submitting', data.message || 'Отправляем заявку…');
+              return;
+          }
+          if (data.status === 'error') {
+              setFormState('error', data.message || 'Не удалось отправить заявку. Попробуйте ещё раз.');
+          }
+      });
+      
+      // Наблюдатель за изменениями DOM
+      var observer = new MutationObserver(function() {
+          if (salonId) {
+              var salonField = document.querySelector('input[name="salon_id"]') || 
+                           document.querySelector('input[id="salon_id"]');
+              if (salonField && !salonField.value) {
+                  salonField.value = salonId;
+              }
+          }
+          
+          if (email) {
+              var emailField = document.querySelector('input[name="yclients_email"]') || 
+                           document.querySelector('input[id="yclients_email"]');
+              if (emailField && !emailField.value) {
+                  emailField.value = email;
+              }
+          }
+      });
+      
+      observer.observe(document.body, {
+          childList: true,
+          subtree: true
+      });
+      
+      window.addEventListener('load', function() {
+          if (salonId) {
+              var salonField = document.querySelector('input[name="salon_id"]');
+              if (salonField) {
+                  salonField.value = salonId;
+              }
+          }
+          
+          if (email) {
+              var emailField = document.querySelector('input[name="yclients_email"]');
+              if (emailField) {
+                  emailField.value = email;
+              }
+          }
+      });
+      
+  })();
+  </script>
+</body>
+</html>
+
