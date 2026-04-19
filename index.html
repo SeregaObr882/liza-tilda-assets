@@ -1211,6 +1211,29 @@
         }
       }
 
+      function getFieldLabelHint(field) {
+        if (!field) return "";
+        var chunks = [];
+        if (field.labels && field.labels[0] && field.labels[0].textContent) {
+          chunks.push(field.labels[0].textContent);
+        }
+        var parent = field.parentElement;
+        if (parent) {
+          var parentLabel = parent.querySelector("label");
+          if (parentLabel && parentLabel.textContent) {
+            chunks.push(parentLabel.textContent);
+          }
+          if (parent.firstElementChild && parent.firstElementChild !== field && parent.firstElementChild.textContent) {
+            chunks.push(parent.firstElementChild.textContent);
+          }
+        }
+        var previous = field.previousElementSibling;
+        if (previous && previous.textContent) {
+          chunks.push(previous.textContent);
+        }
+        return chunks.join(" ");
+      }
+
       function resolveNamedField(form, aliases, type) {
         if (!form) return null;
         for (var i = 0; i < aliases.length; i += 1) {
@@ -1224,10 +1247,7 @@
           var field = fields[j];
           if (!field) continue;
           if (type && field.type && field.type !== type) continue;
-          var labelText = "";
-          if (field.labels && field.labels[0] && field.labels[0].textContent) {
-            labelText = field.labels[0].textContent;
-          }
+          var labelText = getFieldLabelHint(field);
           var haystack = [
             field.name || "",
             field.placeholder || "",
@@ -1325,6 +1345,11 @@
         var salonField = resolveNamedField(form, ["salon_name", "название салона", "салон"], "text");
         var quoteField = form.querySelector('input[name="quote_summary"]');
         var quoteState = getQuoteState() || {};
+        logLead("submit:field-match", {
+          name: !!nameField,
+          phone: !!phoneField,
+          salon: !!salonField
+        });
 
         return {
           name: nameField ? nameField.value.trim() : "",

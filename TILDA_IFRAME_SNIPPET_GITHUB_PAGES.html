@@ -1,7 +1,7 @@
 ﻿<div style="width:100%;margin:0;padding:0;overflow:visible;min-height:100svh;">
   <iframe
     id="liza-frame"
-    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.57"
+    src="https://seregaobr882.github.io/liza-tilda-assets/index.html?v=10.58"
     style="display:block;width:100%;height:100svh;min-height:100svh;border:0;background:#f2f5fb;"
     loading="eager"
     referrerpolicy="no-referrer-when-downgrade"
@@ -196,6 +196,10 @@
 
     function applyHiddenBlock(node, reason) {
       if (!node) return;
+      var active = document.activeElement;
+      if (active && node.contains && node.contains(active) && active.blur) {
+        try { active.blur(); } catch (_blurError) {}
+      }
       node.classList.add("liza-shadow-form-wrap-hidden");
       node.setAttribute("aria-hidden", "true");
       node.style.position = "absolute";
