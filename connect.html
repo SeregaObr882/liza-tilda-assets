@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Подключение к YClients</title>
+  <style>
+    :root {
+      --bg: #f4f4f4;
+      --surface: #e8e8e8;
+      --text: #101012;
+      --muted: #8d8d93;
+      --accent-a: #5b3df6;
+      --accent-b: #8a46f9;
+      --link: #ff8a68;
+      --radius-xl: 28px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Manrope", "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 36px 18px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 980px;
+    }
+
+    h1 {
+      margin: 0 0 26px;
+      font-size: clamp(44px, 7.6vw, 92px);
+      line-height: 0.96;
+      letter-spacing: -0.03em;
+      font-weight: 800;
+    }
+
+    .lead {
+      margin: 0 0 20px;
+      max-width: 860px;
+      font-size: clamp(26px, 2.25vw, 48px);
+      line-height: 1.18;
+      letter-spacing: -0.012em;
+      font-weight: 500;
+    }
+
+    form {
+      margin-top: 12px;
+    }
+
+    .field {
+      width: 100%;
+      border: 0;
+      border-radius: var(--radius-xl);
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      padding: 24px 36px;
+      font-size: clamp(24px, 2vw, 44px);
+      line-height: 1.28;
+      margin-bottom: 20px;
+      font-family: inherit;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .field::placeholder {
+      color: var(--muted);
+    }
+
+    .field:focus-visible {
+      box-shadow: 0 0 0 3px rgba(99, 70, 249, 0.26);
+    }
+
+    textarea.field {
+      min-height: 230px;
+      resize: vertical;
+    }
+
+    .policy {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+      margin: 14px 0 26px;
+      font-size: clamp(22px, 1.8vw, 39px);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    .policy input[type="checkbox"] {
+      width: 42px;
+      height: 42px;
+      margin: 0;
+      accent-color: #111;
+      cursor: pointer;
+      transform: translateY(2px);
+    }
+
+    .policy a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    .submit {
+      width: 100%;
+      border: 0;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+      color: #fff;
+      font-size: clamp(38px, 2.7vw, 60px);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.015em;
+      padding: 28px 30px;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.2s ease;
+    }
+
+    .submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 36px rgba(97, 66, 245, 0.32);
+    }
+
+    .submit:active {
+      transform: translateY(0);
+    }
+
+    .note {
+      margin-top: 16px;
+      font-size: 14px;
+      color: #7e7f85;
+    }
+
+    @media (max-width: 900px) {
+      .page {
+        padding: 22px 12px;
+      }
+
+      .field {
+        border-radius: 18px;
+        padding: 20px 20px;
+      }
+
+      textarea.field {
+        min-height: 160px;
+      }
+
+      .policy {
+        grid-template-columns: 30px minmax(0, 1fr);
+        gap: 12px;
+      }
+
+      .policy input[type="checkbox"] {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="card">
+      <h1>Подключение к yclients</h1>
+      <p class="lead">Укажите ваш актуальный номер телефона, чтобы мы могли связаться с вами для настройки интеграции</p>
+
+      <form id="connect-form" action="#" method="post">
+        <input type="hidden" name="salon_id" id="salon_id" />
+        <input type="hidden" name="yclients_email" id="yclients_email" />
+
+        <input
+          class="field"
+          type="tel"
+          name="phone"
+          id="phone"
+          inputmode="tel"
+          placeholder="+7(000)000-0000"
+          required
+          autocomplete="tel"
+        />
+
+        <textarea
+          class="field"
+          name="contact_preference"
+          id="contact_preference"
+          placeholder="Здесь вы можете указать, как с вами удобнее связаться (например, ник в Telegram или номер телефона для WhatsApp)"
+        ></textarea>
+
+        <label class="policy" for="consent">
+          <input type="checkbox" id="consent" name="consent" required checked />
+          <span>Нажимая на кнопку, Вы соглашаетесь с <a href="/privacy" target="_blank" rel="noopener noreferrer">политикой обработки персональных данных</a></span>
+        </label>
+
+        <button class="submit" type="submit">Подключить</button>
+        <p class="note">Скрытые поля `salon_id` и `yclients_email` подставляются автоматически из URL.</p>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      function getQueryParam(name) {
+        return new URLSearchParams(window.location.search).get(name);
+      }
+
+      function decodeBase64Json(rawValue) {
+        if (!rawValue) return null;
+
+        try {
+          const base64 = rawValue.replace(/-/g, "+").replace(/_/g, "/");
+          const padded = base64 + "===".slice((base64.length + 3) % 4);
+          const decoded = atob(padded);
+          const utf8 = decodeURIComponent(
+            decoded
+              .split("")
+              .map(function (ch) {
+                return "%" + ("00" + ch.charCodeAt(0).toString(16)).slice(-2);
+              })
+              .join("")
+          );
+          return JSON.parse(utf8);
+        } catch (error) {
+          console.error("Error parsing user_data:", error);
+          return null;
+        }
+      }
+
+      const salonId = (getQueryParam("salon_id") || "").trim();
+      const rawUserData = getQueryParam("user_data");
+      const parsedUser = decodeBase64Json(rawUserData) || {};
+      const emailFromUserData =
+        typeof parsedUser.email === "string" ? parsedUser.email.trim() : "";
+      const email = emailFromUserData || (getQueryParam("email") || "").trim();
+
+      function setInputValue(selectors, value) {
+        if (!value) return true;
+
+        const input = document.querySelector(selectors.join(","));
+        if (!input) return false;
+
+        if (!input.value) {
+          input.value = value;
+          input.dispatchEvent(new Event("input", { bubbles: true }));
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+        }
+        return true;
+      }
+
+      let salonDone = !salonId;
+      let emailDone = !email;
+
+      function applyPrefill() {
+        if (!salonDone) {
+          salonDone = setInputValue(["input[name='salon_id']", "input#salon_id"], salonId);
+        }
+
+        if (!emailDone) {
+          emailDone = setInputValue(
+            ["input[name='yclients_email']", "input#yclients_email"],
+            email
+          );
+        }
+
+        return salonDone && emailDone;
+      }
+
+      applyPrefill();
+
+      const observer = new MutationObserver(function () {
+        if (applyPrefill()) observer.disconnect();
+      });
+
+      observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+      });
+
+      window.addEventListener(
+        "load",
+        function () {
+          applyPrefill();
+          setTimeout(function () {
+            observer.disconnect();
+          }, 10000);
+        },
+        { once: true }
+      );
+    })();
+  </script>
+</body>
+</html>

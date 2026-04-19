@@ -1,0 +1,1446 @@
+﻿<!doctype html>
+<!-- DEPLOY_ID: v7-2026-04-03-marketing-refresh -->
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Liza Bot Landing</title>
+  <link rel="stylesheet" href="./liza-app.css?v=14" />
+  <style>
+    html, body { margin: 0; padding: 0; background: #f2f5fb; }
+    #liza-tilda-root { width: 100%; }
+
+    .liza-old-content {
+      display: none !important;
+    }
+
+    .liza-benefits-rebuild,
+    .liza-outcomes-rebuild {
+      margin-top: 24px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .liza-benefits-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .liza-benefit-card {
+      border: 1px solid #d9e5f8;
+      background: linear-gradient(170deg, #ffffff 0%, #f7faff 100%);
+      border-radius: 30px;
+      padding: 28px 30px;
+      min-height: 220px;
+      box-shadow: 0 18px 38px rgba(33, 73, 121, 0.1);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      display: grid;
+      grid-template-columns: 108px minmax(0, 1fr);
+      gap: 0 24px;
+      align-items: start;
+    }
+
+    .liza-benefit-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 38px rgba(33, 73, 121, 0.14);
+      border-color: #bdd4fb;
+    }
+
+    .liza-benefit-icon {
+      width: 96px;
+      height: 96px;
+      border-radius: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 20px 40px rgba(52, 91, 179, 0.28);
+      background: linear-gradient(138deg, #2f66ff 0%, #7a33ff 100%);
+      grid-row: 1 / span 2;
+    }
+
+    .liza-benefit-icon svg {
+      width: 44px;
+      height: 44px;
+      stroke: currentColor;
+    }
+
+    .liza-benefit-content {
+      display: grid;
+      gap: 8px;
+      align-content: start;
+      min-width: 0;
+    }
+
+    .liza-benefit-kicker {
+      margin: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-self: start;
+      border-radius: 999px;
+      border: 1px solid #d2e2ff;
+      background: #eef4ff;
+      color: #2a64d1;
+      padding: 7px 14px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .liza-benefit-title {
+      margin: 0 0 8px;
+      color: #10253a;
+      font-size: 1.35rem;
+      font-weight: 850;
+      line-height: 1.25;
+    }
+
+    .liza-benefit-copy {
+      margin: 0;
+      color: #3b4e64;
+      font-size: 1.04rem;
+      line-height: 1.58;
+      white-space: pre-line;
+    }
+
+    .liza-outcomes-lead {
+      background: #eef3ff;
+      border: 1px solid #cfe0ff;
+      border-radius: 18px;
+      padding: 18px 20px;
+      color: #2a4665;
+      line-height: 1.5;
+      font-size: clamp(1.06rem, 1.02rem + 0.38vw, 1.24rem);
+      font-weight: 520;
+    }
+
+    .liza-outcomes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .liza-outcome-card {
+      border: 1px solid #d8e6fb;
+      background: #fff;
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 12px 28px rgba(34, 79, 132, 0.1);
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    }
+
+    .liza-outcome-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 34px rgba(34, 79, 132, 0.14);
+      border-color: #bfd5ff;
+    }
+
+    .liza-outcome-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .liza-outcome-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(56, 92, 187, 0.34);
+      background: linear-gradient(135deg, #2f66ff 0%, #7a33ff 100%);
+      flex-shrink: 0;
+    }
+
+    .liza-outcome-icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: currentColor;
+    }
+
+    .liza-outcome-title {
+      margin: 0;
+      color: #10253a;
+      font-size: 1.12rem;
+      font-weight: 800;
+      line-height: 1.28;
+    }
+
+    .liza-outcome-copy {
+      margin: 0;
+      color: #3b4e64;
+      font-size: 0.97rem;
+      line-height: 1.5;
+    }
+
+    .liza-outcome-metric {
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #1f5fce;
+      background: #edf4ff;
+      border: 1px solid #d7e7ff;
+    }
+
+    .liza-pricing-shell {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.75fr) minmax(280px, 1fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .liza-pricing-widget {
+      background: #fff;
+      border-radius: 26px;
+      border: 1px solid #d8e5fb;
+      box-shadow: 0 16px 36px rgba(35, 77, 126, 0.12);
+      padding: 20px;
+      color: #12263a;
+      display: grid;
+      gap: 12px;
+    }
+
+    .liza-pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .liza-plan {
+      border: 1px solid #d8e5fb;
+      border-radius: 18px;
+      padding: 12px;
+      background: #f9fbff;
+      cursor: pointer;
+      transition: 0.18s ease;
+      min-height: 140px;
+    }
+
+    .liza-plan input {
+      display: none;
+    }
+
+    .liza-plan.active {
+      background: linear-gradient(135deg, #eef5ff 0%, #ebeefe 100%);
+      border-color: #4a87ff;
+      box-shadow: 0 10px 22px rgba(42, 102, 201, 0.2);
+    }
+
+    .liza-plan-name {
+      margin: 0 0 7px;
+      font-weight: 800;
+      font-size: 1.04rem;
+      color: #102a45;
+    }
+
+    .liza-plan-price {
+      margin: 0;
+      font-size: 1.38rem;
+      font-weight: 900;
+      color: #1d5ed0;
+      letter-spacing: -0.01em;
+    }
+
+    .liza-plan-meta {
+      margin-top: 8px;
+      color: #516882;
+      font-size: 0.86rem;
+      line-height: 1.36;
+    }
+
+    .liza-plan-desc {
+      margin: 4px 0 0;
+      color: #5d6f84;
+      font-size: 0.84rem;
+      line-height: 1.35;
+    }
+
+    .liza-pricing-row-title {
+      margin: 2px 0 2px;
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: #233f5b;
+    }
+
+    .liza-pricing-row-hint {
+      margin: -2px 0 2px;
+      color: #5b6f87;
+      font-size: 0.84rem;
+      line-height: 1.42;
+    }
+
+    .liza-messenger-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .liza-ms-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #d2e0f8;
+      border-radius: 14px;
+      padding: 9px 11px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #26445f;
+      background: #f8fbff;
+      user-select: none;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .liza-ms-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .liza-ms-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 0.67rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+      box-shadow: 0 6px 14px rgba(46, 74, 130, 0.22);
+      flex-shrink: 0;
+    }
+
+    .liza-ms-icon--telegram { background: linear-gradient(135deg, #2aabee 0%, #1b7fd6 100%); }
+    .liza-ms-icon--whatsapp { background: linear-gradient(135deg, #2ec866 0%, #1d9a4c 100%); }
+    .liza-ms-icon--vk { background: linear-gradient(135deg, #3a6fe8 0%, #2855c3 100%); }
+    .liza-ms-icon--max { background: linear-gradient(135deg, #5f7cff 0%, #7c3bff 100%); }
+    .liza-ms-icon--default { background: linear-gradient(135deg, #4f7fff 0%, #5a62d4 100%); }
+
+    .liza-ms-item.active {
+      border-color: #5692ff;
+      background: #eaf2ff;
+      box-shadow: inset 0 0 0 1px rgba(73, 131, 255, 0.18);
+    }
+
+    .liza-ms-item input {
+      accent-color: #2b76ff;
+      width: 15px;
+      height: 15px;
+    }
+
+    .liza-pricing-note-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .liza-pricing-note {
+      border: 1px solid #d9e7ff;
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: #f8fbff;
+      color: #3d5670;
+      font-size: 0.86rem;
+      line-height: 1.35;
+    }
+
+    .liza-pricing-note strong {
+      color: #1c3653;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .liza-pricing-aside {
+      border-radius: 26px;
+      border: 1px solid rgba(102, 128, 255, 0.28);
+      background: linear-gradient(155deg, #2f66ff 0%, #4d4bf5 52%, #6f2dff 100%);
+      box-shadow: 0 24px 44px rgba(60, 65, 166, 0.32);
+      color: #fff;
+      padding: 20px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+
+    .liza-aside-kicker {
+      margin: 0;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: rgba(236, 243, 255, 0.9);
+    }
+
+    .liza-aside-title {
+      margin: 0;
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+
+    .liza-pricing-summary {
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.14);
+      padding: 14px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .liza-summary-big {
+      font-size: 2.05rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.06;
+      letter-spacing: -0.015em;
+    }
+
+    .liza-summary-line {
+      font-size: 0.92rem;
+      color: rgba(239, 245, 255, 0.96);
+      line-height: 1.45;
+    }
+
+    .liza-pricing-cta {
+      margin-top: 2px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 48px;
+      border-radius: 14px;
+      border: none;
+      text-decoration: none;
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #1744c2;
+      background: #fff;
+      transition: transform .14s ease, box-shadow .14s ease;
+      box-shadow: 0 10px 22px rgba(15, 22, 62, 0.22);
+    }
+
+    .liza-pricing-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 26px rgba(15, 22, 62, 0.28);
+    }
+
+    .liza-footer-clean {
+      background: #ffffff;
+      margin-top: 24px;
+      border-top: 1px solid #dbe6f6;
+    }
+
+    .liza-footer-inner {
+      max-width: 1420px;
+      margin: 0 auto;
+      padding: 28px 24px 34px;
+    }
+
+    .liza-footer-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .liza-footer-col {
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .liza-footer-col--center {
+      justify-items: center;
+      text-align: center;
+    }
+
+    .liza-footer-col--right {
+      justify-items: end;
+      text-align: right;
+    }
+
+    .liza-footer-link,
+    .liza-footer-text {
+      color: #13253a;
+      font-size: clamp(1rem, 0.98rem + 0.22vw, 1.12rem);
+      line-height: 1.4;
+      text-decoration: none;
+    }
+
+    .liza-footer-link {
+      transition: color 0.18s ease, opacity 0.18s ease;
+    }
+
+    .liza-footer-link:hover {
+      color: #2a64d1;
+    }
+
+    .liza-footer-socials {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .liza-footer-social {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      color: #4f43e3;
+      border: 1px solid #d9e4fb;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      box-shadow: 0 10px 24px rgba(56, 86, 139, 0.14);
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, color 0.16s ease, background 0.16s ease;
+    }
+
+    .liza-footer-social:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px rgba(56, 86, 139, 0.18);
+      border-color: #c8d9fb;
+      color: #2b63da;
+      background: #f8fbff;
+    }
+
+    .liza-footer-social svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+      stroke: none;
+    }
+
+    .liza-hero-chip {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid #d8e4f7;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 10px 22px rgba(34, 72, 120, 0.08);
+      color: #36506b;
+      font-size: 0.98rem;
+      font-weight: 700;
+      line-height: 1.25;
+      text-align: center;
+    }
+
+    @keyframes lizaHeroFloatA {
+      0% { transform: translate3d(0, 0, 0) rotate(-2deg) scale(1); }
+      25% { transform: translate3d(-5px, -10px, 0) rotate(-4deg) scale(1.02); }
+      50% { transform: translate3d(6px, -20px, 0) rotate(2deg) scale(1.04); }
+      75% { transform: translate3d(-3px, -9px, 0) rotate(-1deg) scale(1.02); }
+      100% { transform: translate3d(0, 0, 0) rotate(-2deg) scale(1); }
+    }
+
+    @keyframes lizaHeroFloatB {
+      0% { transform: translate3d(0, 0, 0) rotate(3deg) scale(1); }
+      30% { transform: translate3d(7px, -14px, 0) rotate(5deg) scale(1.03); }
+      60% { transform: translate3d(-4px, -18px, 0) rotate(1deg) scale(1.05); }
+      100% { transform: translate3d(0, 0, 0) rotate(3deg) scale(1); }
+    }
+
+    @keyframes lizaHeroFloatC {
+      0% { transform: translate3d(0, 0, 0) rotate(-1deg) scale(1); }
+      20% { transform: translate3d(-8px, -8px, 0) rotate(-4deg) scale(1.01); }
+      55% { transform: translate3d(3px, -22px, 0) rotate(3deg) scale(1.04); }
+      100% { transform: translate3d(0, 0, 0) rotate(-1deg) scale(1); }
+    }
+
+    @keyframes lizaHeroFloatD {
+      0% { transform: translate3d(0, 0, 0) rotate(1deg) scale(1); }
+      35% { transform: translate3d(5px, -11px, 0) rotate(4deg) scale(1.02); }
+      65% { transform: translate3d(-6px, -17px, 0) rotate(-2deg) scale(1.03); }
+      100% { transform: translate3d(0, 0, 0) rotate(1deg) scale(1); }
+    }
+
+    .liza-hero-float {
+      will-change: transform;
+      transform-origin: 50% 50%;
+    }
+
+    #hero .liza-hero-visual > div:nth-of-type(2) .hero-float {
+      animation: lizaHeroFloatA 6.9s ease-in-out infinite !important;
+    }
+
+    #hero .liza-hero-visual > div:nth-of-type(3) .hero-float {
+      animation: lizaHeroFloatB 7.8s ease-in-out infinite !important;
+    }
+
+    #hero .liza-hero-visual > div:nth-of-type(4) .hero-float {
+      animation: lizaHeroFloatC 8.4s ease-in-out infinite !important;
+    }
+
+    #hero .liza-hero-visual > div:nth-of-type(5) .hero-float {
+      animation: lizaHeroFloatD 7.2s ease-in-out infinite !important;
+    }
+
+    .liza-gradient-bot-text {
+      background: linear-gradient(90deg, #2f66ff 0%, #6a37ff 55%, #8e3dff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .liza-support-link-card {
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+    }
+
+    .liza-support-link-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 28px rgba(39, 76, 129, 0.12);
+      border-color: #cdddf9;
+    }
+
+    #faq [style*="opacity: 0"] {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    .liza-support-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      border-radius: inherit;
+    }
+
+    @media (max-width: 1160px) {
+      .liza-pricing-shell {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .liza-benefits-grid,
+      .liza-outcomes-grid,
+      .liza-pricing-grid,
+      .liza-pricing-note-grid,
+      .liza-messenger-row {
+        grid-template-columns: 1fr;
+      }
+
+      .liza-footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .liza-footer-col,
+      .liza-footer-col--center,
+      .liza-footer-col--right {
+        justify-items: start;
+        text-align: left;
+      }
+
+      .liza-footer-socials {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 760px) {
+      header a[href="#lead-form"] {
+        min-height: 48px !important;
+        max-width: calc(100vw - 168px) !important;
+        padding: 0 18px !important;
+        font-size: 0.96rem !important;
+        line-height: 1.1 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+
+      .liza-benefit-card {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 20px;
+        min-height: 0;
+      }
+
+      .liza-benefit-icon {
+        width: 76px;
+        height: 76px;
+        border-radius: 24px;
+        grid-row: auto;
+      }
+
+      .liza-benefit-icon svg {
+        width: 36px;
+        height: 36px;
+      }
+    }
+
+    #hero .liza-hero-shell {
+      padding-top: 40px !important;
+    }
+
+    #hero .liza-hero-grid {
+      min-height: 0 !important;
+      align-items: start !important;
+    }
+
+    #hero .liza-hero-copy {
+      max-width: 700px !important;
+    }
+
+    #hero .liza-hero-badge,
+    #hero .liza-hero-chip {
+      padding: 12px 22px !important;
+      font-size: 16px !important;
+      line-height: 1.1 !important;
+      border-radius: 9999px !important;
+    }
+
+    #hero .liza-hero-badge {
+      margin-bottom: 18px !important;
+    }
+
+    #hero .liza-hero-title {
+      font-size: clamp(56px, 6vw, 84px) !important;
+      line-height: 0.94 !important;
+      margin-bottom: 18px !important;
+      letter-spacing: -0.04em !important;
+    }
+
+    #hero .liza-hero-rotator {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 20px !important;
+    }
+
+    #hero .liza-hero-line {
+      font-size: clamp(26px, 3vw, 46px) !important;
+      line-height: 1.02 !important;
+      letter-spacing: -0.03em !important;
+      white-space: nowrap !important;
+    }
+
+    #hero .liza-hero-lead {
+      max-width: 680px !important;
+      font-size: clamp(17px, 1.05vw, 20px) !important;
+      line-height: 1.45 !important;
+      margin-bottom: 24px !important;
+    }
+
+    #hero a[href="#lead-form"] {
+      margin-top: 0 !important;
+    }
+
+    #hero .liza-hero-visual {
+      height: clamp(520px, 64vh, 760px) !important;
+      max-width: 560px !important;
+    }
+
+    #hero .hero-float {
+      animation-name: heroFloat !important;
+      animation-duration: 4.4s !important;
+      animation-iteration-count: infinite !important;
+      animation-timing-function: ease-in-out !important;
+      animation-play-state: running !important;
+      transform-origin: center center !important;
+    }
+
+    #hero .hero-icon-shell {
+      box-shadow: 0 16px 32px rgba(37, 99, 235, 0.18) !important;
+    }
+
+    header .liza-header-brand {
+      font-size: 2.1rem !important;
+      line-height: 0.95 !important;
+      letter-spacing: -0.04em !important;
+    }
+
+    #pricing .liza-pricing-plan-grid {
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 12px !important;
+      align-items: stretch !important;
+    }
+
+    #pricing .liza-pricing-plan-card {
+      padding: 16px !important;
+      min-height: 0 !important;
+    }
+
+    #pricing .liza-pricing-plan-card p {
+      margin-bottom: 8px !important;
+    }
+
+    #footer {
+      padding-top: 56px !important;
+      padding-bottom: 52px !important;
+    }
+
+    #footer > div {
+      max-width: 1180px !important;
+    }
+
+    #footer .liza-footer-grid {
+      display: grid !important;
+      grid-template-columns: 1fr auto 1fr !important;
+      gap: 26px !important;
+      align-items: center !important;
+      max-width: 1120px !important;
+      margin: 0 auto !important;
+    }
+
+    #footer .liza-footer-left,
+    #footer .liza-footer-right {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 10px !important;
+      font-size: 15px !important;
+      line-height: 1.35 !important;
+    }
+
+    #footer .liza-footer-left {
+      text-align: left !important;
+      justify-self: start !important;
+    }
+
+    #footer .liza-footer-center {
+      text-align: center !important;
+      justify-self: center !important;
+      gap: 14px !important;
+    }
+
+    #footer .liza-footer-center > a {
+      font-size: 16px !important;
+      font-weight: 500 !important;
+    }
+
+    #footer .liza-footer-right {
+      text-align: right !important;
+      justify-self: end !important;
+    }
+
+    @media (max-width: 1180px) {
+      #hero .liza-hero-title {
+        font-size: clamp(52px, 5.6vw, 76px) !important;
+      }
+
+      #hero .liza-hero-line {
+        font-size: clamp(24px, 2.7vw, 40px) !important;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      header .liza-header-brand {
+        font-size: 1.95rem !important;
+      }
+
+      #hero .liza-hero-shell {
+        padding-top: 44px !important;
+      }
+
+      #hero .liza-hero-grid {
+        min-height: 0 !important;
+      }
+
+      #hero .liza-hero-title {
+        font-size: clamp(44px, 8vw, 66px) !important;
+      }
+
+      #hero .liza-hero-line {
+        font-size: clamp(22px, 3.4vw, 34px) !important;
+        white-space: normal !important;
+      }
+
+      #hero .liza-hero-lead {
+        font-size: 18px !important;
+      }
+
+      #hero .liza-hero-visual {
+        height: clamp(460px, 58vh, 620px) !important;
+      }
+    }
+
+    @media (max-width: 900px) {
+      #pricing .liza-pricing-plan-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    @media (max-width: 760px) {
+      header .liza-header-brand {
+        font-size: 1.8rem !important;
+      }
+
+      #hero .liza-hero-shell {
+        padding-top: 36px !important;
+      }
+
+      #hero .liza-hero-title {
+        font-size: 48px !important;
+        line-height: 0.96 !important;
+      }
+
+      #hero .liza-hero-line {
+        font-size: 24px !important;
+        line-height: 1.02 !important;
+        white-space: normal !important;
+      }
+
+      #hero .liza-hero-lead {
+        font-size: 16px !important;
+        margin-bottom: 20px !important;
+      }
+
+      #hero .liza-hero-badge,
+      #hero .liza-hero-chip {
+        font-size: 15px !important;
+        padding: 11px 18px !important;
+      }
+
+      #hero .liza-hero-visual {
+        height: auto !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+        border-radius: 28px !important;
+      }
+
+      #hero .liza-hero-visual > div:nth-of-type(2),
+      #hero .liza-hero-visual > div:nth-of-type(4) {
+        display: none !important;
+      }
+
+      #footer .liza-footer-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+      }
+
+      #footer .liza-footer-left,
+      #footer .liza-footer-center,
+      #footer .liza-footer-right {
+        text-align: center !important;
+        justify-self: center !important;
+      }
+    }
+
+  </style>
+</head>
+  <body>
+  <div id="liza-tilda-root"></div>
+  <div id="liza-bootstrap-overlay" style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:#f2f5fb;">
+    <div style="max-width:900px;width:100%;padding:32px 28px;border:1px solid #d8e5fb;border-radius:28px;background:#fff;box-shadow:0 16px 36px rgba(35,77,126,.12);font-family:Inter,system-ui,sans-serif;color:#13263a;">
+      <h1 style="margin:0 0 12px;font-size:32px;line-height:1.05;">Загружаем сайт</h1>
+      <p style="margin:0;font-size:18px;line-height:1.5;color:#42566f;">Если страница откроется не сразу, обновим сборку автоматически.</p>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("liza-tilda-root");
+      var overlay = document.getElementById("liza-bootstrap-overlay");
+      var attempts = 0;
+      var maxAttempts = 2;
+
+      function hasRenderedContent() {
+        if (!root) return false;
+        return !!root.querySelector("*");
+      }
+
+      function hideOverlay() {
+        if (overlay) overlay.style.display = "none";
+      }
+
+      function showFatalState(reason) {
+        if (!overlay) return;
+        overlay.innerHTML =
+          '<div style="max-width:900px;width:100%;padding:32px 28px;border:1px solid #d8e5fb;border-radius:28px;background:#fff;box-shadow:0 16px 36px rgba(35,77,126,.12);font-family:Inter,system-ui,sans-serif;color:#13263a;">' +
+          '<h1 style="margin:0 0 12px;font-size:32px;line-height:1.05;">Сайт загружается с ошибкой</h1>' +
+          '<p style="margin:0 0 10px;font-size:18px;line-height:1.5;color:#42566f;">Основной скрипт страницы не смог корректно отрисовать контент.</p>' +
+          '<p style="margin:0;font-size:14px;line-height:1.5;color:#6b7c93;">Причина: ' + String(reason || "unknown") + '</p>' +
+          '</div>';
+        overlay.style.display = "flex";
+      }
+
+      function scheduleRenderCheck(tag) {
+        setTimeout(function () {
+          if (hasRenderedContent()) {
+            hideOverlay();
+            return;
+          }
+          if (attempts < maxAttempts) {
+            loadBundle("empty-render:" + tag);
+          } else {
+            showFatalState("empty-render");
+          }
+        }, 2200);
+      }
+
+      function loadBundle(reason) {
+        attempts += 1;
+        var script = document.createElement("script");
+        script.src = "./liza-app.js?v=14&try=" + attempts + "&ts=" + Date.now();
+        script.async = false;
+        script.onload = function () {
+          scheduleRenderCheck("load-" + attempts);
+        };
+        script.onerror = function () {
+          if (attempts < maxAttempts) {
+            loadBundle("load-error");
+          } else {
+            showFatalState("load-error");
+          }
+        };
+        document.body.appendChild(script);
+      }
+
+      window.addEventListener("error", function (event) {
+        if (attempts >= maxAttempts && !hasRenderedContent()) {
+          showFatalState(event && event.message ? event.message : "runtime-error");
+        }
+      });
+
+      loadBundle("initial");
+    })();
+  </script>
+  <script>
+    (function () {
+      var root = document.getElementById("liza-tilda-root");
+      var latestConfig = null;
+      var applyTimer = null;
+      var observer = null;
+
+      function hasOwn(obj, key) {
+        return Object.prototype.hasOwnProperty.call(obj, key);
+      }
+
+      function query(selector) {
+        return root ? root.querySelector(selector) : null;
+      }
+
+      function scheduleApply() {
+        clearTimeout(applyTimer);
+        applyTimer = setTimeout(applyConfig, 90);
+      }
+
+      function applyTextNodeMap(map) {
+        if (!map || !root) return;
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+          acceptNode: function (node) {
+            if (!node || !node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+            var parent = node.parentElement;
+            if (parent && /^(SCRIPT|STYLE|NOSCRIPT)$/.test(parent.tagName)) return NodeFilter.FILTER_REJECT;
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        });
+
+        var current;
+        while ((current = walker.nextNode())) {
+          var raw = current.nodeValue.trim();
+          if (!raw) continue;
+          if (hasOwn(map, raw) && map[raw] !== raw) {
+            current.nodeValue = current.nodeValue.replace(raw, map[raw]);
+          }
+        }
+
+        var fields = root.querySelectorAll("input[placeholder], textarea[placeholder]");
+        Array.prototype.forEach.call(fields, function (field) {
+          var placeholder = field.getAttribute("placeholder");
+          if (placeholder && hasOwn(map, placeholder) && map[placeholder] !== placeholder) {
+            field.setAttribute("placeholder", map[placeholder]);
+          }
+        });
+      }
+
+      function ensureHeroTitle(config) {
+        var title = query("#hero .liza-hero-title");
+        if (!title) return;
+        var html = config && config.heroTitleHtml
+          ? config.heroTitleHtml
+          : 'Лиза<span class="liza-gradient-bot-text">Бот</span>';
+        if (title.innerHTML !== html) title.innerHTML = html;
+      }
+
+      function ensureWhatsappMeta(config) {
+        var footerCenter = query("#footer .liza-footer-center");
+        if (!footerCenter) return;
+
+        var whatsappLink = query('#footer a[aria-label="WhatsApp"]');
+        var note = footerCenter.querySelector(".liza-whatsapp-footnote");
+        if (!whatsappLink) {
+          if (note) note.remove();
+          return;
+        }
+      }
+
+      function ensureOutcomeIcon() {
+        var iconHost = query("#proof .liza-outcome-card:nth-of-type(2) .liza-outcome-icon");
+        if (!iconHost) return;
+        if (iconHost.querySelector("svg, img")) return;
+        iconHost.innerHTML =
+          '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+          '<path d="M12 2v6"></path>' +
+          '<path d="M12 22v-2"></path>' +
+          '<path d="M4.93 4.93l4.24 4.24"></path>' +
+          '<path d="M14.83 14.83l4.24 4.24"></path>' +
+          '<path d="M2 12h2"></path>' +
+          '<path d="M20 12h2"></path>' +
+          '<path d="M6.34 17.66l-1.41 1.41"></path>' +
+          '<path d="M17.66 6.34l1.41-1.41"></path>' +
+          '</svg>';
+      }
+
+      function applyConfig() {
+        if (!root || !root.querySelector("*")) return;
+        if (latestConfig && latestConfig.fullTextMap) applyTextNodeMap(latestConfig.fullTextMap);
+        ensureHeroTitle(latestConfig);
+        ensureWhatsappMeta(latestConfig);
+        ensureOutcomeIcon();
+      }
+
+      function ensureObserver() {
+        if (!root || observer) return;
+        observer = new MutationObserver(function () {
+          scheduleApply();
+        });
+        observer.observe(root, { childList: true, subtree: true, characterData: true });
+      }
+
+      window.addEventListener("message", function (event) {
+        var data = event && event.data;
+        if (!data || typeof data !== "object") return;
+        if (data.type !== "LIZA_TEXT_CONFIG") return;
+        latestConfig = data.config || null;
+        ensureObserver();
+        scheduleApply();
+      });
+
+      window.addEventListener("load", function () {
+        ensureObserver();
+        scheduleApply();
+      });
+    })();
+  </script>
+  <script>
+    (function () {
+      var root = document.getElementById("liza-tilda-root");
+      var activeLeadForm = null;
+      var leadAckTimer = null;
+      var lastLeadSubmitAt = 0;
+
+      function isLeadTriggerText(text) {
+        var value = (text || "").trim().toLowerCase();
+        return value.indexOf("начать тест 3 дня") !== -1 ||
+          value.indexOf("запустить бесплатно на 3 дня") !== -1 ||
+          value.indexOf("получить расчёт и запуск") !== -1;
+      }
+
+      function openLeadForm() {
+        if (typeof window.__lizaOpenLeadForm === "function") {
+          try {
+            window.__lizaOpenLeadForm();
+            return true;
+          } catch (_e) {}
+        }
+        try {
+          window.dispatchEvent(new Event("liza:open-lead"));
+        } catch (_e2) {}
+        return false;
+      }
+
+      function logLead() {
+        if (!window.console || !console.log) return;
+        try {
+          var args = Array.prototype.slice.call(arguments);
+          args.unshift("[LIZA_IFRAME_APP]");
+          console.log.apply(console, args);
+        } catch (_e) {}
+      }
+
+      function ensureFormStatusNode(form) {
+        if (!form) return null;
+        var node = form.querySelector("[data-liza-form-status]");
+        if (node) return node;
+        node = document.createElement("div");
+        node.setAttribute("data-liza-form-status", "true");
+        node.style.marginTop = "12px";
+        node.style.fontSize = "14px";
+        node.style.lineHeight = "1.45";
+        node.style.fontWeight = "600";
+        node.style.display = "none";
+        var submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
+        if (submitButton && submitButton.parentNode) {
+          submitButton.parentNode.insertBefore(node, submitButton.nextSibling);
+        } else {
+          form.appendChild(node);
+        }
+        return node;
+      }
+
+      function setLeadFormState(form, state, message) {
+        if (!form) return;
+        form.setAttribute("data-liza-submit-state", state || "idle");
+        var statusNode = ensureFormStatusNode(form);
+        if (statusNode) {
+          statusNode.style.display = message ? "block" : "none";
+          statusNode.textContent = message || "";
+          statusNode.style.color =
+            state === "error" ? "#d43753" :
+            state === "success" ? "#11804b" :
+            "#39536f";
+        }
+        var submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
+        if (submitButton) {
+          var disabled = state === "submitting";
+          submitButton.disabled = disabled;
+          submitButton.setAttribute("aria-busy", disabled ? "true" : "false");
+          if (submitButton.tagName === "BUTTON") {
+            submitButton.style.opacity = disabled ? "0.72" : "";
+            submitButton.style.cursor = disabled ? "wait" : "";
+          }
+        }
+      }
+
+      function getFieldLabelHint(field) {
+        if (!field) return "";
+        var chunks = [];
+        if (field.labels && field.labels[0] && field.labels[0].textContent) {
+          chunks.push(field.labels[0].textContent);
+        }
+        var parent = field.parentElement;
+        if (parent) {
+          var parentLabel = parent.querySelector("label");
+          if (parentLabel && parentLabel.textContent) {
+            chunks.push(parentLabel.textContent);
+          }
+          if (parent.firstElementChild && parent.firstElementChild !== field && parent.firstElementChild.textContent) {
+            chunks.push(parent.firstElementChild.textContent);
+          }
+        }
+        var previous = field.previousElementSibling;
+        if (previous && previous.textContent) {
+          chunks.push(previous.textContent);
+        }
+        return chunks.join(" ");
+      }
+
+      function resolveNamedField(form, aliases, type) {
+        if (!form) return null;
+        for (var i = 0; i < aliases.length; i += 1) {
+          var alias = aliases[i];
+          var direct = form.querySelector('[data-liza-field="' + alias + '"], [name="' + alias + '"], [id="' + alias + '"]');
+          if (direct) return direct;
+        }
+
+        var fields = form.querySelectorAll("input, textarea, select");
+        for (var j = 0; j < fields.length; j += 1) {
+          var field = fields[j];
+          if (!field) continue;
+          if (type && field.type && field.type !== type) continue;
+          var labelText = getFieldLabelHint(field);
+          var haystack = [
+            field.name || "",
+            field.placeholder || "",
+            field.id || "",
+            field.getAttribute("aria-label") || "",
+            labelText
+          ].join(" ").toLowerCase();
+          for (var k = 0; k < aliases.length; k += 1) {
+            if (haystack.indexOf(aliases[k].toLowerCase()) !== -1) return field;
+          }
+        }
+        return null;
+      }
+
+      document.addEventListener("click", function (event) {
+        var target = event.target;
+        if (!target || !target.closest) return;
+
+        var leadLink = target.closest('a[href="#lead-form"]');
+        if (leadLink && (!root || root.contains(leadLink))) {
+          event.preventDefault();
+          openLeadForm();
+          return;
+        }
+
+        var button = target.closest("button, a");
+        if (!button || (root && !root.contains(button))) return;
+        if (!isLeadTriggerText(button.textContent || "")) return;
+
+        var form = button.closest("form");
+        if (form && form.querySelector('input[name="quote_summary"]')) {
+          event.preventDefault();
+          postLeadPayload(form);
+          return;
+        }
+
+        event.preventDefault();
+        openLeadForm();
+      }, true);
+
+      function getQuoteState() {
+        try {
+          var raw = window.localStorage.getItem("liza_quote_v1");
+          return raw ? JSON.parse(raw) : null;
+        } catch (_e) {
+          return null;
+        }
+      }
+
+      function getButtonText(button) {
+        return ((button && button.textContent) || "").trim().toLowerCase();
+      }
+
+      function getYClientsChoice(form) {
+        var buttons = form.querySelectorAll('button[type="button"]');
+        for (var i = 0; i < buttons.length; i += 1) {
+          var button = buttons[i];
+          var text = getButtonText(button);
+          if (text !== "да" && text !== "нет") continue;
+          var className = button.className || "";
+          if (className.indexOf("border-blue-500") !== -1 || className.indexOf("bg-blue-50") !== -1) {
+            return text === "да" ? "Да" : "Нет";
+          }
+        }
+        return "";
+      }
+
+      function postLeadPayload(form) {
+        if (!form) return;
+        var now = Date.now();
+        if (now - lastLeadSubmitAt < 1200) {
+          logLead("submit:skip-duplicate");
+          return;
+        }
+        lastLeadSubmitAt = now;
+        activeLeadForm = form;
+        clearTimeout(leadAckTimer);
+        setLeadFormState(form, "submitting", "Отправляем заявку…");
+        var payload = collectLeadPayload(form);
+        logLead("submit:payload-collected", payload);
+        try {
+          window.parent.postMessage({ type: "LIZA_LEAD_SUBMIT", payload: payload }, "*");
+          logLead("submit:payload-posted");
+          leadAckTimer = setTimeout(function () {
+            if (activeLeadForm === form) {
+              setLeadFormState(form, "error", "Не удалось отправить заявку. Попробуйте ещё раз.");
+            }
+          }, 7000);
+        } catch (_e) {}
+      }
+
+      function collectLeadPayload(form) {
+        var phoneField = resolveNamedField(form, ["phone", "телефон"], "tel") || resolveNamedField(form, ["phone", "телефон"]);
+        var nameField = resolveNamedField(form, ["name", "имя", "ваше имя"], "text");
+        var salonField = resolveNamedField(form, ["salon_name", "название салона", "салон"], "text");
+        var quoteField = form.querySelector('input[name="quote_summary"]');
+        var quoteState = getQuoteState() || {};
+        logLead("submit:field-match", {
+          name: !!nameField,
+          phone: !!phoneField,
+          salon: !!salonField
+        });
+
+        return {
+          name: nameField ? nameField.value.trim() : "",
+          phone: phoneField ? phoneField.value.trim() : "",
+          salonName: salonField ? salonField.value.trim() : "",
+          usesYclients: getYClientsChoice(form),
+          quoteSummary: quoteField ? quoteField.value.trim() : "",
+          tariffName: quoteState.tariffName || "",
+          limitLabel: quoteState.mastersCount || "",
+          channelsCount: quoteState.channelsCount || "",
+          monthlyResult: quoteState.monthlyResult || "",
+          selectedChannels: quoteState.selectedChannels || "",
+          yearlyBilling: quoteState.yearlyBilling ? "Да" : "Нет",
+          sourcePage: window.location.href,
+          submittedAt: new Date().toLocaleString("ru-RU")
+        };
+      }
+
+      document.addEventListener("submit", function (event) {
+        var form = event.target;
+        if (!form || !form.matches || !form.matches("form")) return;
+        if (!form.querySelector('input[name="quote_summary"]')) return;
+        event.preventDefault();
+        postLeadPayload(form);
+      }, true);
+
+      window.addEventListener("message", function (event) {
+        var data = event && event.data;
+        if (!data || typeof data !== "object") return;
+        if (data.type !== "LIZA_LEAD_STATUS") return;
+        if (!activeLeadForm) return;
+        clearTimeout(leadAckTimer);
+        if (data.status === "success") {
+          setLeadFormState(activeLeadForm, "success", data.message || "Ваша заявка отправлена, скоро мы с вами свяжемся.");
+          logLead("submit:success", data);
+          return;
+        }
+        if (data.status === "submitting") {
+          setLeadFormState(activeLeadForm, "submitting", data.message || "Отправляем заявку…");
+          logLead("submit:bridge-submitting", data);
+          return;
+        }
+        setLeadFormState(activeLeadForm, "error", data.message || "Не удалось отправить заявку.");
+        logLead("submit:error", data);
+      });
+    })();
+  </script>
+  <script>
+    (function () {
+      function sendParentHeight() {
+        if (window.parent === window) return;
+        var body = document.body;
+        var doc = document.documentElement;
+        if (!body || !doc) return;
+        var height = Math.max(
+          body.scrollHeight || 0,
+          body.offsetHeight || 0,
+          doc.clientHeight || 0,
+          doc.scrollHeight || 0,
+          doc.offsetHeight || 0
+        );
+        try {
+          window.parent.postMessage({ type: "LIZA_IFRAME_HEIGHT", height: height }, "*");
+        } catch (_e) {}
+      }
+
+      function scheduleHeightSync() {
+        sendParentHeight();
+        setTimeout(sendParentHeight, 120);
+        setTimeout(sendParentHeight, 480);
+        setTimeout(sendParentHeight, 1200);
+      }
+
+      window.addEventListener("load", scheduleHeightSync, { once: true });
+      window.addEventListener("resize", sendParentHeight);
+      document.addEventListener("readystatechange", function () {
+        if (document.readyState === "interactive" || document.readyState === "complete") {
+          scheduleHeightSync();
+        }
+      });
+
+      if (window.ResizeObserver) {
+        var observer = new ResizeObserver(function () {
+          sendParentHeight();
+        });
+        if (document.body) observer.observe(document.body);
+        else window.addEventListener("load", function () {
+          if (document.body) observer.observe(document.body);
+        }, { once: true });
+      }
+    })();
+  </script>
+</body>
+</html>
