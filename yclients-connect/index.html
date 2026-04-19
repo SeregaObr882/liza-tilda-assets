@@ -187,6 +187,17 @@
       transition: box-shadow 0.18s ease, transform 0.18s ease;
     }
     .field::placeholder { color: var(--field-placeholder); }
+    .field:-webkit-autofill,
+    .field:-webkit-autofill:hover,
+    .field:-webkit-autofill:focus,
+    .field:-webkit-autofill:active {
+      -webkit-text-fill-color: var(--text-main) !important;
+      -webkit-box-shadow: 0 0 0 1000px var(--field-bg) inset !important;
+      box-shadow: 0 0 0 1000px var(--field-bg) inset !important;
+      caret-color: var(--text-main);
+      font-size: clamp(18px, 1.35vw, 24px) !important;
+      transition: background-color 9999s ease-in-out 0s;
+    }
     .field:focus-visible {
       box-shadow: 0 0 0 3px rgba(99, 70, 249, 0.22);
       background: #f3f6fc;
@@ -465,3 +476,4 @@
   </script>
 </body>
 </html>
+
