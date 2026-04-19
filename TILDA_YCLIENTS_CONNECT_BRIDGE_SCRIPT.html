@@ -1,4 +1,4 @@
-<style>
+﻿<style>
   .liza-yclients-shadow-form-hidden,
   .liza-yclients-shadow-form-hidden.t-rec,
   .liza-yclients-shadow-form-hidden .t-rec__artboard {
@@ -126,6 +126,63 @@
     field.value = value == null ? '' : String(value);
   }
 
+  function finalizeStatus(form, submitButton, state, message, extra) {
+    if (submitButton) {
+      submitButton.tildaSendingStatus = state === 'submitting' ? '1' : '';
+      if (submitButton.classList) {
+        submitButton.classList.toggle('t-btn_sending', state === 'submitting');
+      }
+      submitButton.disabled = state === 'submitting';
+    }
+    postLeadStatus(state, message, extra || null);
+  }
+
+  function bindOutcomeHandlers(form, submitButton) {
+    var done = false;
+    var timeoutId = null;
+
+    function cleanup() {
+      document.removeEventListener('tildaform:aftersuccess', onSuccess, true);
+      document.removeEventListener('tildaform:aftererror', onError, true);
+      form.removeEventListener('tildaform:aftersuccess', onSuccess, true);
+      form.removeEventListener('tildaform:aftererror', onError, true);
+      if (timeoutId) clearTimeout(timeoutId);
+    }
+
+    function finish(state, message, extra) {
+      if (done) return;
+      done = true;
+      cleanup();
+      log('lead-submit:result', state, extra || null);
+      finalizeStatus(form, submitButton, state, message, extra || null);
+    }
+
+    function onSuccess(event) {
+      var target = event && event.target;
+      if (target && target !== form && !form.contains(target)) return;
+      finish('success', 'Ваша заявка отправлена, скоро мы с вами свяжемся.');
+    }
+
+    function onError(event) {
+      var target = event && event.target;
+      if (target && target !== form && !form.contains(target)) return;
+      finish('error', 'Не удалось отправить заявку. Попробуйте ещё раз.', {
+        type: event && event.type ? event.type : 'tildaform:aftererror'
+      });
+    }
+
+    document.addEventListener('tildaform:aftersuccess', onSuccess, true);
+    document.addEventListener('tildaform:aftererror', onError, true);
+    form.addEventListener('tildaform:aftersuccess', onSuccess, true);
+    form.addEventListener('tildaform:aftererror', onError, true);
+
+    timeoutId = setTimeout(function () {
+      finish('error', 'Не удалось подтвердить отправку заявки. Проверьте форму и попробуйте ещё раз.', {
+        type: 'timeout'
+      });
+    }, 10000);
+  }
+
   function fillShadowForm(payload) {
     var form = findShadowForm();
     if (!form) {
@@ -134,7 +191,9 @@
     }
 
     log('lead-submit:start', payload || {});
-    postLeadStatus('submitting', 'Отправляем заявку...');
+    var submitButton = form.querySelector('[type="submit"]');
+    bindOutcomeHandlers(form, submitButton);
+    finalizeStatus(form, submitButton, 'submitting', 'Отправляем заявку...');
 
     var phoneFilled = fillNamedField(form, ['phone', 'client_phone', 'contact_phone'], payload.phone || '');
     var contactFilled = fillNamedField(form, ['contact_preference', 'contact_method', 'contact_text'], payload.contactPreference || '');
@@ -152,28 +211,57 @@
     });
 
     try {
+      var formsRoot = document.getElementById('allrecords');
+      var formsKey = formsRoot ? formsRoot.getAttribute('data-tilda-formskey') : '';
+      var formType = parseInt(form.getAttribute('data-formactiontype') || '0', 10);
+
+      if (window.tildaForm && typeof window.tildaForm.hideErrors === 'function') {
+        window.tildaForm.hideErrors(form);
+      }
+
+      if (window.tildaForm && typeof window.tildaForm.validate === 'function' && typeof window.tildaForm.showErrors === 'function') {
+        var validation = window.tildaForm.validate(form);
+        var hasErrors = window.tildaForm.showErrors(form, validation);
+        log('lead-submit:validation', { hasErrors: !!hasErrors, validation: validation });
+        if (hasErrors) {
+          finalizeStatus(form, submitButton, 'error', 'Проверьте заполнение формы и попробуйте ещё раз.', {
+            type: 'validation'
+          });
+          return;
+        }
+      }
+
+      if (window.tildaForm && typeof window.tildaForm.send === 'function') {
+        if (submitButton) {
+          submitButton.tildaSendingStatus = '1';
+          if (submitButton.classList) submitButton.classList.add('t-btn_sending');
+        }
+        log('lead-submit:tilda-send', { formType: formType, formsKey: formsKey || null });
+        window.tildaForm.send(form, submitButton, formType, formsKey);
+        return;
+      }
+
       form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
       log('lead-submit:dispatch-submit');
-    } catch (_error) {}
-
-    setTimeout(function () {
-      var submitButton = form.querySelector('[type="submit"]');
       if (submitButton && submitButton.click) {
         log('lead-submit:button-click');
         submitButton.click();
-        postLeadStatus('success', 'Ваша заявка отправлена, скоро мы с вами свяжемся.');
         return;
       }
       if (form.requestSubmit) {
         log('lead-submit:request-submit');
         form.requestSubmit();
-        postLeadStatus('success', 'Ваша заявка отправлена, скоро мы с вами свяжемся.');
         return;
       }
       log('lead-submit:raw-submit');
       form.submit();
-      postLeadStatus('success', 'Ваша заявка отправлена, скоро мы с вами свяжемся.');
-    }, 80);
+    } catch (error) {
+      log('lead-submit:error', error && error.message ? error.message : error);
+      finalizeStatus(form, submitButton, 'error', 'Не удалось отправить заявку. Попробуйте ещё раз.', {
+        type: 'exception',
+        message: error && error.message ? error.message : String(error)
+      });
+    }
   }
 
   function applyViewportHeight() {
