@@ -102,6 +102,14 @@
     } catch (_error) {}
   }
 
+  function formatPhoneForTilda(value) {
+    var digits = String(value == null ? '' : value).replace(/\\D/g, '');
+    if (digits.length === 11 && digits.charAt(0) === '8') digits = '7' + digits.slice(1);
+    if (digits.length === 10) digits = '7' + digits;
+    if (digits.length !== 11 || digits.charAt(0) !== '7') return value == null ? '' : String(value);
+    return '+7(' + digits.slice(1,4) + ')' + digits.slice(4,7) + '-' + digits.slice(7,9) + '-' + digits.slice(9,11);
+  }
+
   function fillNamedField(form, names, value) {
     for (var i = 0; i < names.length; i += 1) {
       var name = names[i];
@@ -195,7 +203,9 @@
     bindOutcomeHandlers(form, submitButton);
     finalizeStatus(form, submitButton, 'submitting', 'Отправляем заявку...');
 
-    var phoneFilled = fillNamedField(form, ['phone', 'client_phone', 'contact_phone'], payload.phone || '');
+    var normalizedPhone = formatPhoneForTilda(payload.phone || '');
+    log('lead-submit:phone-normalized', { original: payload.phone || '', normalized: normalizedPhone });
+    var phoneFilled = fillNamedField(form, ['phone', 'client_phone', 'contact_phone'], normalizedPhone);
     var contactFilled = fillNamedField(form, ['contact_preference', 'contact_method', 'contact_text'], payload.contactPreference || '');
 
     upsertHidden(form, 'salon_id', payload.salonId || '');
@@ -308,3 +318,4 @@
   scheduleRefresh('bootstrap');
 })();
 </script>
+
