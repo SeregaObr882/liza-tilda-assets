@@ -116,6 +116,35 @@
       white-space: pre-line;
     }
 
+    #benefits .grid.lg\:grid-cols-3 > .group.relative > div.relative.h-full {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      align-items: flex-start !important;
+      column-gap: 24px !important;
+      row-gap: 16px !important;
+    }
+
+    #benefits .grid.lg\:grid-cols-3 > .group.relative > div.relative.h-full > .relative.mb-8 {
+      flex: 0 0 auto !important;
+      display: inline-flex !important;
+      width: auto !important;
+      margin: 0 !important;
+    }
+
+    #benefits .grid.lg\:grid-cols-3 > .group.relative > div.relative.h-full > .inline-flex.items-center.px-4.py-2.rounded-full {
+      flex: 1 1 260px !important;
+      align-self: center !important;
+      width: auto !important;
+      min-width: 0 !important;
+      margin: 0 !important;
+    }
+
+    #benefits .grid.lg\:grid-cols-3 > .group.relative > div.relative.h-full > h3,
+    #benefits .grid.lg\:grid-cols-3 > .group.relative > div.relative.h-full > p,
+    #benefits .grid.lg\:grid-cols-3 > .group.relative > div.relative.h-full > .absolute.inset-0 {
+      flex-basis: 100% !important;
+    }
+
     .liza-outcomes-lead {
       background: #eef3ff;
       border: 1px solid #cfe0ff;
@@ -1219,7 +1248,7 @@
         inset: auto !important;
         display: flex !important;
         justify-content: center !important;
-        margin: 0 0 14px !important;
+        margin: 18px 0 18px !important;
         text-align: center !important;
       }
 
@@ -1607,6 +1636,10 @@
             iconHost = card.querySelector(".liza-outcome-icon");
             return true;
           });
+        }
+        if (!iconCard && cards && cards.length > 1) {
+          iconCard = cards[1];
+          iconHost = iconCard.querySelector(".liza-outcome-icon");
         }
         if (!iconCard) return;
         if (!iconHost) {
