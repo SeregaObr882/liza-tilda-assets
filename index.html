@@ -1573,7 +1573,14 @@
             var title = card.querySelector(".liza-outcome-title");
             if (!title) return false;
             var text = (title.textContent || "").toLowerCase();
-            if (text.indexOf("администратор тратит меньше времени") === -1) return false;
+            var metric = card.querySelector(".liza-outcome-metric");
+            var metricText = metric ? (metric.textContent || "").toLowerCase() : "";
+            var isAdminCard =
+              text.indexOf("администратор тратит меньше времени") !== -1 ||
+              text.indexOf("если клиент недоволен") !== -1 ||
+              text.indexOf("команда узнает сразу") !== -1 ||
+              metricText.indexOf("больше времени на работу с клиентами") !== -1;
+            if (!isAdminCard) return false;
             iconHost = card.querySelector(".liza-outcome-icon");
             return !!iconHost;
           });
