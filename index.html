@@ -46,10 +46,11 @@
       min-height: 220px;
       box-shadow: 0 18px 38px rgba(33, 73, 121, 0.1);
       transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-      display: grid;
-      grid-template-columns: 108px minmax(0, 1fr);
-      gap: 0 24px;
-      align-items: start;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      column-gap: 24px;
+      row-gap: 16px;
     }
 
     .liza-benefit-card:hover {
@@ -68,7 +69,7 @@
       color: #fff;
       box-shadow: 0 20px 40px rgba(52, 91, 179, 0.28);
       background: linear-gradient(138deg, #2f66ff 0%, #7a33ff 100%);
-      grid-row: 1 / span 2;
+      flex: 0 0 auto;
     }
 
     .liza-benefit-icon svg {
@@ -82,13 +83,13 @@
       gap: 8px;
       align-content: start;
       min-width: 0;
+      flex: 1 1 280px;
     }
 
     .liza-benefit-kicker {
       margin: 0;
       display: inline-flex;
       align-items: center;
-      justify-self: start;
       border-radius: 999px;
       border: 1px solid #d2e2ff;
       background: #eef4ff;
@@ -1008,6 +1009,24 @@
       }
     }
 
+    #benefits .grid.lg\:grid-cols-3 > .group > div > .relative.mb-8 {
+      flex: 0 0 auto;
+      margin: 0 !important;
+    }
+
+    #benefits .grid.lg\:grid-cols-3 > .group > div > .inline-flex.items-center.px-4.py-2.rounded-full {
+      flex: 1 1 280px;
+      align-self: center;
+      margin: 0 !important;
+      min-width: 0;
+    }
+
+    #benefits .grid.lg\:grid-cols-3 > .group > div > h3,
+    #benefits .grid.lg\:grid-cols-3 > .group > div > p,
+    #benefits .grid.lg\:grid-cols-3 > .group > div > .absolute.inset-0 {
+      flex-basis: 100%;
+    }
+
     @media (max-width: 420px) {
       header > div {
         padding-left: 8px !important;
@@ -1209,6 +1228,7 @@
         padding: 10px 16px !important;
         font-size: 0.95rem !important;
         line-height: 1.1 !important;
+        margin-top: 12px !important;
       }
 
       #how-it-works .lg\:sticky > .relative > div:nth-child(2) {
@@ -1384,6 +1404,7 @@
       #how-it-works .lg\:sticky > .relative > div:first-child > div {
         font-size: 0.88rem !important;
         padding: 9px 14px !important;
+        margin-top: 12px !important;
       }
 
       #benefits .grid.lg\:grid-cols-3 > .group > div {
@@ -1568,6 +1589,7 @@
       function ensureOutcomeIcon() {
         var cards = root ? root.querySelectorAll("#proof .liza-outcome-card") : null;
         var iconHost = null;
+        var iconCard = null;
         if (cards && cards.length) {
           Array.prototype.some.call(cards, function (card) {
             var title = card.querySelector(".liza-outcome-title");
@@ -1581,21 +1603,23 @@
               text.indexOf("команда узнает сразу") !== -1 ||
               metricText.indexOf("больше времени на работу с клиентами") !== -1;
             if (!isAdminCard) return false;
+            iconCard = card;
             iconHost = card.querySelector(".liza-outcome-icon");
-            return !!iconHost;
+            return true;
           });
         }
-        if (!iconHost) return;
+        if (!iconCard) return;
+        if (!iconHost) {
+          iconHost = document.createElement("div");
+          iconHost.className = "mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 to-fuchsia-600 text-white shadow-lg liza-outcome-icon";
+          var titleNode = iconCard.querySelector(".liza-outcome-title");
+          if (titleNode) iconCard.insertBefore(iconHost, titleNode);
+        }
         iconHost.innerHTML =
           '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-          '<path d="M12 2v6"></path>' +
-          '<path d="M12 22v-2"></path>' +
-          '<path d="M4.93 4.93l4.24 4.24"></path>' +
-          '<path d="M14.83 14.83l4.24 4.24"></path>' +
-          '<path d="M2 12h2"></path>' +
-          '<path d="M20 12h2"></path>' +
-          '<path d="M6.34 17.66l-1.41 1.41"></path>' +
-          '<path d="M17.66 6.34l1.41-1.41"></path>' +
+          '<path d="M15 17H9"></path>' +
+          '<path d="M10.5 20a1.5 1.5 0 0 0 3 0"></path>' +
+          '<path d="M18 16v-5a6 6 0 1 0-12 0v5l-2 2h16z"></path>' +
           '</svg>';
       }
 
