@@ -713,22 +713,42 @@
       }
 
       .liza-benefit-card {
-        grid-template-columns: 1fr;
-        gap: 14px;
+        grid-template-columns: 72px minmax(0, 1fr);
+        gap: 0 14px;
         padding: 20px;
         min-height: 0;
+        align-items: start;
       }
 
       .liza-benefit-icon {
-        width: 76px;
-        height: 76px;
-        border-radius: 24px;
-        grid-row: auto;
+        width: 72px;
+        height: 72px;
+        border-radius: 22px;
+        grid-row: 1 / span 2;
       }
 
       .liza-benefit-icon svg {
-        width: 36px;
-        height: 36px;
+        width: 32px;
+        height: 32px;
+      }
+
+      .liza-benefit-content {
+        gap: 6px;
+      }
+
+      .liza-benefit-kicker {
+        padding: 6px 12px;
+        font-size: 0.78rem;
+      }
+
+      .liza-benefit-title {
+        font-size: 1.18rem;
+        line-height: 1.22;
+      }
+
+      .liza-benefit-copy {
+        font-size: 0.96rem;
+        line-height: 1.5;
       }
     }
 
@@ -1011,6 +1031,36 @@
         padding: 0 10px !important;
         font-size: 0.7rem !important;
       }
+
+      .liza-benefit-card {
+        grid-template-columns: 62px minmax(0, 1fr);
+        gap: 0 12px;
+        padding: 18px;
+      }
+
+      .liza-benefit-icon {
+        width: 62px;
+        height: 62px;
+        border-radius: 20px;
+      }
+
+      .liza-benefit-icon svg {
+        width: 28px;
+        height: 28px;
+      }
+
+      .liza-benefit-kicker {
+        padding: 6px 10px;
+        font-size: 0.72rem;
+      }
+
+      .liza-benefit-title {
+        font-size: 1.06rem;
+      }
+
+      .liza-benefit-copy {
+        font-size: 0.9rem;
+      }
     }
 
     @media (max-width: 760px) {
@@ -1235,6 +1285,48 @@
         max-width: 100% !important;
         box-sizing: border-box !important;
       }
+
+      #benefits > div {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+      }
+
+      #benefits .grid.lg\:grid-cols-3 > .group > div {
+        padding: 22px !important;
+      }
+
+      #benefits .grid.lg\:grid-cols-3 > .group > div > .relative.mb-8 {
+        display: inline-flex !important;
+        align-items: center !important;
+        vertical-align: middle !important;
+        gap: 12px !important;
+        margin: 0 12px 14px 0 !important;
+      }
+
+      #benefits .grid.lg\:grid-cols-3 > .group > div > .relative.mb-8 > div.w-24.h-24 {
+        width: 70px !important;
+        height: 70px !important;
+        border-radius: 22px !important;
+        transform: none !important;
+      }
+
+      #benefits .grid.lg\:grid-cols-3 > .group > div > .relative.mb-8 > div.w-24.h-24 svg {
+        width: 34px !important;
+        height: 34px !important;
+      }
+
+      #benefits .grid.lg\:grid-cols-3 > .group > div > .inline-flex.items-center.px-4.py-2.rounded-full {
+        display: inline-flex !important;
+        vertical-align: middle !important;
+        margin: 0 0 14px !important;
+        padding: 8px 14px !important;
+        border-radius: 999px !important;
+      }
+
+      #benefits .grid.lg\:grid-cols-3 > .group > div > .inline-flex.items-center.px-4.py-2.rounded-full span {
+        font-size: 0.92rem !important;
+        line-height: 1.15 !important;
+      }
     }
 
     @media (max-width: 420px) {
@@ -1279,6 +1371,29 @@
       #how-it-works .lg\:sticky > .relative > div:first-child > div {
         font-size: 0.88rem !important;
         padding: 9px 14px !important;
+      }
+
+      #benefits .grid.lg\:grid-cols-3 > .group > div {
+        padding: 18px !important;
+      }
+
+      #benefits .grid.lg\:grid-cols-3 > .group > div > .relative.mb-8 {
+        gap: 10px !important;
+        margin-right: 10px !important;
+        margin-bottom: 12px !important;
+      }
+
+      #benefits .grid.lg\:grid-cols-3 > .group > div > .relative.mb-8 > div.w-24.h-24 {
+        width: 62px !important;
+        height: 62px !important;
+      }
+
+      #benefits .grid.lg\:grid-cols-3 > .group > div > .inline-flex.items-center.px-4.py-2.rounded-full {
+        padding: 7px 12px !important;
+      }
+
+      #benefits .grid.lg\:grid-cols-3 > .group > div > .inline-flex.items-center.px-4.py-2.rounded-full span {
+        font-size: 0.86rem !important;
       }
     }
 
