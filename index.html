@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Liza Bot Landing</title>
-  <link rel="stylesheet" href="./liza-app.css?v=17" />
+  <link rel="stylesheet" href="./liza-app.css?v=18" />
   <style>
     html, body {
       margin: 0;
@@ -162,8 +162,8 @@
       align-items: center;
       justify-content: center;
       color: #fff;
-      box-shadow: 0 10px 24px rgba(56, 92, 187, 0.34);
-      background: linear-gradient(135deg, #2f66ff 0%, #7a33ff 100%);
+      background-image: linear-gradient(135deg, #6d4aff 0%, #8b5cf6 45%, #d946ef 100%);
+      box-shadow: 0 20px 40px -18px rgba(139, 92, 246, 0.65);
       flex-shrink: 0;
     }
 
@@ -919,7 +919,7 @@
 
       #how-it-works .lg\:sticky > .relative > div:first-child {
         position: absolute !important;
-        top: 26px !important;
+        top: -18px !important;
         left: 50% !important;
         right: auto !important;
         transform: translateX(-50%) !important;
@@ -935,7 +935,7 @@
       #how-it-works .lg\:sticky > .relative > div:nth-child(2) {
         width: 392px !important;
         height: 700px !important;
-        margin: 0 auto !important;
+        margin: 18px auto 0 !important;
       }
 
       #benefits .grid.lg\:grid-cols-3 > .group > div > .flex.flex-nowrap.items-center.gap-3.mb-7.min-w-0 {
@@ -1543,7 +1543,7 @@
       function loadBundle(reason) {
         attempts += 1;
         var script = document.createElement("script");
-        script.src = "./liza-app.js?v=17&try=" + attempts + "&ts=" + Date.now();
+        script.src = "./liza-app.js?v=18&try=" + attempts + "&ts=" + Date.now();
         script.async = false;
         script.onload = function () {
           scheduleRenderCheck("load-" + attempts);
