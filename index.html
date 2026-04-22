@@ -1524,7 +1524,7 @@
       function loadBundle(reason) {
         attempts += 1;
         var script = document.createElement("script");
-        script.src = "./liza-app.js?v=22&try=" + attempts;
+        script.src = "./liza-app.js?v=23&try=" + attempts;
         script.async = false;
         script.onload = function () {
           scheduleRenderCheck("load-" + attempts);
