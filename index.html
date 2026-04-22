@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Liza Bot Landing</title>
-  <link rel="stylesheet" href="./liza-app.css?v=18" />
+  <link rel="stylesheet" href="./liza-app.css?v=20" />
   <style>
     html, body {
       margin: 0;
@@ -155,21 +155,21 @@
     }
 
     .liza-outcome-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 16px;
+      width: 68px;
+      height: 68px;
+      border-radius: 22px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       color: #fff;
-      background-image: linear-gradient(135deg, #6d4aff 0%, #8b5cf6 45%, #d946ef 100%);
-      box-shadow: 0 20px 40px -18px rgba(139, 92, 246, 0.65);
+      background-image: linear-gradient(135deg, #4361ff 0%, #6d4aff 42%, #8b5cf6 76%, #d946ef 100%) !important;
+      box-shadow: 0 22px 44px -18px rgba(109, 74, 255, 0.58);
       flex-shrink: 0;
     }
 
     .liza-outcome-icon svg {
-      width: 26px;
-      height: 26px;
+      width: 32px;
+      height: 32px;
       stroke: currentColor;
     }
 
@@ -899,8 +899,8 @@
 
     @media (min-width: 1025px) {
       #how-it-works .grid.lg\:grid-cols-2 {
-        grid-template-columns: minmax(0, 1fr) 392px !important;
-        gap: 48px !important;
+        grid-template-columns: minmax(0, 1fr) 364px !important;
+        gap: 40px !important;
         align-items: start !important;
       }
 
@@ -912,14 +912,14 @@
       }
 
       #how-it-works .lg\:sticky > .relative {
-        width: 392px !important;
-        max-width: 392px !important;
-        margin: 18px auto 0 !important;
+        width: 348px !important;
+        max-width: 348px !important;
+        margin: 28px auto 0 !important;
       }
 
       #how-it-works .lg\:sticky > .relative > div:first-child {
         position: absolute !important;
-        top: -18px !important;
+        top: 8px !important;
         left: 50% !important;
         right: auto !important;
         transform: translateX(-50%) !important;
@@ -928,14 +928,14 @@
       }
 
       #how-it-works .lg\:sticky > .relative > div:first-child > div {
-        padding: 9px 15px !important;
-        font-size: 0.84rem !important;
+        padding: 8px 16px !important;
+        font-size: 0.8rem !important;
       }
 
       #how-it-works .lg\:sticky > .relative > div:nth-child(2) {
-        width: 392px !important;
-        height: 700px !important;
-        margin: 18px auto 0 !important;
+        width: 348px !important;
+        height: 620px !important;
+        margin: 64px auto 0 !important;
       }
 
       #benefits .grid.lg\:grid-cols-3 > .group > div > .flex.flex-nowrap.items-center.gap-3.mb-7.min-w-0 {
@@ -1493,16 +1493,9 @@
 </head>
   <body>
   <div id="liza-tilda-root"></div>
-  <div id="liza-bootstrap-overlay" style="position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;background:#f2f5fb;">
-    <div style="max-width:900px;width:100%;padding:32px 28px;border:1px solid #d8e5fb;border-radius:28px;background:#fff;box-shadow:0 16px 36px rgba(35,77,126,.12);font-family:Inter,system-ui,sans-serif;color:#13263a;">
-      <h1 style="margin:0 0 12px;font-size:32px;line-height:1.05;">Загружаем сайт</h1>
-      <p style="margin:0;font-size:18px;line-height:1.5;color:#42566f;">Если страница откроется не сразу, обновим сборку автоматически.</p>
-    </div>
-  </div>
   <script>
     (function () {
       var root = document.getElementById("liza-tilda-root");
-      var overlay = document.getElementById("liza-bootstrap-overlay");
       var attempts = 0;
       var maxAttempts = 2;
 
@@ -1511,25 +1504,13 @@
         return !!root.querySelector("*");
       }
 
-      function hideOverlay() {
-        if (overlay) overlay.style.display = "none";
-      }
-
       function showFatalState(reason) {
-        if (!overlay) return;
-        overlay.innerHTML =
-          '<div style="max-width:900px;width:100%;padding:32px 28px;border:1px solid #d8e5fb;border-radius:28px;background:#fff;box-shadow:0 16px 36px rgba(35,77,126,.12);font-family:Inter,system-ui,sans-serif;color:#13263a;">' +
-          '<h1 style="margin:0 0 12px;font-size:32px;line-height:1.05;">Сайт загружается с ошибкой</h1>' +
-          '<p style="margin:0 0 10px;font-size:18px;line-height:1.5;color:#42566f;">Основной скрипт страницы не смог корректно отрисовать контент.</p>' +
-          '<p style="margin:0;font-size:14px;line-height:1.5;color:#6b7c93;">Причина: ' + String(reason || "unknown") + '</p>' +
-          '</div>';
-        overlay.style.display = "flex";
+        console.error("[LIZA_BOOTSTRAP] fatal", reason || "unknown");
       }
 
       function scheduleRenderCheck(tag) {
         setTimeout(function () {
           if (hasRenderedContent()) {
-            hideOverlay();
             return;
           }
           if (attempts < maxAttempts) {
@@ -1543,7 +1524,7 @@
       function loadBundle(reason) {
         attempts += 1;
         var script = document.createElement("script");
-        script.src = "./liza-app.js?v=18&try=" + attempts + "&ts=" + Date.now();
+        script.src = "./liza-app.js?v=22&try=" + attempts;
         script.async = false;
         script.onload = function () {
           scheduleRenderCheck("load-" + attempts);
@@ -1621,7 +1602,7 @@
         if (!title) return;
         var html = config && config.heroTitleHtml
           ? config.heroTitleHtml
-          : 'Лиза<span class="liza-gradient-bot-text">Бот</span>';
+          : 'Р›РёР·Р°<span class="liza-gradient-bot-text">Р‘РѕС‚</span>';
         if (title.innerHTML !== html) title.innerHTML = html;
       }
 
@@ -1638,29 +1619,26 @@
       }
 
       function ensureOutcomeIcon() {
-        var titles = root ? root.querySelectorAll("#proof h3, #proof .liza-outcome-title") : null;
-        var titleNode = null;
-        var iconHost = null;
-        if (titles && titles.length) {
-          Array.prototype.some.call(titles, function (title) {
-            var text = (title.textContent || "").toLowerCase();
-            if (text.indexOf("администратор тратит меньше времени") === -1) return false;
-            titleNode = title;
-            return true;
-          });
-        }
-        if (!titleNode) return;
-        iconHost = titleNode.previousElementSibling;
-        if (!iconHost || !iconHost.tagName || iconHost.querySelector && iconHost.querySelector("h3")) {
-          iconHost = document.createElement("div");
-          titleNode.parentNode.insertBefore(iconHost, titleNode);
-        }
-        iconHost.className = "mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-violet-600 text-white shadow-lg liza-outcome-icon";
-        iconHost.innerHTML =
-          '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-          '<path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>' +
-          '<path d="M9 17a3 3 0 0 0 6 0"></path>' +
-          '</svg>';
+        if (!root) return;
+        var cards = root.querySelectorAll("#proof .liza-outcome-card, #proof .md\\:grid-cols-2 > div");
+        if (!cards || !cards.length) return;
+        var icons = [
+          '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2-2h1l1-2h8l1 2h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"></path><circle cx="12" cy="13" r="3"></circle><path d="M8 9h.01"></path></svg>',
+          '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M9 17a3 3 0 0 0 6 0"></path></svg>',
+          '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h7l-1 8 10-12h-7z"></path></svg>',
+          '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M9 17a3 3 0 0 0 6 0"></path></svg>'
+        ];
+
+        Array.prototype.forEach.call(cards, function (card, index) {
+          if (!card) return;
+          var iconHost = card.querySelector(".liza-outcome-icon, .mb-5.inline-flex, .mb-4.inline-flex");
+          if (!iconHost) {
+            iconHost = document.createElement("div");
+            card.insertBefore(iconHost, card.firstChild);
+          }
+          iconHost.className = "liza-outcome-icon mb-5 inline-flex items-center justify-center";
+          iconHost.innerHTML = icons[index] || icons[1];
+        });
       }
 
       function applyConfig() {
@@ -1703,9 +1681,9 @@
 
       function isLeadTriggerText(text) {
         var value = (text || "").trim().toLowerCase();
-        return value.indexOf("начать тест 3 дня") !== -1 ||
-          value.indexOf("запустить бесплатно на 3 дня") !== -1 ||
-          value.indexOf("получить расчёт и запуск") !== -1;
+        return value.indexOf("РЅР°С‡Р°С‚СЊ С‚РµСЃС‚ 3 РґРЅСЏ") !== -1 ||
+          value.indexOf("Р·Р°РїСѓСЃС‚РёС‚СЊ Р±РµСЃРїР»Р°С‚РЅРѕ РЅР° 3 РґРЅСЏ") !== -1 ||
+          value.indexOf("РїРѕР»СѓС‡РёС‚СЊ СЂР°СЃС‡С‘С‚ Рё Р·Р°РїСѓСЃРє") !== -1;
       }
 
       function openLeadForm() {
@@ -1869,10 +1847,10 @@
         for (var i = 0; i < buttons.length; i += 1) {
           var button = buttons[i];
           var text = getButtonText(button);
-          if (text !== "да" && text !== "нет") continue;
+          if (text !== "РґР°" && text !== "РЅРµС‚") continue;
           var className = button.className || "";
           if (className.indexOf("border-blue-500") !== -1 || className.indexOf("bg-blue-50") !== -1) {
-            return text === "да" ? "Да" : "Нет";
+            return text === "РґР°" ? "Р”Р°" : "РќРµС‚";
           }
         }
         return "";
@@ -1888,7 +1866,7 @@
         lastLeadSubmitAt = now;
         activeLeadForm = form;
         clearTimeout(leadAckTimer);
-        setLeadFormState(form, "submitting", "Отправляем заявку…");
+        setLeadFormState(form, "submitting", "РћС‚РїСЂР°РІР»СЏРµРј Р·Р°СЏРІРєСѓвЂ¦");
         var payload = collectLeadPayload(form);
         logLead("submit:payload-collected", payload);
         try {
@@ -1896,16 +1874,16 @@
           logLead("submit:payload-posted");
           leadAckTimer = setTimeout(function () {
             if (activeLeadForm === form) {
-              setLeadFormState(form, "error", "Не удалось отправить заявку. Попробуйте ещё раз.");
+              setLeadFormState(form, "error", "РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РїСЂР°РІРёС‚СЊ Р·Р°СЏРІРєСѓ. РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰С‘ СЂР°Р·.");
             }
           }, 7000);
         } catch (_e) {}
       }
 
       function collectLeadPayload(form) {
-        var phoneField = resolveNamedField(form, ["phone", "телефон"], "tel") || resolveNamedField(form, ["phone", "телефон"]);
-        var nameField = resolveNamedField(form, ["name", "имя", "ваше имя"], "text");
-        var salonField = resolveNamedField(form, ["salon_name", "название салона", "салон"], "text");
+        var phoneField = resolveNamedField(form, ["phone", "С‚РµР»РµС„РѕРЅ"], "tel") || resolveNamedField(form, ["phone", "С‚РµР»РµС„РѕРЅ"]);
+        var nameField = resolveNamedField(form, ["name", "РёРјСЏ", "РІР°С€Рµ РёРјСЏ"], "text");
+        var salonField = resolveNamedField(form, ["salon_name", "РЅР°Р·РІР°РЅРёРµ СЃР°Р»РѕРЅР°", "СЃР°Р»РѕРЅ"], "text");
         var quoteField = form.querySelector('input[name="quote_summary"]');
         var quoteState = getQuoteState() || {};
         logLead("submit:field-match", {
@@ -1925,7 +1903,7 @@
           channelsCount: quoteState.channelsCount || "",
           monthlyResult: quoteState.monthlyResult || "",
           selectedChannels: quoteState.selectedChannels || "",
-          yearlyBilling: quoteState.yearlyBilling ? "Да" : "Нет",
+          yearlyBilling: quoteState.yearlyBilling ? "Р”Р°" : "РќРµС‚",
           sourcePage: window.location.href,
           submittedAt: new Date().toLocaleString("ru-RU")
         };
@@ -1946,16 +1924,16 @@
         if (!activeLeadForm) return;
         clearTimeout(leadAckTimer);
         if (data.status === "success") {
-          setLeadFormState(activeLeadForm, "success", data.message || "Ваша заявка отправлена, скоро мы с вами свяжемся.");
+          setLeadFormState(activeLeadForm, "success", data.message || "Р’Р°С€Р° Р·Р°СЏРІРєР° РѕС‚РїСЂР°РІР»РµРЅР°, СЃРєРѕСЂРѕ РјС‹ СЃ РІР°РјРё СЃРІСЏР¶РµРјСЃСЏ.");
           logLead("submit:success", data);
           return;
         }
         if (data.status === "submitting") {
-          setLeadFormState(activeLeadForm, "submitting", data.message || "Отправляем заявку…");
+          setLeadFormState(activeLeadForm, "submitting", data.message || "РћС‚РїСЂР°РІР»СЏРµРј Р·Р°СЏРІРєСѓвЂ¦");
           logLead("submit:bridge-submitting", data);
           return;
         }
-        setLeadFormState(activeLeadForm, "error", data.message || "Не удалось отправить заявку.");
+        setLeadFormState(activeLeadForm, "error", data.message || "РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РїСЂР°РІРёС‚СЊ Р·Р°СЏРІРєСѓ.");
         logLead("submit:error", data);
       });
     })();
@@ -2007,4 +1985,5 @@
   </script>
 </body>
 </html>
+
 
