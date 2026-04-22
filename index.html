@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Liza Bot Landing</title>
-  <link rel="stylesheet" href="./liza-app.css?v=16" />
+  <link rel="stylesheet" href="./liza-app.css?v=17" />
   <style>
     html, body {
       margin: 0;
@@ -897,6 +897,78 @@
       justify-self: end !important;
     }
 
+    @media (min-width: 1025px) {
+      #how-it-works .grid.lg\:grid-cols-2 {
+        grid-template-columns: minmax(0, 1fr) 392px !important;
+        gap: 48px !important;
+        align-items: start !important;
+      }
+
+      #how-it-works .lg\:sticky {
+        position: relative !important;
+        top: auto !important;
+        display: flex !important;
+        justify-content: center !important;
+      }
+
+      #how-it-works .lg\:sticky > .relative {
+        width: 392px !important;
+        max-width: 392px !important;
+        margin: 18px auto 0 !important;
+      }
+
+      #how-it-works .lg\:sticky > .relative > div:first-child {
+        position: absolute !important;
+        top: 26px !important;
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%) !important;
+        z-index: 20 !important;
+        margin: 0 !important;
+      }
+
+      #how-it-works .lg\:sticky > .relative > div:first-child > div {
+        padding: 9px 15px !important;
+        font-size: 0.84rem !important;
+      }
+
+      #how-it-works .lg\:sticky > .relative > div:nth-child(2) {
+        width: 392px !important;
+        height: 700px !important;
+        margin: 0 auto !important;
+      }
+
+      #benefits .grid.lg\:grid-cols-3 > .group > div > .flex.flex-nowrap.items-center.gap-3.mb-7.min-w-0 {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        gap: 14px !important;
+        margin-bottom: 22px !important;
+      }
+
+      #benefits .grid.lg\:grid-cols-3 > .group > div > .flex.flex-nowrap.items-center.gap-3.mb-7.min-w-0 > .relative.flex-shrink-0 > div {
+        width: 68px !important;
+        height: 68px !important;
+      }
+
+      #benefits .grid.lg\:grid-cols-3 > .group > div > .flex.flex-nowrap.items-center.gap-3.mb-7.min-w-0 > .relative.flex-shrink-0 svg {
+        width: 32px !important;
+        height: 32px !important;
+      }
+
+      #benefits .grid.lg\:grid-cols-3 > .group > div > .flex.flex-nowrap.items-center.gap-3.mb-7.min-w-0 > .inline-flex.items-center.min-w-0.flex-1 {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 8px 14px !important;
+      }
+
+      #benefits .grid.lg\:grid-cols-3 > .group > div > .flex.flex-nowrap.items-center.gap-3.mb-7.min-w-0 > .inline-flex.items-center.min-w-0.flex-1 span {
+        font-size: 0.92rem !important;
+        line-height: 1.15 !important;
+      }
+    }
+
     @media (max-width: 1180px) {
       #hero .liza-hero-title {
         font-size: clamp(52px, 5.6vw, 76px) !important;
@@ -1471,7 +1543,7 @@
       function loadBundle(reason) {
         attempts += 1;
         var script = document.createElement("script");
-        script.src = "./liza-app.js?v=16&try=" + attempts + "&ts=" + Date.now();
+        script.src = "./liza-app.js?v=17&try=" + attempts + "&ts=" + Date.now();
         script.async = false;
         script.onload = function () {
           scheduleRenderCheck("load-" + attempts);
@@ -1567,18 +1639,23 @@
 
       function ensureOutcomeIcon() {
         var titles = root ? root.querySelectorAll("#proof h3, #proof .liza-outcome-title") : null;
+        var titleNode = null;
         var iconHost = null;
         if (titles && titles.length) {
           Array.prototype.some.call(titles, function (title) {
             var text = (title.textContent || "").toLowerCase();
             if (text.indexOf("администратор тратит меньше времени") === -1) return false;
-            var previous = title.previousElementSibling;
-            if (!previous || !previous.tagName) return false;
-            iconHost = previous;
+            titleNode = title;
             return true;
           });
         }
-        if (!iconHost) return;
+        if (!titleNode) return;
+        iconHost = titleNode.previousElementSibling;
+        if (!iconHost || !iconHost.tagName || iconHost.querySelector && iconHost.querySelector("h3")) {
+          iconHost = document.createElement("div");
+          titleNode.parentNode.insertBefore(iconHost, titleNode);
+        }
+        iconHost.className = "mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-violet-600 text-white shadow-lg liza-outcome-icon";
         iconHost.innerHTML =
           '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
           '<path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>' +
@@ -1930,3 +2007,4 @@
   </script>
 </body>
 </html>
+
