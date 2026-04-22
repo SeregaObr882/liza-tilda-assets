@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Liza Bot Landing</title>
-  <link rel="stylesheet" href="./liza-app.css?v=14" />
+  <link rel="stylesheet" href="./liza-app.css?v=16" />
   <style>
     html, body {
       margin: 0;
@@ -1471,7 +1471,7 @@
       function loadBundle(reason) {
         attempts += 1;
         var script = document.createElement("script");
-        script.src = "./liza-app.js?v=14&try=" + attempts + "&ts=" + Date.now();
+        script.src = "./liza-app.js?v=16&try=" + attempts + "&ts=" + Date.now();
         script.async = false;
         script.onload = function () {
           scheduleRenderCheck("load-" + attempts);
@@ -1566,29 +1566,23 @@
       }
 
       function ensureOutcomeIcon() {
-        var cards = root ? root.querySelectorAll("#proof .liza-outcome-card") : null;
+        var titles = root ? root.querySelectorAll("#proof h3, #proof .liza-outcome-title") : null;
         var iconHost = null;
-        if (cards && cards.length) {
-          Array.prototype.some.call(cards, function (card) {
-            var title = card.querySelector(".liza-outcome-title");
-            if (!title) return false;
+        if (titles && titles.length) {
+          Array.prototype.some.call(titles, function (title) {
             var text = (title.textContent || "").toLowerCase();
             if (text.indexOf("администратор тратит меньше времени") === -1) return false;
-            iconHost = card.querySelector(".liza-outcome-icon");
-            return !!iconHost;
+            var previous = title.previousElementSibling;
+            if (!previous || !previous.tagName) return false;
+            iconHost = previous;
+            return true;
           });
         }
         if (!iconHost) return;
         iconHost.innerHTML =
           '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-          '<path d="M12 2v6"></path>' +
-          '<path d="M12 22v-2"></path>' +
-          '<path d="M4.93 4.93l4.24 4.24"></path>' +
-          '<path d="M14.83 14.83l4.24 4.24"></path>' +
-          '<path d="M2 12h2"></path>' +
-          '<path d="M20 12h2"></path>' +
-          '<path d="M6.34 17.66l-1.41 1.41"></path>' +
-          '<path d="M17.66 6.34l1.41-1.41"></path>' +
+          '<path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path>' +
+          '<path d="M9 17a3 3 0 0 0 6 0"></path>' +
           '</svg>';
       }
 
