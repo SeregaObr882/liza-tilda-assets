@@ -498,9 +498,9 @@
     }
 
     .liza-footer-docs {
-      width: min(100%, 680px);
-      margin-top: 4px;
-      padding-top: 14px;
+      width: min(100%, 560px);
+      margin-top: 2px;
+      padding-top: 12px;
       border-top: 1px solid #dbe6f6;
     }
 
@@ -541,6 +541,7 @@
       text-decoration: none;
       box-shadow: 0 8px 18px rgba(54, 84, 132, 0.08);
       transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+      text-align: center;
     }
 
     .liza-footer-docs-list a:hover {
@@ -913,9 +914,9 @@
 
     #footer .liza-footer-grid {
       display: grid !important;
-      grid-template-columns: 1fr auto 1fr !important;
-      gap: 26px !important;
-      align-items: center !important;
+      grid-template-columns: minmax(180px, 1fr) minmax(0, 560px) minmax(180px, 1fr) !important;
+      gap: 32px !important;
+      align-items: start !important;
       max-width: 1120px !important;
       margin: 0 auto !important;
     }
@@ -927,6 +928,7 @@
       gap: 10px !important;
       font-size: 15px !important;
       line-height: 1.35 !important;
+      max-width: 220px !important;
     }
 
     #footer .liza-footer-left {
@@ -935,14 +937,16 @@
     }
 
     #footer .liza-footer-center {
+      display: grid !important;
+      justify-items: center !important;
       text-align: center !important;
       justify-self: center !important;
       gap: 14px !important;
+      width: 100% !important;
     }
 
     #footer .liza-footer-center > a {
-      font-size: 16px !important;
-      font-weight: 500 !important;
+      display: none !important;
     }
 
     #footer .liza-footer-docs {
