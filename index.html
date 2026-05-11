@@ -498,44 +498,56 @@
     }
 
     .liza-footer-docs {
-      width: min(100%, 430px);
-      margin-top: 6px;
-      padding: 18px 18px 16px;
-      border: 1px solid #dbe6f6;
-      border-radius: 22px;
-      background:
-        radial-gradient(circle at top right, rgba(126, 92, 255, 0.08), transparent 46%),
-        #f9fbff;
-      box-shadow: 0 14px 34px rgba(31, 52, 96, 0.08);
+      width: min(100%, 680px);
+      margin-top: 4px;
+      padding-top: 14px;
+      border-top: 1px solid #dbe6f6;
     }
 
     .liza-footer-docs-title {
       margin: 0 0 12px;
       color: #13253a;
-      font-size: 0.96rem;
+      font-size: 0.82rem;
       font-weight: 800;
-      letter-spacing: 0.01em;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.68;
     }
 
     .liza-footer-docs-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px 12px;
       margin: 0;
       padding: 0;
       list-style: none;
     }
 
     .liza-footer-docs-list a {
-      color: #2a64d1;
-      font-size: 0.94rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 9px 16px;
+      border: 1px solid #d9e4fb;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      color: #284f94;
+      font-size: 0.9rem;
       font-weight: 500;
       line-height: 1.35;
       text-decoration: none;
+      box-shadow: 0 8px 18px rgba(54, 84, 132, 0.08);
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease, color 0.16s ease;
     }
 
     .liza-footer-docs-list a:hover {
       color: #4f43e3;
+      border-color: #c8d9fb;
+      box-shadow: 0 12px 24px rgba(54, 84, 132, 0.12);
+      transform: translateY(-1px);
     }
 
     .liza-footer-socials {
@@ -1127,10 +1139,11 @@
       #footer .liza-footer-docs {
         width: 100% !important;
         max-width: 540px !important;
-        margin: 4px auto 0 !important;
+        margin: 2px auto 0 !important;
       }
 
       #footer .liza-footer-docs-list {
+        display: grid !important;
         grid-template-columns: 1fr !important;
       }
     }
@@ -1676,6 +1689,14 @@
       function ensureFooterDocuments() {
         var footerCenter = query("#footer .liza-footer-center");
         if (!footerCenter) return;
+
+        Array.prototype.forEach.call(footerCenter.querySelectorAll(":scope > a.liza-footer-link"), function (link) {
+          var href = (link.getAttribute("href") || "").trim();
+          var text = (link.textContent || "").trim().toLowerCase();
+          if (href === "/privacy" || href === "https://liza-ai-admin.ru/privacy" || text === "политика конфиденциальности") {
+            link.remove();
+          }
+        });
 
         var docsRoot = footerCenter.querySelector(".liza-footer-docs");
         if (!docsRoot) {
