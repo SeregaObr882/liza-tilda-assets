@@ -497,6 +497,47 @@
       color: #2a64d1;
     }
 
+    .liza-footer-docs {
+      width: min(100%, 430px);
+      margin-top: 6px;
+      padding: 18px 18px 16px;
+      border: 1px solid #dbe6f6;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at top right, rgba(126, 92, 255, 0.08), transparent 46%),
+        #f9fbff;
+      box-shadow: 0 14px 34px rgba(31, 52, 96, 0.08);
+    }
+
+    .liza-footer-docs-title {
+      margin: 0 0 12px;
+      color: #13253a;
+      font-size: 0.96rem;
+      font-weight: 800;
+      letter-spacing: 0.01em;
+    }
+
+    .liza-footer-docs-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 14px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .liza-footer-docs-list a {
+      color: #2a64d1;
+      font-size: 0.94rem;
+      font-weight: 500;
+      line-height: 1.35;
+      text-decoration: none;
+    }
+
+    .liza-footer-docs-list a:hover {
+      color: #4f43e3;
+    }
+
     .liza-footer-socials {
       display: inline-flex;
       align-items: center;
@@ -892,6 +933,10 @@
       font-weight: 500 !important;
     }
 
+    #footer .liza-footer-docs {
+      justify-self: center !important;
+    }
+
     #footer .liza-footer-right {
       text-align: right !important;
       justify-self: end !important;
@@ -1077,6 +1122,16 @@
       #footer .liza-footer-right {
         text-align: center !important;
         justify-self: center !important;
+      }
+
+      #footer .liza-footer-docs {
+        width: 100% !important;
+        max-width: 540px !important;
+        margin: 4px auto 0 !important;
+      }
+
+      #footer .liza-footer-docs-list {
+        grid-template-columns: 1fr !important;
       }
     }
 
@@ -1618,6 +1673,28 @@
         }
       }
 
+      function ensureFooterDocuments() {
+        var footerCenter = query("#footer .liza-footer-center");
+        if (!footerCenter) return;
+
+        var docsRoot = footerCenter.querySelector(".liza-footer-docs");
+        if (!docsRoot) {
+          docsRoot = document.createElement("section");
+          docsRoot.className = "liza-footer-docs";
+          docsRoot.setAttribute("aria-label", "Документы");
+          docsRoot.innerHTML =
+            '<h3 class="liza-footer-docs-title">Документы</h3>' +
+            '<ul class="liza-footer-docs-list">' +
+              '<li><a href="https://liza-ai-admin.ru/privacy" target="_top" rel="noopener">Политика конфиденциальности</a></li>' +
+              '<li><a href="https://liza-ai-admin.ru/personal-data-consent" target="_top" rel="noopener">Согласие на обработку ПД</a></li>' +
+              '<li><a href="https://liza-ai-admin.ru/marketing-consent" target="_top" rel="noopener">Согласие на рекламно-информационные рассылки</a></li>' +
+              '<li><a href="https://liza-ai-admin.ru/offer" target="_top" rel="noopener">Публичная оферта</a></li>' +
+              '<li><a href="https://liza-ai-admin.ru/refund" target="_top" rel="noopener">Возвраты</a></li>' +
+            '</ul>';
+          footerCenter.appendChild(docsRoot);
+        }
+      }
+
       function ensureOutcomeIcon() {
         if (!root) return;
         var cards = root.querySelectorAll("#proof .liza-outcome-card, #proof .md\\:grid-cols-2 > div");
@@ -1646,6 +1723,7 @@
         if (latestConfig && latestConfig.fullTextMap) applyTextNodeMap(latestConfig.fullTextMap);
         ensureHeroTitle(latestConfig);
         ensureWhatsappMeta(latestConfig);
+        ensureFooterDocuments();
         ensureOutcomeIcon();
       }
 
