@@ -339,23 +339,51 @@
     .liza-ms-icon--whatsapp::after {
       content: "*";
       position: absolute;
-      top: -6px;
-      right: -2px;
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
       display: grid;
       place-items: center;
-      font-size: 13px;
+      width: 14px;
+      height: 14px;
+      font-size: 15px;
       font-weight: 900;
       line-height: 1;
-      color: #ffffff;
-      background: rgba(10, 18, 42, 0.78);
-      box-shadow: 0 8px 18px rgba(10, 18, 42, 0.22);
+      color: #0f172a;
+      text-shadow: 0 1px 0 #ffffff, 0 0 6px rgba(255, 255, 255, 0.92);
+      z-index: 2;
     }
     .liza-ms-icon--vk { background: linear-gradient(135deg, #3a6fe8 0%, #2855c3 100%); }
     .liza-ms-icon--max { background: linear-gradient(135deg, #5f7cff 0%, #7c3bff 100%); }
     .liza-ms-icon--default { background: linear-gradient(135deg, #4f7fff 0%, #5a62d4 100%); }
+
+    .liza-whatsapp-icon-host {
+      position: relative !important;
+      overflow: visible !important;
+    }
+
+    .liza-whatsapp-icon-star {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: grid;
+      place-items: center;
+      width: 14px;
+      height: 14px;
+      color: #0f172a;
+      font-size: 15px;
+      font-weight: 900;
+      line-height: 1;
+      pointer-events: none;
+      text-shadow: 0 1px 0 #ffffff, 0 0 6px rgba(255, 255, 255, 0.92);
+      z-index: 3;
+    }
+
+    .liza-whatsapp-icon-host--wide > .liza-whatsapp-icon-star {
+      top: 7px;
+      left: 35px;
+    }
 
     .liza-ms-item.active {
       border-color: #5692ff;
@@ -1751,11 +1779,11 @@
       }
 
       function normalizeWhatsappString(value) {
-        if (!value || value.indexOf("Whats") === -1 && value.indexOf("App") === -1) return value;
+        if (!value || !/(what(?:’|')?s\s*app|whats\s*app|whatsapp)/i.test(value)) return value;
         return value
-          .replace(/What(?:’|')?s\s*App\*?/g, "WhatsApp*")
-          .replace(/Whats\s*App\*?/g, "WhatsApp*")
-          .replace(/WhatsApp(?!\*)/g, "WhatsApp*");
+          .replace(/What(?:’|')?s\s*App\*?/gi, "WhatsApp*")
+          .replace(/Whats\s*App\*?/gi, "WhatsApp*")
+          .replace(/WhatsApp(?!\*)/gi, "WhatsApp*");
       }
 
       function ensureWhatsappMentions() {
@@ -1763,7 +1791,7 @@
 
         var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
           acceptNode: function (node) {
-            if (!node || !node.nodeValue || node.nodeValue.indexOf("Whats") === -1) return NodeFilter.FILTER_REJECT;
+            if (!node || !node.nodeValue || !/(what(?:’|')?s\s*app|whats\s*app|whatsapp)/i.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
             var parent = node.parentElement;
             if (parent && /^(SCRIPT|STYLE|NOSCRIPT)$/.test(parent.tagName)) return NodeFilter.FILTER_REJECT;
             return NodeFilter.FILTER_ACCEPT;
@@ -1783,6 +1811,35 @@
           if (next && next !== placeholder) {
             field.setAttribute("placeholder", next);
           }
+        });
+      }
+
+      function ensureWhatsappIconStars() {
+        if (!root) return;
+        var icons = root.querySelectorAll('img[alt]');
+        Array.prototype.forEach.call(icons, function (icon) {
+          var alt = normalizeWhatsappString(icon.getAttribute("alt") || "");
+          if (alt !== "WhatsApp*") return;
+          if (icon.getAttribute("alt") !== alt) icon.setAttribute("alt", alt);
+
+          var host = icon.parentElement;
+          if (!host) return;
+          host.classList.add("liza-whatsapp-icon-host");
+          if ((host.textContent || "").trim()) {
+            host.classList.add("liza-whatsapp-icon-host--wide");
+          }
+
+          var exists = false;
+          Array.prototype.forEach.call(host.children || [], function (child) {
+            if (child.classList && child.classList.contains("liza-whatsapp-icon-star")) exists = true;
+          });
+          if (exists) return;
+
+          var star = document.createElement("span");
+          star.className = "liza-whatsapp-icon-star";
+          star.setAttribute("aria-hidden", "true");
+          star.textContent = "*";
+          host.appendChild(star);
         });
       }
 
@@ -1813,6 +1870,7 @@
         if (!root || !root.querySelector("*")) return;
         if (latestConfig && latestConfig.fullTextMap) applyTextNodeMap(latestConfig.fullTextMap);
         ensureWhatsappMentions();
+        ensureWhatsappIconStars();
         ensureHeroTitle(latestConfig);
         ensureWhatsappMeta(latestConfig);
         ensureFooterDocuments();
