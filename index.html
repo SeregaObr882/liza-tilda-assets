@@ -334,6 +334,23 @@
 
     .liza-ms-icon--telegram { background: linear-gradient(135deg, #2aabee 0%, #1b7fd6 100%); }
     .liza-ms-icon--whatsapp { background: linear-gradient(135deg, #2ec866 0%, #1d9a4c 100%); }
+    .liza-ms-icon--whatsapp::after {
+      content: "*";
+      position: absolute;
+      top: -6px;
+      right: -2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1;
+      color: #ffffff;
+      background: rgba(10, 18, 42, 0.78);
+      box-shadow: 0 8px 18px rgba(10, 18, 42, 0.22);
+    }
     .liza-ms-icon--vk { background: linear-gradient(135deg, #3a6fe8 0%, #2855c3 100%); }
     .liza-ms-icon--max { background: linear-gradient(135deg, #5f7cff 0%, #7c3bff 100%); }
     .liza-ms-icon--default { background: linear-gradient(135deg, #4f7fff 0%, #5a62d4 100%); }
@@ -1605,7 +1622,7 @@
       function loadBundle(reason) {
         attempts += 1;
         var script = document.createElement("script");
-        script.src = "./liza-app.js?v=23&try=" + attempts;
+        script.src = "./liza-app.js?v=24&try=" + attempts;
         script.async = false;
         script.onload = function () {
           scheduleRenderCheck("load-" + attempts);
@@ -1689,31 +1706,6 @@
 
       function ensureWhatsappMeta(config) {
         var footerCenter = query("#footer .liza-footer-center");
-        if (!root) return;
-
-        var textPattern = /\bWhatsApp\*?\b|\bWhat['’]s App\*?\b|\bWhats App\*?\b/g;
-        var replacement = "WhatsApp*";
-
-        Array.prototype.forEach.call(root.querySelectorAll("*"), function (node) {
-          if (!node || node.closest("#footer .liza-whatsapp-footnote")) return;
-          if (node.tagName === "SCRIPT" || node.tagName === "STYLE") return;
-          Array.prototype.forEach.call(node.childNodes || [], function (child) {
-            if (!child || child.nodeType !== 3) return;
-            var value = child.nodeValue;
-            if (!value || !textPattern.test(value)) return;
-            child.nodeValue = value.replace(textPattern, replacement);
-            textPattern.lastIndex = 0;
-          });
-
-          if (node.matches && node.matches("input[placeholder], textarea[placeholder]")) {
-            var placeholder = node.getAttribute("placeholder") || "";
-            if (textPattern.test(placeholder)) {
-              node.setAttribute("placeholder", placeholder.replace(textPattern, replacement));
-            }
-            textPattern.lastIndex = 0;
-          }
-        });
-
         if (!footerCenter) return;
 
         var note = footerCenter.querySelector(".liza-whatsapp-footnote");
