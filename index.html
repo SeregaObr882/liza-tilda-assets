@@ -330,6 +330,8 @@
       letter-spacing: 0.01em;
       box-shadow: 0 6px 14px rgba(46, 74, 130, 0.22);
       flex-shrink: 0;
+      position: relative;
+      overflow: visible;
     }
 
     .liza-ms-icon--telegram { background: linear-gradient(135deg, #2aabee 0%, #1b7fd6 100%); }
@@ -1748,6 +1750,42 @@
         });
       }
 
+      function normalizeWhatsappString(value) {
+        if (!value || value.indexOf("Whats") === -1 && value.indexOf("App") === -1) return value;
+        return value
+          .replace(/What(?:’|')?s\s*App\*?/g, "WhatsApp*")
+          .replace(/Whats\s*App\*?/g, "WhatsApp*")
+          .replace(/WhatsApp(?!\*)/g, "WhatsApp*");
+      }
+
+      function ensureWhatsappMentions() {
+        if (!root) return;
+
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+          acceptNode: function (node) {
+            if (!node || !node.nodeValue || node.nodeValue.indexOf("Whats") === -1) return NodeFilter.FILTER_REJECT;
+            var parent = node.parentElement;
+            if (parent && /^(SCRIPT|STYLE|NOSCRIPT)$/.test(parent.tagName)) return NodeFilter.FILTER_REJECT;
+            return NodeFilter.FILTER_ACCEPT;
+          }
+        });
+
+        var current;
+        while ((current = walker.nextNode())) {
+          var next = normalizeWhatsappString(current.nodeValue);
+          if (next !== current.nodeValue) current.nodeValue = next;
+        }
+
+        var fields = root.querySelectorAll("input[placeholder], textarea[placeholder]");
+        Array.prototype.forEach.call(fields, function (field) {
+          var placeholder = field.getAttribute("placeholder");
+          var next = normalizeWhatsappString(placeholder);
+          if (next && next !== placeholder) {
+            field.setAttribute("placeholder", next);
+          }
+        });
+      }
+
       function ensureOutcomeIcon() {
         if (!root) return;
         var cards = root.querySelectorAll("#proof .liza-outcome-card, #proof .md\\:grid-cols-2 > div");
@@ -1774,6 +1812,7 @@
       function applyConfig() {
         if (!root || !root.querySelector("*")) return;
         if (latestConfig && latestConfig.fullTextMap) applyTextNodeMap(latestConfig.fullTextMap);
+        ensureWhatsappMentions();
         ensureHeroTitle(latestConfig);
         ensureWhatsappMeta(latestConfig);
         ensureFooterDocuments();
