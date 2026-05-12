@@ -498,9 +498,9 @@
     }
 
     .liza-footer-docs {
-      width: min(100%, 560px);
+      width: min(100%, 500px);
       margin-top: 2px;
-      padding-top: 12px;
+      padding-top: 10px;
       border-top: 1px solid #dbe6f6;
     }
 
@@ -529,13 +529,13 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 42px;
-      padding: 9px 16px;
+      min-height: 38px;
+      padding: 7px 14px;
       border: 1px solid #d9e4fb;
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.92);
       color: #284f94;
-      font-size: 0.9rem;
+      font-size: 0.86rem;
       font-weight: 500;
       line-height: 1.35;
       text-decoration: none;
@@ -914,8 +914,8 @@
 
     #footer .liza-footer-grid {
       display: grid !important;
-      grid-template-columns: minmax(180px, 1fr) minmax(0, 560px) minmax(180px, 1fr) !important;
-      gap: 32px !important;
+      grid-template-columns: minmax(170px, 1fr) minmax(0, 500px) minmax(170px, 1fr) !important;
+      gap: 28px !important;
       align-items: start !important;
       max-width: 1120px !important;
       margin: 0 auto !important;
@@ -928,7 +928,7 @@
       gap: 10px !important;
       font-size: 15px !important;
       line-height: 1.35 !important;
-      max-width: 220px !important;
+      max-width: 200px !important;
     }
 
     #footer .liza-footer-left {
@@ -1141,10 +1141,10 @@
       }
 
       #footer .liza-footer-docs {
-        width: 100% !important;
-        max-width: 540px !important;
-        margin: 2px auto 0 !important;
-      }
+      width: 100% !important;
+      max-width: 500px !important;
+      margin: 2px auto 0 !important;
+    }
 
       #footer .liza-footer-docs-list {
         display: grid !important;
@@ -1694,14 +1694,6 @@
         var footerCenter = query("#footer .liza-footer-center");
         if (!footerCenter) return;
 
-        Array.prototype.forEach.call(footerCenter.querySelectorAll(":scope > a.liza-footer-link"), function (link) {
-          var href = (link.getAttribute("href") || "").trim();
-          var text = (link.textContent || "").trim().toLowerCase();
-          if (href === "/privacy" || href === "https://liza-ai-admin.ru/privacy" || text === "политика конфиденциальности") {
-            link.remove();
-          }
-        });
-
         var docsRoot = footerCenter.querySelector(".liza-footer-docs");
         if (!docsRoot) {
           docsRoot = document.createElement("section");
@@ -1718,6 +1710,15 @@
             '</ul>';
           footerCenter.appendChild(docsRoot);
         }
+
+        Array.prototype.forEach.call(footerCenter.querySelectorAll("*"), function (node) {
+          if (!node || node === docsRoot || docsRoot.contains(node)) return;
+          var text = (node.textContent || "").trim().toLowerCase();
+          var href = node.getAttribute ? (node.getAttribute("href") || "").trim() : "";
+          if (text === "политика конфиденциальности" || href === "/privacy" || href === "https://liza-ai-admin.ru/privacy") {
+            node.remove();
+          }
+        });
       }
 
       function ensureOutcomeIcon() {
