@@ -551,6 +551,15 @@
       transform: translateY(-1px);
     }
 
+    .liza-whatsapp-footnote {
+      max-width: 620px;
+      margin: 12px auto 0;
+      color: #5f6f86;
+      font-size: 0.78rem;
+      line-height: 1.45;
+      text-align: center;
+    }
+
     .liza-footer-socials {
       display: inline-flex;
       align-items: center;
@@ -1680,14 +1689,40 @@
 
       function ensureWhatsappMeta(config) {
         var footerCenter = query("#footer .liza-footer-center");
+        if (!root) return;
+
+        var textPattern = /\bWhatsApp\*?\b|\bWhat['’]s App\*?\b|\bWhats App\*?\b/g;
+        var replacement = "WhatsApp*";
+
+        Array.prototype.forEach.call(root.querySelectorAll("*"), function (node) {
+          if (!node || node.closest("#footer .liza-whatsapp-footnote")) return;
+          if (node.tagName === "SCRIPT" || node.tagName === "STYLE") return;
+          Array.prototype.forEach.call(node.childNodes || [], function (child) {
+            if (!child || child.nodeType !== 3) return;
+            var value = child.nodeValue;
+            if (!value || !textPattern.test(value)) return;
+            child.nodeValue = value.replace(textPattern, replacement);
+            textPattern.lastIndex = 0;
+          });
+
+          if (node.matches && node.matches("input[placeholder], textarea[placeholder]")) {
+            var placeholder = node.getAttribute("placeholder") || "";
+            if (textPattern.test(placeholder)) {
+              node.setAttribute("placeholder", placeholder.replace(textPattern, replacement));
+            }
+            textPattern.lastIndex = 0;
+          }
+        });
+
         if (!footerCenter) return;
 
-        var whatsappLink = query('#footer a[aria-label="WhatsApp"]');
         var note = footerCenter.querySelector(".liza-whatsapp-footnote");
-        if (!whatsappLink) {
-          if (note) note.remove();
-          return;
+        if (!note) {
+          note = document.createElement("p");
+          note.className = "liza-whatsapp-footnote";
+          footerCenter.appendChild(note);
         }
+        note.textContent = "WhatsApp* — продукт компании Meta*, которая признана экстремистской организацией и запрещена в России.";
       }
 
       function ensureFooterDocuments() {
