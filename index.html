@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Liza Bot Landing</title>
-  <link rel="stylesheet" href="./liza-app.css?v=20" />
+  <link rel="stylesheet" href="./liza-app.css?v=25" />
   <style>
     html, body {
       margin: 0;
@@ -1650,7 +1650,7 @@
       function loadBundle(reason) {
         attempts += 1;
         var script = document.createElement("script");
-        script.src = "./liza-app.js?v=24&try=" + attempts;
+        script.src = "./liza-app.js?v=25&try=" + attempts;
         script.async = false;
         script.onload = function () {
           scheduleRenderCheck("load-" + attempts);
