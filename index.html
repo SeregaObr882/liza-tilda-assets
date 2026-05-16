@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Liza Bot Landing</title>
-  <link rel="stylesheet" href="./liza-app.css?v=25" />
+  <link rel="stylesheet" href="./liza-app.css?v=26" />
   <style>
     html, body {
       margin: 0;
@@ -1650,7 +1650,7 @@
       function loadBundle(reason) {
         attempts += 1;
         var script = document.createElement("script");
-        script.src = "./liza-app.js?v=25&try=" + attempts;
+        script.src = "./liza-app.js?v=26&try=" + attempts;
         script.async = false;
         script.onload = function () {
           scheduleRenderCheck("load-" + attempts);
@@ -1728,7 +1728,7 @@
         if (!title) return;
         var html = config && config.heroTitleHtml
           ? config.heroTitleHtml
-          : 'Р›РёР·Р°<span class="liza-gradient-bot-text">Р‘РѕС‚</span>';
+          : 'Лиза<span class="liza-gradient-bot-text">Бот</span>';
         if (title.innerHTML !== html) title.innerHTML = html;
       }
 
@@ -1907,9 +1907,9 @@
 
       function isLeadTriggerText(text) {
         var value = (text || "").trim().toLowerCase();
-        return value.indexOf("РЅР°С‡Р°С‚СЊ С‚РµСЃС‚ 3 РґРЅСЏ") !== -1 ||
-          value.indexOf("Р·Р°РїСѓСЃС‚РёС‚СЊ Р±РµСЃРїР»Р°С‚РЅРѕ РЅР° 3 РґРЅСЏ") !== -1 ||
-          value.indexOf("РїРѕР»СѓС‡РёС‚СЊ СЂР°СЃС‡С‘С‚ Рё Р·Р°РїСѓСЃРє") !== -1;
+        return value.indexOf("начать тест 3 дня") !== -1 ||
+          value.indexOf("запустить бесплатно на 3 дня") !== -1 ||
+          value.indexOf("получить расчёт и запуск") !== -1;
       }
 
       function openLeadForm() {
@@ -2073,10 +2073,10 @@
         for (var i = 0; i < buttons.length; i += 1) {
           var button = buttons[i];
           var text = getButtonText(button);
-          if (text !== "РґР°" && text !== "РЅРµС‚") continue;
+          if (text !== "да" && text !== "нет") continue;
           var className = button.className || "";
           if (className.indexOf("border-blue-500") !== -1 || className.indexOf("bg-blue-50") !== -1) {
-            return text === "РґР°" ? "Р”Р°" : "РќРµС‚";
+            return text === "да" ? "Да" : "Нет";
           }
         }
         return "";
@@ -2092,7 +2092,7 @@
         lastLeadSubmitAt = now;
         activeLeadForm = form;
         clearTimeout(leadAckTimer);
-        setLeadFormState(form, "submitting", "РћС‚РїСЂР°РІР»СЏРµРј Р·Р°СЏРІРєСѓвЂ¦");
+        setLeadFormState(form, "submitting", "Отправляем заявку...");
         var payload = collectLeadPayload(form);
         logLead("submit:payload-collected", payload);
         try {
@@ -2100,16 +2100,16 @@
           logLead("submit:payload-posted");
           leadAckTimer = setTimeout(function () {
             if (activeLeadForm === form) {
-              setLeadFormState(form, "error", "РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РїСЂР°РІРёС‚СЊ Р·Р°СЏРІРєСѓ. РџРѕРїСЂРѕР±СѓР№С‚Рµ РµС‰С‘ СЂР°Р·.");
+              setLeadFormState(form, "error", "Не удалось отправить заявку. Попробуйте ещё раз.");
             }
           }, 7000);
         } catch (_e) {}
       }
 
       function collectLeadPayload(form) {
-        var phoneField = resolveNamedField(form, ["phone", "С‚РµР»РµС„РѕРЅ"], "tel") || resolveNamedField(form, ["phone", "С‚РµР»РµС„РѕРЅ"]);
-        var nameField = resolveNamedField(form, ["name", "РёРјСЏ", "РІР°С€Рµ РёРјСЏ"], "text");
-        var salonField = resolveNamedField(form, ["salon_name", "РЅР°Р·РІР°РЅРёРµ СЃР°Р»РѕРЅР°", "СЃР°Р»РѕРЅ"], "text");
+        var phoneField = resolveNamedField(form, ["phone", "телефон"], "tel") || resolveNamedField(form, ["phone", "телефон"]);
+        var nameField = resolveNamedField(form, ["name", "имя", "ваше имя"], "text");
+        var salonField = resolveNamedField(form, ["salon_name", "название салона", "салон"], "text");
         var quoteField = form.querySelector('input[name="quote_summary"]');
         var quoteState = getQuoteState() || {};
         logLead("submit:field-match", {
@@ -2129,7 +2129,7 @@
           channelsCount: quoteState.channelsCount || "",
           monthlyResult: quoteState.monthlyResult || "",
           selectedChannels: quoteState.selectedChannels || "",
-          yearlyBilling: quoteState.yearlyBilling ? "Р”Р°" : "РќРµС‚",
+          yearlyBilling: quoteState.yearlyBilling ? "Да" : "Нет",
           sourcePage: window.location.href,
           submittedAt: new Date().toLocaleString("ru-RU")
         };
@@ -2150,16 +2150,16 @@
         if (!activeLeadForm) return;
         clearTimeout(leadAckTimer);
         if (data.status === "success") {
-          setLeadFormState(activeLeadForm, "success", data.message || "Р’Р°С€Р° Р·Р°СЏРІРєР° РѕС‚РїСЂР°РІР»РµРЅР°, СЃРєРѕСЂРѕ РјС‹ СЃ РІР°РјРё СЃРІСЏР¶РµРјСЃСЏ.");
+          setLeadFormState(activeLeadForm, "success", data.message || "Ваша заявка отправлена, скоро мы с вами свяжемся.");
           logLead("submit:success", data);
           return;
         }
         if (data.status === "submitting") {
-          setLeadFormState(activeLeadForm, "submitting", data.message || "РћС‚РїСЂР°РІР»СЏРµРј Р·Р°СЏРІРєСѓвЂ¦");
+          setLeadFormState(activeLeadForm, "submitting", data.message || "Отправляем заявку...");
           logLead("submit:bridge-submitting", data);
           return;
         }
-        setLeadFormState(activeLeadForm, "error", data.message || "РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РїСЂР°РІРёС‚СЊ Р·Р°СЏРІРєСѓ.");
+        setLeadFormState(activeLeadForm, "error", data.message || "Не удалось отправить заявку.");
         logLead("submit:error", data);
       });
     })();
