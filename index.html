@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Liza Bot Landing</title>
-  <link rel="stylesheet" href="./liza-app.css?v=27" />
+  <link rel="stylesheet" href="./liza-app.css?v=28" />
   <style>
     html, body {
       margin: 0;
@@ -352,7 +352,6 @@
       text-shadow: 0 1px 0 #ffffff, 0 0 6px rgba(255, 255, 255, 0.92);
       z-index: 2;
     }
-    .liza-ms-icon--vk { background: linear-gradient(135deg, #3a6fe8 0%, #2855c3 100%); }
     .liza-ms-icon--max { background: linear-gradient(135deg, #5f7cff 0%, #7c3bff 100%); }
     .liza-ms-icon--default { background: linear-gradient(135deg, #4f7fff 0%, #5a62d4 100%); }
 
@@ -955,6 +954,10 @@
 
     #pricing .liza-pricing-plan-card p {
       margin-bottom: 8px !important;
+    }
+
+    #pricing .liza-pricing-plan-card .space-y-1 {
+      display: none !important;
     }
 
     #footer {
@@ -1651,7 +1654,7 @@
         attempts += 1;
         var script = document.createElement("script");
         script.charset = "UTF-8";
-        script.src = "./liza-app.js?v=27&try=" + attempts;
+        script.src = "./liza-app.js?v=28&try=" + attempts;
         script.async = false;
         script.onload = function () {
           scheduleRenderCheck("load-" + attempts);
@@ -1869,7 +1872,6 @@
         if (!root || !root.querySelector("*")) return;
         if (latestConfig && latestConfig.fullTextMap) applyTextNodeMap(latestConfig.fullTextMap);
         ensureWhatsappMentions();
-        ensureWhatsappIconStars();
         ensureHeroTitle(latestConfig);
         ensureWhatsappMeta(latestConfig);
         ensureFooterDocuments();
