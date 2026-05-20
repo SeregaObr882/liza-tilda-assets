@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Liza Bot Landing</title>
-  <link rel="stylesheet" href="./liza-app.css?v=28" />
+  <link rel="stylesheet" href="./liza-app.css?v=31" />
   <style>
     html, body {
       margin: 0;
@@ -960,6 +960,12 @@
       display: none !important;
     }
 
+    #pricing img[alt="MAX"] {
+      width: 1.375rem !important;
+      height: 1.375rem !important;
+      transform: translateY(1px);
+    }
+
     #footer {
       padding-top: 56px !important;
       padding-bottom: 52px !important;
@@ -1654,7 +1660,7 @@
         attempts += 1;
         var script = document.createElement("script");
         script.charset = "UTF-8";
-        script.src = "./liza-app.js?v=28&try=" + attempts;
+        script.src = "./liza-app.js?v=31&try=" + attempts;
         script.async = false;
         script.onload = function () {
           scheduleRenderCheck("load-" + attempts);
